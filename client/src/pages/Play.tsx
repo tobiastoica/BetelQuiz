@@ -19,10 +19,17 @@ import {
   Plus,
   User,
   Send,
+  CheckSquare,
+  CheckCircle,
+  Zap,
+  ZapOff,
+  Loader2,
+  WifiOff,
 } from 'lucide-react';
 
 import { getSocket } from '../utils/socket';
 import { sound } from '../utils/audio';
+import { useEscapeKey } from '../hooks/useEscapeKey';
 import { KAHOOT_COLORS, ShapeIcon } from '../components/ShapeIcon';
 
 import { PuzzleReorder } from '../components/PuzzleReorder';
@@ -30,8 +37,10 @@ import { QuestionTypeAnimation } from '../components/QuestionTypeAnimation';
 import { EmojiPickerModal } from '../components/EmojiPickerModal';
 import { PlayerProfileModal } from '../components/PlayerProfileModal';
 import { PictureRevealGrid } from '../components/PictureRevealGrid';
-import { getDeviceUuid, syncResilientDeviceUuid, onDeviceUuidChange } from '../utils/device';
+import { getDeviceUuid, initDeviceUuid, syncResilientDeviceUuid, onDeviceUuidChange } from '../utils/device';
 import { checkActiveGame } from '../utils/api';
+
+const cleanPin = (p: string) => p.trim().replace(/\s+/g, '');
 
 function getOrdinal(n: number): string {
   const s = ['th', 'st', 'nd', 'rd'];
@@ -60,8 +69,10 @@ export const Play: React.FC = () => {
   const [pin, setPin] = useState(rawParamPin);
   const [nickname, setNickname] = useState('');
   const [userUuid, setUserUuid] = useState(() => getDeviceUuid());
+  const [isDeviceReady, setIsDeviceReady] = useState(false);
+  const [isConnected, setIsConnected] = useState(socket.connected);
   const [joinedPin, setJoinedPin] = useState<string | null>(null);
-  const joined = Boolean(joinedPin && joinedPin === pin.trim().replace(/\s+/g, ''));
+  const joined = Boolean(joinedPin && joinedPin === cleanPin(pin));
   const [isCheckingPin, setIsCheckingPin] = useState(false);
   const [playerInfo, setPlayerInfo] = useState<any>(null);
   const [selectedAvatar, setSelectedAvatar] = useState<string>(
@@ -70,11 +81,38 @@ export const Play: React.FC = () => {
   const [isEmojiModalOpen, setIsEmojiModalOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
+  useEscapeKey(() => {
+    setIsEmojiModalOpen(false);
+    setIsProfileModalOpen(false);
+  }, isEmojiModalOpen || isProfileModalOpen);
+
   // Live game state
   const [gameState, setGameState] = useState<string>('JOIN');
   const [question, setQuestion] = useState<any>(null);
   const [questionIndex, setQuestionIndex] = useState(0);
+  const [questionEndsAt, setQuestionEndsAt] = useState<number | undefined>(undefined);
   const [showQuestionsOnPlayerScreens, setShowQuestionsOnPlayerScreens] = useState<boolean>(true);
+
+  // Progressive question feature reveal stage during GET_READY (1: Type, 2: Multi-select, 3: Points)
+  const [getReadyStage, setGetReadyStage] = useState<number>(1);
+
+  useEffect(() => {
+    if (gameState === 'GET_READY') {
+      setGetReadyStage(1);
+      const t1 = setTimeout(() => {
+        setGetReadyStage(2);
+      }, 4000);
+      const t2 = setTimeout(() => {
+        setGetReadyStage(3);
+      }, 5000);
+      return () => {
+        clearTimeout(t1);
+        clearTimeout(t2);
+      };
+    } else {
+      setGetReadyStage(1);
+    }
+  }, [gameState, questionIndex]);
 
   // Player answer state
   const [selectedSingle, setSelectedSingle] = useState<string | null>(null);
@@ -86,6 +124,22 @@ export const Play: React.FC = () => {
   const [typedWords, setTypedWords] = useState<string[]>([]);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const hasSubmittedRef = useRef(false);
+  const lastQuestionIndexRef = useRef<number>(-1);
+
+  const clampGuess = (val: number, minVal: number, maxVal: number) => {
+    const clamped = Math.max(minVal, Math.min(maxVal, val));
+    setGuessedNumber(clamped);
+    setGuessedNumberText(String(clamped));
+    return clamped;
+  };
+
+  const addTypedWord = () => {
+    const val = typedWord.trim();
+    if (val && !typedWords.includes(val)) {
+      setTypedWords((prev) => [...prev, val]);
+      setTypedWord('');
+    }
+  };
 
   // Feedback results
   const [feedback, setFeedback] = useState<{
@@ -114,21 +168,42 @@ export const Play: React.FC = () => {
   const [errorMsg, setErrorMsg] = useState('');
   const [submissionError, setSubmissionError] = useState('');
 
-  // Auto-resume from persistent userUuid or check active game
+  // 1. Authoritatively initialize device UUID without provisional guesses
   useEffect(() => {
+    let isMounted = true;
+    initDeviceUuid().then((authoritativeUuid) => {
+      if (!isMounted) return;
+      setUserUuid(authoritativeUuid);
+      setIsDeviceReady(true);
+    });
+
     const unsubscribe = onDeviceUuidChange((resolvedUuid) => {
       setUserUuid(resolvedUuid);
     });
 
-    const deviceUuid = getDeviceUuid();
-    setUserUuid(deviceUuid);
+    return () => {
+      isMounted = false;
+      unsubscribe();
+    };
+  }, []);
 
-    // Ensure multi-store is synchronized
-    syncResilientDeviceUuid().then((resilientUuid) => {
-      if (resilientUuid) {
-        setUserUuid(resilientUuid);
-      }
-    });
+  // 2. Track connection state
+  useEffect(() => {
+    const onConnect = () => setIsConnected(true);
+    const onDisconnect = () => setIsConnected(false);
+
+    socket.on('connect', onConnect);
+    socket.on('disconnect', onDisconnect);
+
+    return () => {
+      socket.off('connect', onConnect);
+      socket.off('disconnect', onDisconnect);
+    };
+  }, [socket]);
+
+  // 3. Auto-resume from persistent userUuid or check active game once device is ready
+  useEffect(() => {
+    if (!isDeviceReady) return;
 
     const storedNickname = localStorage.getItem('kahoot_nickname') || '';
 
@@ -148,7 +223,7 @@ export const Play: React.FC = () => {
       }
 
       // Check if device is ALREADY an active player in this exact game
-      checkActiveGame(deviceUuid).then((active) => {
+      checkActiveGame().then((active) => {
         if (active.hasActiveGame && active.pin === cleanRawPin && active.player) {
           if (active.player.nickname) {
             setNickname(active.player.nickname);
@@ -160,14 +235,14 @@ export const Play: React.FC = () => {
           socket.emit('player_join', {
             pin: cleanRawPin,
             nickname: active.player.nickname || storedNickname || nickname,
-            userUuid: deviceUuid,
+            userUuid,
             avatar: active.player.avatar || selectedAvatar,
           });
         }
       });
     } else {
       // Check if device has an ongoing active game to resume
-      checkActiveGame(deviceUuid).then((active) => {
+      checkActiveGame().then((active) => {
         if (active.hasActiveGame && active.pin && active.player) {
           setPin(active.pin);
           if (active.player.nickname) {
@@ -179,7 +254,7 @@ export const Play: React.FC = () => {
           socket.emit('player_join', {
             pin: active.pin,
             nickname: active.player.nickname || storedNickname || nickname,
-            userUuid: deviceUuid,
+            userUuid,
             avatar: active.player.avatar || selectedAvatar,
           });
         } else {
@@ -191,23 +266,24 @@ export const Play: React.FC = () => {
         }
       });
     }
+  }, [isDeviceReady, rawParamPin, socket, userUuid]);
 
-    return () => {
-      unsubscribe();
-    };
-  }, [rawParamPin, socket]);
-
-  // Re-emit player_join if socket disconnects and reconnects during active game
+  // Re-emit player_join and sync request if socket disconnects and reconnects during active game
   useEffect(() => {
     const handleSocketConnect = () => {
+      setIsConnected(true);
       const activeUuid = userUuid || getDeviceUuid();
-      const cleanPin = pin.trim().replace(/\s+/g, '');
-      if (joinedPin && joinedPin === cleanPin && nickname) {
+      const cleanPinStr = pin.trim().replace(/\s+/g, '');
+      if (joinedPin && joinedPin === cleanPinStr && nickname) {
         socket.emit('player_join', {
-          pin: cleanPin,
+          pin: cleanPinStr,
           nickname,
           userUuid: activeUuid,
           avatar: selectedAvatar,
+        });
+        socket.emit('player_request_sync', {
+          pin: cleanPinStr,
+          userUuid: activeUuid,
         });
       }
     };
@@ -247,8 +323,8 @@ export const Play: React.FC = () => {
         pin: data.pin,
       });
 
-      if (data.gameState === 'LOBBY') {
-        setGameState('LOBBY');
+      if (data.gameState) {
+        setGameState(data.gameState === 'PODIUM' ? 'FINAL' : data.gameState);
       }
     });
 
@@ -287,34 +363,70 @@ export const Play: React.FC = () => {
       if (data.state === 'GET_READY') {
         setGameState('GET_READY');
         setQuestionIndex(data.questionIndex);
+        lastQuestionIndexRef.current = data.questionIndex;
         setQuestion(data.questionInfo);
+        setQuestionEndsAt(undefined);
         hasSubmittedRef.current = false;
         setHasSubmitted(false);
         setFeedback(null);
         setSelectedSingle(null);
         setSelectedMulti([]);
+      } else if (data.state === 'QUESTION_REVEAL') {
+        setGameState('QUESTION_REVEAL');
       }
     });
 
     socket.on('question_active', (data) => {
       setSubmissionError('');
+      if (!data || !data.question || !data.question.id) {
+        console.warn('Received invalid question_active payload, requesting sync...');
+        const activeUuid = userUuid || getDeviceUuid();
+        socket.emit('player_request_sync', { pin: cleanPin(pin), userUuid: activeUuid });
+        return;
+      }
+      if (
+        (data.question.type === 'quiz' || data.question.type === 'true_false' || data.question.type === 'yes_no') &&
+        (!Array.isArray(data.question.options) || data.question.options.length === 0)
+      ) {
+        console.warn('Missing options for question in question_active, requesting sync...');
+        const activeUuid = userUuid || getDeviceUuid();
+        socket.emit('player_request_sync', { pin: cleanPin(pin), userUuid: activeUuid });
+        return;
+      }
+
       if (data.settings?.showQuestionsOnPlayerScreens !== undefined) {
         setShowQuestionsOnPlayerScreens(Boolean(data.settings.showQuestionsOnPlayerScreens));
       }
       setGameState('QUESTION_ACTIVE');
       setQuestion(data.question);
       setQuestionIndex(data.questionIndex);
-      hasSubmittedRef.current = Boolean(data.alreadyAnswered);
-      setHasSubmitted(Boolean(data.alreadyAnswered));
-      setFeedback(null);
-      setSelectedSingle(null);
-      setSelectedMulti([]);
-      setTypedWord('');
-      setTypedWords([]);
+      const timeLimitSec = data.question?.timeLimit || 20;
+      const endsAt = data.endsAt || (data.questionStartTime ? data.questionStartTime + timeLimitSec * 1000 : undefined);
+      setQuestionEndsAt(endsAt);
 
-      if (data.question.type === 'puzzle') {
+      const isNewQuestion = lastQuestionIndexRef.current !== data.questionIndex;
+      lastQuestionIndexRef.current = data.questionIndex;
+
+      if (isNewQuestion) {
+        const isAnswered = Boolean(data.alreadyAnswered);
+        hasSubmittedRef.current = isAnswered;
+        setHasSubmitted(isAnswered);
+        setFeedback(null);
+        setSelectedSingle(null);
+        setSelectedMulti([]);
+        setTypedWord('');
+        setTypedWords([]);
+      } else {
+        // Same question index: retain submitted status
+        if (data.alreadyAnswered || hasSubmittedRef.current) {
+          hasSubmittedRef.current = true;
+          setHasSubmitted(true);
+        }
+      }
+
+      if (data.question?.type === 'puzzle') {
         setPuzzleOrder((data.question.options || []).map((o: any) => o.id));
-      } else if (data.question.type === 'number_guess') {
+      } else if (data.question?.type === 'number_guess') {
         const initialVal = Math.round(
           ((data.question.numberMin ?? 0) + (data.question.numberMax ?? 100)) / 2
         );
@@ -325,17 +437,33 @@ export const Play: React.FC = () => {
 
     socket.on('answer_submitted_ack', (data) => {
       if (data && !data.success) {
-        hasSubmittedRef.current = false;
-        setHasSubmitted(false);
-        setSubmissionError(data.error || 'Submission was rejected by server. Please try again.');
+        if (!data.duplicate) {
+          hasSubmittedRef.current = false;
+          setHasSubmitted(false);
+          setSubmissionError(data.error || 'Submission was rejected by server. Please try again.');
+        }
       } else {
         setSubmissionError('');
       }
     });
 
     socket.on('player_feedback', (data) => {
+      setQuestionEndsAt(undefined);
+      if (!data) {
+        console.warn('Received empty feedback payload, requesting sync...');
+        const activeUuid = userUuid || getDeviceUuid();
+        socket.emit('player_request_sync', { pin: cleanPin(pin), userUuid: activeUuid });
+        return;
+      }
       setGameState('FEEDBACK');
       setFeedback(data);
+      if (data?.options && data.options.length > 0) {
+        setQuestion({
+          id: data.questionId,
+          type: data.questionType,
+          options: data.options,
+        });
+      }
       if (data.isCorrect) {
         sound.playCorrect();
       } else {
@@ -374,8 +502,8 @@ export const Play: React.FC = () => {
   // Phase 1: PIN Submission & Verification
   const handlePinSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const cleanPin = pin.trim().replace(/\s+/g, '');
-    if (!cleanPin) {
+    const clean = cleanPin(pin);
+    if (!clean) {
       setErrorMsg('Please enter a Game PIN');
       return;
     }
@@ -384,7 +512,7 @@ export const Play: React.FC = () => {
     setErrorMsg('');
 
     try {
-      const res = await fetch(`/api/games/${encodeURIComponent(cleanPin)}/status`);
+      const res = await fetch(`/api/games/${encodeURIComponent(clean)}/status`);
       const data = await res.json();
       if (!res.ok || !data.exists) {
         setErrorMsg(data.error || 'Game not found with this PIN');
@@ -392,12 +520,21 @@ export const Play: React.FC = () => {
         return;
       }
 
-      const verifiedPin = data.pin || cleanPin;
+      const verifiedPin = data.pin || clean;
       setPin(verifiedPin);
 
       // Check if this device is already in that active game
       const activeUuid = userUuid || getDeviceUuid();
-      const active = await checkActiveGame(activeUuid);
+      const active = await checkActiveGame();
+
+      if (data.locked || data.isLocked) {
+        if (!active.hasActiveGame || active.pin !== verifiedPin) {
+          setErrorMsg('This game is locked by the host to new players.');
+          setIsCheckingPin(false);
+          return;
+        }
+      }
+
       if (active.hasActiveGame && active.pin === verifiedPin) {
         // Auto rejoin existing player session
         socket.emit('player_join', {
@@ -426,7 +563,7 @@ export const Play: React.FC = () => {
       const activeUuid = userUuid || getDeviceUuid();
       setPlayerInfo((prev: any) => (prev ? { ...prev, avatar: newEmoji } : null));
       socket.emit('player_update_avatar', {
-        pin: pin.trim().replace(/\s+/g, ''),
+        pin: cleanPin(pin),
         userUuid: activeUuid,
         avatar: newEmoji,
       });
@@ -446,7 +583,7 @@ export const Play: React.FC = () => {
     setUserUuid(activeUuid);
 
     socket.emit('player_join', {
-      pin: pin.trim().replace(/\s+/g, ''),
+      pin: cleanPin(pin),
       nickname: cleanName,
       userUuid: activeUuid,
       avatar: selectedAvatar,
@@ -464,7 +601,7 @@ export const Play: React.FC = () => {
 
     const confirmedUserUuid = userUuid || playerInfo?.userUuid || getDeviceUuid();
     socket.emit('player_submit_answer', {
-      pin: pin.trim().replace(/\s+/g, ''),
+      pin: cleanPin(pin),
       userUuid: confirmedUserUuid,
       answerPayload,
     });
@@ -480,7 +617,7 @@ export const Play: React.FC = () => {
     } else {
       // Single select tap immediately submits!
       setSelectedSingle(optId);
-      submitAnswer({ selected: optId });
+      submitAnswer({ selected: [optId] });
     }
   };
 
@@ -493,16 +630,42 @@ export const Play: React.FC = () => {
     setPuzzleOrder(newOrder);
   };
 
+  if (!isDeviceReady) {
+    return (
+      <div className="fixed inset-0 w-full h-[100dvh] flex flex-col items-center justify-center bg-[#080A1F] text-[#FBF6E9] p-6 text-center select-none">
+        <Loader2 className="w-10 h-10 animate-spin text-[#FAC747] mb-3" />
+        <p className="text-sm font-bold tracking-wide text-white/80">Initializing player session...</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="fixed inset-0 w-full h-[100dvh] max-h-[100dvh] flex flex-col justify-between bg-slate-900 text-white select-none overflow-y-auto touch-pan-y font-sans overscroll-y-contain">
+    <div className="fixed inset-0 w-full h-[100dvh] max-h-[100dvh] flex flex-col justify-between bg-[#080A1F] text-[#FBF6E9] select-none overflow-y-auto touch-pan-y font-sans overscroll-y-contain">
+      {/* Disconnect Overlay: Player never interacts with active game while disconnected */}
+      {joined && !isConnected && (
+        <div className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center animate-fade-in">
+          <div className="w-16 h-16 rounded-3xl bg-amber-500/20 text-[#FAC747] flex items-center justify-center mb-4 border border-[#FAC747]/30 shadow-2xl">
+            <WifiOff className="w-8 h-8 animate-pulse" />
+          </div>
+          <h2 className="text-xl sm:text-2xl font-black text-[#FBF6E9] mb-2">Connection Lost</h2>
+          <p className="text-sm text-white/70 max-w-sm mb-6 font-medium">
+            Attempting to reconnect to the game server. Your position and score will be restored as soon as connection is re-established.
+          </p>
+          <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-xs font-bold text-[#FAC747]">
+            <Loader2 className="w-4 h-4 animate-spin" />
+            <span>Reconnecting...</span>
+          </div>
+        </div>
+      )}
+
       {/* Profile Button in corner */}
       <button
         onClick={() => setIsProfileModalOpen(true)}
-        className="fixed top-3 left-3 sm:top-4 sm:left-4 z-50 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-full bg-slate-800/80 hover:bg-slate-700 text-white backdrop-blur border border-white/20 shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-1.5"
+        className="fixed top-3 left-3 sm:top-4 sm:left-4 z-50 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-white/5 hover:bg-white/10 text-[#FBF6E9] backdrop-blur-xl border border-white/10 shadow-lg transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-2"
         title="My Career Stats & Profile"
       >
         <span className="text-sm">{selectedAvatar || '👤'}</span>
-        <span className="text-xs font-bold truncate max-w-[85px] sm:max-w-[130px]">
+        <span className="text-xs font-black truncate max-w-[85px] sm:max-w-[130px]">
           {nickname || 'Profile'}
         </span>
       </button>
@@ -510,30 +673,37 @@ export const Play: React.FC = () => {
       {/* Admin Login Button in corner */}
       <button
         onClick={() => navigate('/admin/login')}
-        className="fixed top-3 right-3 sm:top-4 sm:right-4 z-50 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-full bg-black/40 hover:bg-black/70 text-white/90 hover:text-white backdrop-blur border border-white/20 shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-1.5"
+        className="fixed top-3 right-3 sm:top-4 sm:right-4 z-50 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-white/5 hover:bg-white/10 text-[#FAC747] backdrop-blur-xl border border-[#FAC747]/30 shadow-lg transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-1.5"
         title="Admin Login"
       >
-        <Lock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-300" />
-        <span className="text-xs font-bold hidden sm:inline">Admin</span>
+        <Lock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FAC747]" />
+        <span className="text-xs font-black hidden sm:inline">Admin</span>
       </button>
 
       {/* ========================================================================= */}
       {/* 1. JOIN SCREEN (TWO-PHASE: PIN -> NICKNAME) */}
       {/* ========================================================================= */}
       {(!joined || gameState === 'JOIN') && (
-        <div className="flex-1 min-h-0 flex flex-col items-center justify-center p-4 sm:p-6 bg-[#46178F] overflow-y-auto touch-pan-y">
-          <div className="w-full max-w-sm bg-white rounded-3xl p-6 sm:p-8 shadow-2xl text-slate-800 animate-bounce-in">
-            <div className="text-center mb-4 sm:mb-6">
-              <span className="bg-[#46178F] text-white px-5 py-2 rounded-2xl font-black text-2xl sm:text-3xl shadow inline-block tracking-tight">
+        <div className="flex-1 min-h-0 flex flex-col items-center justify-center p-4 sm:p-6 cosmic-canvas relative overflow-hidden touch-pan-y">
+          {/* Subtle ambient glowing orbs */}
+          <div className="absolute w-96 h-96 rounded-full bg-indigo-600/15 blur-[120px] pointer-events-none -top-20 -left-20 animate-pulse" />
+          <div className="absolute w-96 h-96 rounded-full bg-amber-500/10 blur-[120px] pointer-events-none -bottom-20 -right-20" />
+
+          <div className="w-full max-w-sm cosmic-surface rounded-3xl p-6 sm:p-8 text-[#FBF6E9] animate-bounce-in relative z-10 border border-white/12 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)]">
+            <div className="text-center mb-5 sm:mb-7 flex flex-col items-center">
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#FAC747] to-[#DB941F] text-[#2A1A00] flex items-center justify-center font-black text-2xl shadow-xl shadow-amber-500/25 mb-3 group-hover:scale-105 transition-transform">
+                BQ
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-black text-[#FBF6E9] tracking-tight">
                 BetelQuiz
-              </span>
-              <p className="text-xs text-slate-400 mt-2 font-bold uppercase tracking-wider">
+              </h1>
+              <p className="text-xs text-[#FAC747] mt-1.5 font-bold uppercase tracking-widest">
                 {joinStep === 'PIN' ? 'Enter Game PIN' : 'Pick a Nickname'}
               </p>
             </div>
 
             {errorMsg && (
-              <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-xl text-xs font-bold text-center border border-red-200">
+              <div className="mb-4 p-3 bg-red-500/15 border border-red-500/30 text-red-200 rounded-2xl text-xs font-bold text-center">
                 {errorMsg}
               </div>
             )}
@@ -552,16 +722,16 @@ export const Play: React.FC = () => {
                     placeholder="Game PIN"
                     maxLength={10}
                     autoFocus
-                    className="w-full text-center text-3xl font-black tracking-widest py-3.5 px-4 rounded-xl border-2 border-slate-300 focus:border-[#46178F] focus:outline-none"
+                    className="cosmic-input w-full text-center text-3xl font-black font-mono tracking-widest py-4 px-4 rounded-2xl placeholder:font-normal placeholder:tracking-normal placeholder:text-white/30"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  disabled={isCheckingPin}
-                  className="w-full py-4 rounded-xl bg-slate-900 hover:bg-black text-white font-black text-lg shadow-lg transition-all active:scale-95 cursor-pointer disabled:opacity-50"
+                  disabled={isCheckingPin || !isConnected}
+                  className="btn-gold w-full py-4 rounded-2xl text-base sm:text-lg font-black shadow-lg shadow-amber-500/25 transition-all active:scale-95 cursor-pointer disabled:opacity-50"
                 >
-                  {isCheckingPin ? 'Connecting...' : 'Enter'}
+                  {isCheckingPin ? 'Connecting...' : !isConnected ? 'Connecting to server...' : 'Enter'}
                 </button>
               </form>
             )}
@@ -570,9 +740,9 @@ export const Play: React.FC = () => {
             {joinStep === 'NICKNAME' && (
               <form onSubmit={handleNicknameSubmit} className="space-y-4">
                 {/* Current PIN Pill with option to change */}
-                <div className="flex items-center justify-between bg-slate-100 px-3.5 py-1.5 rounded-xl border border-slate-200 text-xs">
-                  <span className="font-bold text-slate-600">
-                    PIN: <span className="font-mono font-black text-slate-900 text-sm">{pin}</span>
+                <div className="flex items-center justify-between bg-white/5 px-4 py-2 rounded-xl border border-white/10 text-xs">
+                  <span className="font-bold text-white/70">
+                    PIN: <span className="font-mono font-black text-[#FAC747] text-sm">{pin}</span>
                   </span>
                   <button
                     type="button"
@@ -580,7 +750,7 @@ export const Play: React.FC = () => {
                       setJoinStep('PIN');
                       setErrorMsg('');
                     }}
-                    className="text-[#46178F] font-bold hover:underline cursor-pointer"
+                    className="text-[#5CC7B8] font-bold hover:underline cursor-pointer"
                   >
                     Change PIN
                   </button>
@@ -594,17 +764,17 @@ export const Play: React.FC = () => {
                     className="relative group cursor-pointer focus:outline-none"
                     title="Tap to customize your emoji"
                   >
-                    <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-tr from-[#46178F] to-[#1368CE] border-4 border-white shadow-xl flex items-center justify-center text-4xl sm:text-5xl group-hover:scale-105 active:scale-95 transition-all">
+                    <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-tr from-[#1F2A6A] via-[#161D48] to-[#0F1433] border-4 border-[#FAC747]/70 shadow-[0_0_25px_rgba(250,199,71,0.3)] flex items-center justify-center text-4xl sm:text-5xl group-hover:scale-105 active:scale-95 transition-all">
                       {selectedAvatar}
                     </div>
-                    <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-[#1368CE] text-white flex items-center justify-center shadow-lg border-2 border-white">
+                    <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-[#FAC747] text-[#2A1A00] flex items-center justify-center shadow-lg border-2 border-[#0F1433]">
                       <Pencil className="w-3.5 h-3.5 stroke-[2.5]" />
                     </div>
                   </button>
                   <button
                     type="button"
                     onClick={() => setIsEmojiModalOpen(true)}
-                    className="mt-2 text-xs font-black text-[#46178F] hover:underline flex items-center gap-1.5 cursor-pointer"
+                    className="mt-2.5 text-xs font-bold text-[#FAC747] hover:underline flex items-center gap-1.5 cursor-pointer"
                   >
                     <Smile className="w-3.5 h-3.5" />
                     <span>Choose Avatar Emoji</span>
@@ -622,15 +792,16 @@ export const Play: React.FC = () => {
                     placeholder="Nickname"
                     maxLength={18}
                     autoFocus
-                    className="w-full text-center text-2xl font-bold py-3.5 px-4 rounded-xl border-2 border-slate-300 focus:border-[#46178F] focus:outline-none placeholder:font-normal"
+                    className="cosmic-input w-full text-center text-2xl font-black py-3.5 px-4 rounded-2xl placeholder:font-normal placeholder:text-white/30"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-4 rounded-xl bg-[#26890C] hover:bg-[#1e6e09] text-white font-black text-lg shadow-lg transition-all active:scale-95 cursor-pointer"
+                  disabled={!isConnected}
+                  className="btn-gold w-full py-4 rounded-2xl text-lg font-black shadow-lg shadow-amber-500/25 transition-all active:scale-95 cursor-pointer disabled:opacity-50"
                 >
-                  OK, go!
+                  {!isConnected ? 'Connecting...' : 'OK, go!'}
                 </button>
               </form>
             )}
@@ -642,36 +813,41 @@ export const Play: React.FC = () => {
       {/* 2. LOBBY WAITING SCREEN */}
       {/* ========================================================================= */}
       {joined && gameState === 'LOBBY' && (
-        <div className="flex-1 min-h-0 flex flex-col items-center justify-center p-4 sm:p-8 bg-[#33106A] text-center overflow-hidden">
-          <div className="animate-bounce-in flex flex-col items-center">
-            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-emerald-500 text-white flex items-center justify-center mb-4 sm:mb-6 shadow-2xl">
+        <div className="flex-1 min-h-0 flex flex-col items-center justify-center p-4 sm:p-8 cosmic-canvas text-center overflow-hidden relative">
+          <div className="absolute w-96 h-96 rounded-full bg-emerald-600/10 blur-[130px] pointer-events-none -top-20" />
+          <div className="animate-bounce-in flex flex-col items-center relative z-10 max-w-sm w-full">
+            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-400 text-slate-950 flex items-center justify-center mb-4 sm:mb-6 shadow-[0_0_30px_rgba(92,199,184,0.4)]">
               <Check className="w-12 h-12 sm:w-14 sm:h-14 stroke-[3]" />
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-black mb-2">You're in!</h1>
-            <p className="text-white/80 text-sm sm:text-base max-w-xs mb-5 sm:mb-6">
-              See your nickname on screen!
+            <h1 className="text-3xl sm:text-4xl font-black mb-2 text-[#FBF6E9] tracking-tight">
+              You're in!
+            </h1>
+            <p className="text-[#FBF6E9]/70 text-sm sm:text-base max-w-xs mb-6 font-medium">
+              See your nickname on the host screen!
             </p>
 
-            <div className="bg-white/10 backdrop-blur-md px-6 py-4 rounded-3xl border border-white/20 flex flex-col items-center gap-2 shadow-2xl">
+            <div className="cosmic-hero-card w-full p-6 rounded-3xl flex flex-col items-center gap-3 shadow-2xl">
               <button
                 type="button"
                 onClick={() => setIsEmojiModalOpen(true)}
                 className="relative group cursor-pointer focus:outline-none"
                 title="Tap to change your avatar emoji"
               >
-                <div className="w-16 h-16 rounded-full bg-white/20 border-2 border-white/40 flex items-center justify-center text-3xl shadow-md group-hover:scale-110 active:scale-95 transition-all">
+                <div className="w-18 h-18 rounded-full bg-white/10 border-2 border-[#FAC747]/60 flex items-center justify-center text-4xl shadow-md group-hover:scale-110 active:scale-95 transition-all">
                   {playerInfo?.avatar || selectedAvatar}
                 </div>
-                <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#1368CE] text-white flex items-center justify-center shadow-md border-2 border-white">
+                <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#FAC747] text-[#2A1A00] flex items-center justify-center shadow-md border border-[#0F1433]">
                   <Pencil className="w-3 h-3 stroke-[2.5]" />
                 </div>
               </button>
-              <span className="text-xl sm:text-2xl font-black">{playerInfo?.nickname}</span>
+              <span className="text-2xl sm:text-3xl font-black text-[#FBF6E9]">
+                {playerInfo?.nickname}
+              </span>
               <button
                 type="button"
                 onClick={() => setIsEmojiModalOpen(true)}
-                className="text-xs font-bold text-white/90 hover:text-white bg-white/15 hover:bg-white/25 px-3 py-1.5 rounded-full border border-white/20 flex items-center gap-1.5 transition-all cursor-pointer mt-0.5"
+                className="text-xs font-bold text-[#FAC747] bg-amber-400/10 hover:bg-amber-400/20 px-3.5 py-1.5 rounded-full border border-[#FAC747]/25 flex items-center gap-1.5 transition-all cursor-pointer mt-0.5"
               >
                 <Smile className="w-3.5 h-3.5" />
                 <span>Change Avatar</span>
@@ -685,19 +861,63 @@ export const Play: React.FC = () => {
       {/* 3. GET READY SCREEN */}
       {/* ========================================================================= */}
       {joined && gameState === 'GET_READY' && (
-        <div className="flex-1 min-h-0 flex flex-col items-center justify-center p-4 sm:p-8 bg-[#46178F] text-center animate-bounce-in overflow-hidden">
+        <div className="flex-1 min-h-0 flex flex-col items-center justify-center p-4 sm:p-8 cosmic-canvas text-center animate-bounce-in overflow-hidden relative">
+          {/* Step 1: Animated Question Type */}
           <div className="mb-4">
-            <QuestionTypeAnimation type={question?.type || 'quiz'} size={100} />
+            <QuestionTypeAnimation type={question?.type || 'quiz'} size={110} />
           </div>
-          <span className="text-xs font-black uppercase tracking-widest text-white/60 mb-2">
+          <span className="text-xs font-black uppercase tracking-widest text-[#FAC747] mb-2 px-3 py-1 rounded-full bg-amber-400/10 border border-[#FAC747]/20">
             Question {questionIndex + 1}
           </span>
-          <h2 className="text-2xl sm:text-4xl font-black drop-shadow mb-3">Get Ready!</h2>
+          <h2 className="text-3xl sm:text-5xl font-black mb-3 text-[#FBF6E9] tracking-tight">
+            Get Ready!
+          </h2>
           {question?.title && (
-            <p className="text-sm sm:text-base font-bold text-white/95 max-w-sm px-4 py-2 bg-white/15 backdrop-blur rounded-2xl border border-white/20">
+            <p className="text-sm sm:text-base font-bold text-[#FBF6E9] max-w-sm px-5 py-3 cosmic-surface rounded-2xl border border-white/15 shadow-lg">
               {question.title}
             </p>
           )}
+
+          {/* Progressive Feature Reveal (Kahoot-style step 2 & step 3) */}
+          <div className="flex flex-wrap items-center justify-center gap-2 mt-4 min-h-[46px]">
+            {/* Step 2: Selection Mode Badge (Stage 2: 4s mark, quiz types only) */}
+            {getReadyStage >= 2 && ['quiz', 'true_false', 'yes_no', 'picture_reveal'].includes(question?.type || 'quiz') && (
+              Boolean(question?.isMultiSelect) ? (
+                <div className="animate-pop-badge flex items-center gap-2 px-4 py-2 rounded-xl bg-[#5CC7B8]/20 border border-[#5CC7B8] text-[#5CC7B8] shadow-[0_0_15px_rgba(92,199,184,0.3)] backdrop-blur-md">
+                  <CheckSquare className="w-4 h-4 stroke-[2.5]" />
+                  <span className="font-black text-xs uppercase tracking-wider">Multi-Select</span>
+                </div>
+              ) : (
+                <div className="animate-pop-badge flex items-center gap-2 px-4 py-2 rounded-xl bg-sky-500/15 border border-sky-400 text-sky-300 shadow-[0_0_15px_rgba(56,189,248,0.2)] backdrop-blur-md">
+                  <CheckCircle className="w-4 h-4 stroke-[2.5]" />
+                  <span className="font-black text-xs uppercase tracking-wider">Single Select</span>
+                </div>
+              )
+            )}
+
+            {/* Step 3: Points Badge (Stage 3: 5s mark, only if not standard 1000 points) */}
+            {getReadyStage >= 3 && (() => {
+              const pts = question?.points ?? 1000;
+              if (pts === 1000) return null;
+              const multiplier = pts / 1000;
+
+              const multiplierStr =
+                pts === 0
+                  ? '0 Points'
+                  : `x${Number.isInteger(multiplier) ? multiplier : multiplier.toFixed(1)} Points`;
+
+              return (
+                <div className="animate-pop-badge flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-400/20 border border-[#FAC747] text-[#FAC747] shadow-[0_0_15px_rgba(250,199,71,0.35)] backdrop-blur-md">
+                  {pts === 0 ? (
+                    <ZapOff className="w-4 h-4 stroke-[2.5]" />
+                  ) : (
+                    <Zap className="w-4 h-4 stroke-[2.5] fill-current animate-pulse" />
+                  )}
+                  <span className="font-black text-xs uppercase tracking-wider">{multiplierStr}</span>
+                </div>
+              );
+            })()}
+          </div>
         </div>
       )}
 
@@ -746,6 +966,7 @@ export const Play: React.FC = () => {
                   imageUrl={question.image}
                   tileLevel={question.tileLevel || 'medium'}
                   durationSeconds={question.timeLimit || 20}
+                  endsAt={questionEndsAt}
                   className="max-h-[16vh] sm:max-h-[20vh] mt-2"
                 />
               )}
@@ -780,7 +1001,8 @@ export const Play: React.FC = () => {
                     }`}
                   >
                     {(question.options || []).map((opt: any, idx: number) => {
-                      const color = KAHOOT_COLORS[idx % KAHOOT_COLORS.length];
+                      const itemIdx = opt.colorIndex ?? idx;
+                      const color = KAHOOT_COLORS[itemIdx % KAHOOT_COLORS.length];
                       const isSelected = question.isMultiSelect
                         ? selectedMulti.includes(opt.id)
                         : selectedSingle === opt.id;
@@ -808,7 +1030,7 @@ export const Play: React.FC = () => {
                           {showQuestionsOnPlayerScreens ? (
                             <div className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2.5 w-full px-2 text-center sm:text-left min-h-0 pointer-events-none">
                               <ShapeIcon
-                                index={idx}
+                                index={itemIdx}
                                 size={(question.options || []).length > 4 ? 20 : 26}
                                 className="text-white drop-shadow-md shrink-0"
                               />
@@ -818,7 +1040,7 @@ export const Play: React.FC = () => {
                             </div>
                           ) : (
                             <ShapeIcon
-                              index={idx}
+                              index={itemIdx}
                               size={(question.options || []).length > 4 ? 30 : 44}
                               className="text-white drop-shadow-md pointer-events-none"
                             />
@@ -830,13 +1052,13 @@ export const Play: React.FC = () => {
 
                   {/* Multi-Select Submit Button */}
                   {question.isMultiSelect && (
-                    <div className="pt-1.5 sm:pt-2 shrink-0">
+                    <div className="pt-2 sm:pt-3 shrink-0">
                       <button
                         onClick={() => submitAnswer({ selected: selectedMulti })}
                         disabled={selectedMulti.length === 0}
-                        className="w-full py-2.5 sm:py-3.5 rounded-xl sm:rounded-2xl bg-white text-slate-900 font-black text-sm sm:text-base md:text-lg shadow-xl active:scale-95 disabled:opacity-40 disabled:active:scale-100 transition-all cursor-pointer"
+                        className="btn-gold w-full py-3.5 sm:py-4 rounded-2xl text-base sm:text-lg font-black shadow-xl active:scale-95 disabled:opacity-40 disabled:active:scale-100 transition-all cursor-pointer"
                       >
-                        Submit
+                        Submit Answer
                       </button>
                     </div>
                   )}
@@ -856,7 +1078,7 @@ export const Play: React.FC = () => {
 
                   <button
                     onClick={() => submitAnswer({ order: puzzleOrder })}
-                    className="w-full py-2.5 sm:py-3.5 rounded-xl sm:rounded-2xl bg-white text-slate-900 font-black text-sm sm:text-base md:text-lg shadow-xl active:scale-95 transition-all mt-2 cursor-pointer shrink-0"
+                    className="btn-gold w-full py-3.5 sm:py-4 rounded-2xl text-base sm:text-lg font-black shadow-xl active:scale-95 transition-all mt-3 cursor-pointer shrink-0"
                   >
                     Submit Order
                   </button>
@@ -876,9 +1098,7 @@ export const Play: React.FC = () => {
                         const maxVal = question.numberMax ?? 100;
                         const parsed = Number(guessedNumberText);
                         const cur = !isNaN(parsed) && guessedNumberText.trim() !== '' ? parsed : guessedNumber;
-                        const nxt = Math.max(minVal, Math.min(maxVal, cur - 1));
-                        setGuessedNumber(nxt);
-                        setGuessedNumberText(String(nxt));
+                        clampGuess(cur - 1, minVal, maxVal);
                       }}
                       disabled={
                         (!isNaN(Number(guessedNumberText)) && guessedNumberText.trim() !== ''
@@ -917,9 +1137,7 @@ export const Play: React.FC = () => {
                           if (isNaN(parsed) || guessedNumberText.trim() === '') {
                             parsed = guessedNumber;
                           }
-                          const clamped = Math.max(minVal, Math.min(maxVal, parsed));
-                          setGuessedNumber(clamped);
-                          setGuessedNumberText(String(clamped));
+                          clampGuess(parsed, minVal, maxVal);
                         }}
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') {
@@ -942,9 +1160,7 @@ export const Play: React.FC = () => {
                         const maxVal = question.numberMax ?? 100;
                         const parsed = Number(guessedNumberText);
                         const cur = !isNaN(parsed) && guessedNumberText.trim() !== '' ? parsed : guessedNumber;
-                        const nxt = Math.max(minVal, Math.min(maxVal, cur + 1));
-                        setGuessedNumber(nxt);
-                        setGuessedNumberText(String(nxt));
+                        clampGuess(cur + 1, minVal, maxVal);
                       }}
                       disabled={
                         (!isNaN(Number(guessedNumberText)) && guessedNumberText.trim() !== ''
@@ -970,9 +1186,7 @@ export const Play: React.FC = () => {
                     max={question.numberMax ?? 100}
                     value={guessedNumber}
                     onChange={(e) => {
-                      const num = Number(e.target.value);
-                      setGuessedNumber(num);
-                      setGuessedNumberText(String(num));
+                      clampGuess(Number(e.target.value), question.numberMin ?? 0, question.numberMax ?? 100);
                     }}
                     className="w-full accent-amber-400 h-3.5 bg-white/20 rounded-lg cursor-pointer mb-2"
                   />
@@ -990,10 +1204,10 @@ export const Play: React.FC = () => {
                       if (isNaN(parsed) || guessedNumberText.trim() === '') {
                         parsed = guessedNumber;
                       }
-                      const clamped = Math.max(minVal, Math.min(maxVal, parsed));
+                      const clamped = clampGuess(parsed, minVal, maxVal);
                       submitAnswer({ number: clamped });
                     }}
-                    className="w-full py-3 sm:py-3.5 rounded-xl sm:rounded-2xl bg-white text-slate-900 font-black text-sm sm:text-base md:text-lg shadow-xl active:scale-95 transition-all cursor-pointer shrink-0"
+                    className="btn-gold w-full py-3.5 sm:py-4 rounded-2xl text-base sm:text-lg font-black shadow-xl active:scale-95 transition-all cursor-pointer shrink-0"
                   >
                     Submit Guess
                   </button>
@@ -1005,16 +1219,16 @@ export const Play: React.FC = () => {
                 <div className="flex-1 min-h-0 flex flex-col justify-center max-w-md mx-auto w-full p-4 space-y-4">
                   {question.allowMultipleAnswers ? (
                     <div className="space-y-3">
-                      <p className="text-xs font-bold text-slate-300 text-center uppercase tracking-wider">
+                      <p className="text-xs font-bold text-[#FBF6E9]/70 text-center uppercase tracking-wider">
                         Enter multiple answers (press enter or add)
                       </p>
 
                       {/* Typed Words Chips */}
-                      <div className="flex flex-wrap gap-2 p-3 bg-white/10 rounded-2xl min-h-[50px] border border-white/15 items-center">
+                      <div className="flex flex-wrap gap-2 p-3 bg-white/5 rounded-2xl min-h-[50px] border border-white/10 items-center">
                         {typedWords.map((word, i) => (
                           <span
                             key={i}
-                            className="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-600 text-white font-bold text-xs rounded-xl shadow"
+                            className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-400/20 text-[#FAC747] border border-[#FAC747]/30 font-bold text-xs rounded-xl shadow"
                           >
                             <span>{word}</span>
                             <button
@@ -1039,26 +1253,16 @@ export const Play: React.FC = () => {
                           onKeyDown={(e) => {
                             if (e.key === 'Enter') {
                               e.preventDefault();
-                              const val = typedWord.trim();
-                              if (val && !typedWords.includes(val)) {
-                                setTypedWords((prev) => [...prev, val]);
-                                setTypedWord('');
-                              }
+                              addTypedWord();
                             }
                           }}
                           placeholder="Type an answer..."
-                          className="flex-1 p-3.5 bg-white/15 focus:bg-white/20 border-2 border-white/20 focus:border-indigo-400 rounded-2xl text-white font-bold placeholder:text-white/40 focus:outline-none"
+                          className="cosmic-input flex-1 p-3.5 rounded-2xl text-[#FBF6E9] font-bold placeholder:text-white/30"
                         />
                         <button
                           type="button"
-                          onClick={() => {
-                            const val = typedWord.trim();
-                            if (val && !typedWords.includes(val)) {
-                              setTypedWords((prev) => [...prev, val]);
-                              setTypedWord('');
-                            }
-                          }}
-                          className="px-5 py-3.5 bg-indigo-600 hover:bg-indigo-500 font-black text-sm rounded-2xl shadow transition"
+                          onClick={addTypedWord}
+                          className="btn-teal px-5 py-3.5 font-black text-sm rounded-2xl shadow transition"
                         >
                           Add
                         </button>
@@ -1074,7 +1278,7 @@ export const Play: React.FC = () => {
                           submitAnswer({ answers: finalWords });
                         }}
                         disabled={typedWords.length === 0 && !typedWord.trim()}
-                        className="w-full py-4 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-base shadow-xl active:scale-95 disabled:opacity-40 transition-all cursor-pointer"
+                        className="btn-gold w-full py-4 rounded-2xl font-black text-base shadow-xl active:scale-95 disabled:opacity-40 transition-all cursor-pointer"
                       >
                         Submit Answers ({typedWords.length + (typedWord.trim() ? 1 : 0)})
                       </button>
@@ -1082,7 +1286,7 @@ export const Play: React.FC = () => {
                   ) : (
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2 text-center">
+                        <label className="block text-xs font-bold uppercase tracking-wider text-[#FBF6E9]/60 mb-2 text-center">
                           Type Your Answer:
                         </label>
                         <input
@@ -1099,7 +1303,7 @@ export const Play: React.FC = () => {
                             }
                           }}
                           placeholder="Type answer here..."
-                          className="w-full p-4 text-center text-xl sm:text-2xl font-black bg-white/15 focus:bg-white/25 border-2 border-white/30 focus:border-indigo-400 rounded-2xl text-white placeholder:text-white/40 focus:outline-none shadow-inner"
+                          className="cosmic-input w-full p-4 text-center text-xl sm:text-2xl font-black rounded-2xl text-[#FBF6E9] placeholder:text-white/30"
                         />
                       </div>
 
@@ -1111,7 +1315,7 @@ export const Play: React.FC = () => {
                           }
                         }}
                         disabled={!typedWord.trim()}
-                        className="w-full py-4 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-lg shadow-xl active:scale-95 disabled:opacity-40 transition-all cursor-pointer flex items-center justify-center gap-2"
+                        className="btn-gold w-full py-4 rounded-2xl font-black text-lg shadow-xl active:scale-95 disabled:opacity-40 transition-all cursor-pointer flex items-center justify-center gap-2"
                       >
                         <Send className="w-5 h-5" />
                         <span>Submit Answer</span>
@@ -1128,28 +1332,38 @@ export const Play: React.FC = () => {
       {/* ========================================================================= */}
       {/* 5. FEEDBACK REVEAL SCREEN */}
       {/* ========================================================================= */}
+      {joined && (gameState === 'QUESTION_REVEAL' || (gameState === 'FEEDBACK' && !feedback)) && (
+        <div className="flex-1 min-h-0 flex flex-col items-center justify-center p-4 sm:p-8 cosmic-canvas text-center animate-bounce-in overflow-hidden relative">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/10 border border-white/15 flex items-center justify-center mb-4 shadow-xl">
+            <Sparkles className="w-8 h-8 sm:w-10 sm:h-10 text-[#FAC747] animate-pulse" />
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-black drop-shadow mb-2 text-[#FBF6E9]">Question Ended!</h2>
+          <p className="text-sm sm:text-base font-bold text-white/70">Answers are being revealed on the host screen...</p>
+        </div>
+      )}
+
       {joined && gameState === 'FEEDBACK' && feedback && (
         <div
-          className={`flex-1 min-h-0 flex flex-col items-center justify-center p-4 sm:p-8 text-center animate-bounce-in overflow-y-auto touch-pan-y ${
+          className={`flex-1 min-h-0 flex flex-col items-center justify-center p-4 sm:p-8 text-center animate-bounce-in overflow-y-auto touch-pan-y relative ${
             feedback.isCorrect && !feedback.isPartial
-              ? 'bg-[#26890C]'
+              ? 'bg-gradient-to-b from-[#063022] via-[#0F1433] to-[#080A1F]'
               : feedback.isPartial
-              ? 'bg-[#D89E00]'
-              : 'bg-[#E21B3C]'
+              ? 'bg-gradient-to-b from-[#3d2703] via-[#0F1433] to-[#080A1F]'
+              : 'bg-gradient-to-b from-[#3d0912] via-[#0F1433] to-[#080A1F]'
           }`}
         >
           {/* Big Checkmark / Partial Sparkles / Cross Icon */}
-          <div className="w-16 h-16 sm:w-24 sm:h-24 rounded-full bg-white flex items-center justify-center mb-3 sm:mb-6 shadow-2xl shrink-0">
+          <div className="w-18 h-18 sm:w-24 sm:h-24 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center mb-3 sm:mb-5 shadow-2xl shrink-0">
             {feedback.isCorrect && !feedback.isPartial ? (
-              <Check className="w-10 h-10 sm:w-14 sm:h-14 text-[#26890C] stroke-[3]" />
+              <Check className="w-10 h-10 sm:w-14 sm:h-14 text-emerald-400 stroke-[3]" />
             ) : feedback.isPartial ? (
-              <Sparkles className="w-10 h-10 sm:w-14 sm:h-14 text-[#D89E00]" />
+              <Sparkles className="w-10 h-10 sm:w-14 sm:h-14 text-[#FAC747]" />
             ) : (
-              <XCircle className="w-10 h-10 sm:w-14 sm:h-14 text-[#E21B3C]" />
+              <XCircle className="w-10 h-10 sm:w-14 sm:h-14 text-rose-400" />
             )}
           </div>
 
-          <h1 className="text-2xl sm:text-4xl font-black mb-1 sm:mb-2 shrink-0">
+          <h1 className="text-3xl sm:text-5xl font-black mb-1 sm:mb-2 shrink-0 text-[#FBF6E9] tracking-tight">
             {feedback.isCorrect && !feedback.isPartial
               ? 'Correct!'
               : feedback.isPartial
@@ -1160,13 +1374,13 @@ export const Play: React.FC = () => {
           </h1>
 
           {feedback.isPartial && (
-            <p className="text-[11px] sm:text-xs font-bold text-white/90 uppercase tracking-wider mb-1 shrink-0">
+            <p className="text-[11px] sm:text-xs font-bold text-[#FAC747] uppercase tracking-wider mb-1 shrink-0">
               Partial Points Awarded
             </p>
           )}
 
           {/* Points Banner */}
-          <div className="bg-black/30 backdrop-blur px-6 py-2 rounded-2xl text-xl sm:text-2xl font-black tracking-wide my-1.5 shrink-0">
+          <div className="cosmic-surface px-6 py-2 rounded-2xl text-xl sm:text-2xl font-black text-[#FAC747] tracking-wide my-2 shrink-0 shadow-lg border border-[#FAC747]/30">
             + {feedback.pointsEarned.toLocaleString()}
           </div>
 
@@ -1174,33 +1388,34 @@ export const Play: React.FC = () => {
           {feedback.options && feedback.options.length > 0 && (() => {
             const isPuzzle = feedback.questionType === 'puzzle';
             const baseOptions =
-              !isPuzzle && question?.options && question.options.length > 0
-                ? question.options
-                : feedback.options;
+              feedback.options && feedback.options.length > 0
+                ? feedback.options
+                : (question?.options || []);
 
             const feedbackOpts = isPuzzle
-              ? [...(feedback.options || [])].sort((a: any, b: any) => (a.order ?? 0) - (b.order ?? 0))
+              ? [...baseOptions].sort((a: any, b: any) => (a.order ?? 0) - (b.order ?? 0))
               : baseOptions;
 
             return (
-              <div className="w-full max-w-sm my-1.5 p-2.5 sm:p-3 bg-black/25 backdrop-blur-md rounded-2xl border border-white/20 text-left shrink min-h-0">
-                <p className="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-white/70 mb-1.5 text-center">
+              <div className="w-full max-w-sm my-2 p-3 bg-black/40 backdrop-blur-xl rounded-3xl border border-white/10 text-left shrink min-h-0 shadow-xl">
+                <p className="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-white/60 mb-2 text-center">
                   {isPuzzle ? 'Correct Chronological Order:' : 'Answer Choices & Results:'}
                 </p>
                 <div className="space-y-1.5 max-h-36 sm:max-h-48 overflow-y-auto touch-pan-y pr-1">
                   {feedbackOpts.map((opt: any, idx: number) => {
-                    const isCorrectAnswer = (feedback.correctOptionIds || []).includes(opt.id) || opt.isCorrect;
+                    const isCorrectAnswer = (feedback.correctOptionIds || []).includes(opt.id) || Boolean(opt.isCorrect);
                     const isUserPick = (feedback.selectedOptionIds || []).includes(opt.id);
+                    const itemIdx = opt.colorIndex ?? opt.originalIndex ?? idx;
 
                     return (
                       <div
                         key={opt.id}
-                        className={`p-2 rounded-xl flex items-center justify-between text-xs font-bold transition-all ${
+                        className={`p-2.5 rounded-xl flex items-center justify-between text-xs font-bold transition-all ${
                           isCorrectAnswer
-                            ? 'bg-emerald-500/30 border-2 border-emerald-400 text-white'
+                            ? 'bg-emerald-500/20 border border-emerald-400/50 text-[#FBF6E9]'
                             : isUserPick
-                            ? 'bg-red-500/25 border border-red-400/50 text-white/90'
-                            : 'bg-white/10 text-white/60'
+                            ? 'bg-red-500/20 border border-red-400/50 text-[#FBF6E9]/90'
+                            : 'bg-white/5 text-[#FBF6E9]/50'
                         }`}
                       >
                         <div className="flex items-center gap-2 min-w-0">
@@ -1209,23 +1424,23 @@ export const Play: React.FC = () => {
                               #{idx + 1}
                             </span>
                           )}
-                          <ShapeIcon index={opt.colorIndex ?? idx} size={16} className="shrink-0" />
+                          <ShapeIcon index={itemIdx} size={16} className="shrink-0" />
                           <span className="truncate">{opt.text}</span>
                         </div>
 
                         <div className="flex items-center gap-1.5 shrink-0 ml-2">
                           {!isPuzzle && isUserPick && (
-                            <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full font-black uppercase tracking-wider">
+                            <span className="text-[10px] bg-white/15 px-2 py-0.5 rounded-full font-black uppercase tracking-wider text-white/80">
                               Your Pick
                             </span>
                           )}
                           {isCorrectAnswer ? (
-                            <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-emerald-400 text-slate-900 flex items-center justify-center">
-                              <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[3]" />
+                            <div className="w-5 h-5 rounded-full bg-emerald-400 text-slate-900 flex items-center justify-center">
+                              <Check className="w-3.5 h-3.5 stroke-[3]" />
                             </div>
                           ) : isUserPick ? (
-                            <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-red-400 text-slate-900 flex items-center justify-center">
-                              <X className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[3]" />
+                            <div className="w-5 h-5 rounded-full bg-rose-400 text-slate-900 flex items-center justify-center">
+                              <X className="w-3.5 h-3.5 stroke-[3]" />
                             </div>
                           ) : null}
                         </div>
@@ -1239,16 +1454,16 @@ export const Play: React.FC = () => {
 
           {/* Number guess breakdown if number_guess question */}
           {feedback.questionType === 'number_guess' && feedback.numberTarget !== undefined && (
-            <div className="w-full max-w-xs my-1.5 p-2.5 sm:p-3 bg-black/25 backdrop-blur-md rounded-2xl border border-white/20 text-center shrink-0">
+            <div className="w-full max-w-xs my-2 p-3 bg-black/40 backdrop-blur-xl rounded-2xl border border-white/10 text-center shrink-0">
               <div className="flex items-center justify-around text-xs sm:text-sm font-black">
                 <div>
-                  <span className="text-[10px] sm:text-xs text-white/60 block">Target</span>
-                  <span className="text-lg sm:text-xl text-emerald-300 font-mono">{feedback.numberTarget}</span>
+                  <span className="text-[10px] sm:text-xs text-white/50 block">Target</span>
+                  <span className="text-xl text-emerald-400 font-mono">{feedback.numberTarget}</span>
                 </div>
                 {feedback.playerGuess !== undefined && (
                   <div>
-                    <span className="text-[10px] sm:text-xs text-white/60 block">Your Guess</span>
-                    <span className="text-lg sm:text-xl text-amber-300 font-mono">{feedback.playerGuess}</span>
+                    <span className="text-[10px] sm:text-xs text-white/50 block">Your Guess</span>
+                    <span className="text-xl text-[#FAC747] font-mono">{feedback.playerGuess}</span>
                   </div>
                 )}
               </div>
@@ -1257,16 +1472,16 @@ export const Play: React.FC = () => {
 
           {/* Word guess breakdown if word_guess question */}
           {feedback.questionType === 'word_guess' && (
-            <div className="w-full max-w-sm my-1.5 p-3 bg-black/25 backdrop-blur-md rounded-2xl border border-white/20 text-center shrink-0">
+            <div className="w-full max-w-sm my-2 p-3 bg-black/40 backdrop-blur-xl rounded-2xl border border-white/10 text-center shrink-0">
               <div className="text-xs mb-2">
-                <span className="text-[10px] text-white/60 uppercase font-black tracking-wider block">Your Submission</span>
-                <span className="text-base font-black text-amber-300 font-mono">
-                  {feedback.userInput || '(No Answer)'}
+                <span className="text-[10px] text-white/50 uppercase font-black tracking-wider block">Your Submission</span>
+                <span className="text-base font-black text-[#FAC747] font-mono">
+                  {Array.isArray(feedback.userInput) ? feedback.userInput.join(', ') : (feedback.userInput || '(No Answer)')}
                 </span>
               </div>
               {feedback.acceptedAnswers && feedback.acceptedAnswers.length > 0 && (
                 <div className="border-t border-white/10 pt-2 text-left">
-                  <span className="text-[10px] text-white/60 uppercase font-black tracking-wider block mb-1.5 text-center">
+                  <span className="text-[10px] text-white/50 uppercase font-black tracking-wider block mb-1.5 text-center">
                     Accepted Answers
                   </span>
                   <div className="flex flex-wrap gap-1.5 justify-center max-h-24 overflow-y-auto">
@@ -1277,8 +1492,8 @@ export const Play: React.FC = () => {
                           key={i}
                           className={`text-xs px-2.5 py-0.5 rounded-full font-bold ${
                             wasMatched
-                              ? 'bg-emerald-500/40 text-emerald-200 border border-emerald-400'
-                              : 'bg-white/15 text-white/80'
+                              ? 'bg-emerald-500/30 text-emerald-300 border border-emerald-400/50'
+                              : 'bg-white/10 text-white/70'
                           }`}
                         >
                           {ans}
@@ -1293,14 +1508,14 @@ export const Play: React.FC = () => {
 
           {/* Streak indicator */}
           {feedback.streak >= 2 && (
-            <div className="flex items-center gap-1.5 bg-amber-400 text-amber-950 px-3 py-1 rounded-full font-black text-xs sm:text-sm shadow mb-1.5 shrink-0">
-              <Flame className="w-3.5 h-3.5 fill-amber-900" />
+            <div className="flex items-center gap-1.5 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 px-3.5 py-1 rounded-full font-black text-xs sm:text-sm shadow-lg mb-2 shrink-0">
+              <Flame className="w-4 h-4 fill-amber-950" />
               <span>Answer streak 🔥 {feedback.streak}</span>
             </div>
           )}
 
-          <p className="text-xs sm:text-sm text-white/90 shrink-0">
-            Total Score: <span className="font-bold">{feedback.totalScore.toLocaleString()}</span>
+          <p className="text-xs sm:text-sm text-[#FBF6E9]/80 shrink-0">
+            Total Score: <span className="font-black text-[#FAC747]">{feedback.totalScore.toLocaleString()}</span>
           </p>
         </div>
       )}
@@ -1308,30 +1523,40 @@ export const Play: React.FC = () => {
       {/* ========================================================================= */}
       {/* 6. STANDING SCREEN */}
       {/* ========================================================================= */}
-      {joined && gameState === 'STANDING' && standing && (
-        <div className="flex-1 min-h-0 flex flex-col items-center justify-center p-4 sm:p-8 bg-[#33106A] text-center animate-bounce-in overflow-y-auto touch-pan-y">
-          <span className="text-xs font-black uppercase tracking-widest text-white/60 mb-2">
+      {joined && (gameState === 'STANDING' || gameState === 'SCOREBOARD') && !standing && (
+        <div className="flex-1 min-h-0 flex flex-col items-center justify-center p-4 sm:p-8 cosmic-canvas text-center animate-bounce-in overflow-hidden relative">
+          <div className="w-18 h-18 sm:w-22 sm:h-22 rounded-full bg-amber-400/10 border border-amber-400/25 flex items-center justify-center mb-4 shadow-xl">
+            <Trophy className="w-9 h-9 sm:w-11 sm:h-11 text-[#FAC747] animate-pulse" />
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-black drop-shadow mb-2 text-[#FBF6E9]">Scoreboard</h2>
+          <p className="text-sm sm:text-base font-bold text-white/70">Look at the host screen for current standings...</p>
+        </div>
+      )}
+
+      {joined && (gameState === 'STANDING' || gameState === 'SCOREBOARD') && standing && (
+        <div className="flex-1 min-h-0 flex flex-col items-center justify-center p-4 sm:p-8 cosmic-canvas text-center animate-bounce-in overflow-y-auto touch-pan-y relative">
+          <span className="text-xs font-black uppercase tracking-widest text-[#FAC747] mb-2 px-3 py-1 rounded-full bg-amber-400/10 border border-[#FAC747]/20">
             Your Standing
           </span>
 
           {standing.rank <= 5 ? (
             <div className="flex flex-col items-center animate-bounce-in">
-              <div className="inline-flex items-center justify-center w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-amber-400/20 text-amber-300 mb-3 border-2 border-amber-300/40 shadow-xl animate-pulse">
-                <Trophy className="w-10 h-10 sm:w-12 sm:h-12 text-amber-300" />
+              <div className="inline-flex items-center justify-center w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-amber-400/15 text-[#FAC747] mb-3 border-2 border-amber-400/30 shadow-[0_0_30px_rgba(250,199,71,0.3)] animate-pulse">
+                <Trophy className="w-10 h-10 sm:w-12 sm:h-12 text-[#FAC747]" />
               </div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black mb-2 text-white drop-shadow">
+              <h2 className="text-2xl sm:text-4xl font-black mb-2 text-[#FBF6E9] drop-shadow">
                 You are on the Leaderboard
               </h2>
-              <p className="text-xs sm:text-sm text-white/75 max-w-xs mb-4">
+              <p className="text-xs sm:text-sm text-white/70 max-w-xs mb-4">
                 Look at the host screen to see where you stand!
               </p>
             </div>
           ) : (
             <div className="flex flex-col items-center animate-bounce-in">
-              <div className="text-5xl sm:text-7xl font-black text-amber-300 mb-2 font-mono drop-shadow">
+              <div className="text-5xl sm:text-7xl font-black text-[#FAC747] mb-2 font-mono drop-shadow-[0_0_25px_rgba(250,199,71,0.4)]">
                 #{standing.rank}
               </div>
-              <h2 className="text-xl sm:text-2xl font-black mb-3 text-white">
+              <h2 className="text-xl sm:text-2xl font-black mb-3 text-[#FBF6E9]">
                 You're in {getOrdinal(standing.rank)} place!
               </h2>
 
@@ -1343,8 +1568,8 @@ export const Play: React.FC = () => {
             </div>
           )}
 
-          <div className="bg-white/10 backdrop-blur px-6 py-3 rounded-2xl font-bold text-sm sm:text-base border border-white/10 shadow">
-            Score: {standing.score.toLocaleString()} pts
+          <div className="cosmic-surface px-6 py-3 rounded-2xl font-black text-base border border-white/10 shadow-lg text-[#FBF6E9]">
+            Score: <span className="text-[#FAC747]">{standing.score.toLocaleString()}</span> pts
           </div>
         </div>
       )}
@@ -1352,16 +1577,28 @@ export const Play: React.FC = () => {
       {/* ========================================================================= */}
       {/* 7. FINAL RESULTS SCREEN */}
       {/* ========================================================================= */}
-      {joined && gameState === 'FINAL' && finalResult && (
-        <div className="flex-1 min-h-0 flex flex-col items-center justify-center p-4 sm:p-8 bg-[#46178F] text-center animate-bounce-in overflow-y-auto touch-pan-y">
-          <Trophy
-            className={`w-14 h-14 sm:w-20 sm:h-20 mb-3 sm:mb-4 ${
-              finalResult.isPodium ? 'text-amber-300 animate-bounce' : 'text-white/60'
-            }`}
-          />
+      {joined && (gameState === 'FINAL' || gameState === 'PODIUM') && !finalResult && (
+        <div className="flex-1 min-h-0 flex flex-col items-center justify-center p-4 sm:p-8 cosmic-canvas text-center animate-bounce-in overflow-hidden relative">
+          <div className="w-18 h-18 sm:w-22 sm:h-22 rounded-full bg-amber-400/10 border border-amber-400/25 flex items-center justify-center mb-4 shadow-xl">
+            <Trophy className="w-9 h-9 sm:w-11 sm:h-11 text-[#FAC747] animate-bounce" />
+          </div>
+          <h1 className="text-3xl sm:text-5xl font-black mb-2 text-[#FBF6E9]">Game Over!</h1>
+          <p className="text-sm sm:text-base font-bold text-white/70">Loading final podium results...</p>
+        </div>
+      )}
 
-          <h1 className="text-3xl sm:text-4xl font-black mb-2">Game Over!</h1>
-          <div className="text-2xl sm:text-3xl font-black text-amber-300 mb-3 sm:mb-4">
+      {joined && (gameState === 'FINAL' || gameState === 'PODIUM') && finalResult && (
+        <div className="flex-1 min-h-0 flex flex-col items-center justify-center p-4 sm:p-8 cosmic-canvas text-center animate-bounce-in overflow-y-auto touch-pan-y relative">
+          <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-amber-400/15 border-2 border-amber-400/40 flex items-center justify-center mb-4 shadow-[0_0_40px_rgba(250,199,71,0.35)]">
+            <Trophy
+              className={`w-10 h-10 sm:w-14 sm:h-14 ${
+                finalResult.isPodium ? 'text-[#FAC747] animate-bounce' : 'text-white/60'
+              }`}
+            />
+          </div>
+
+          <h1 className="text-3xl sm:text-5xl font-black mb-2 text-[#FBF6E9] tracking-tight">Game Over!</h1>
+          <div className="text-xl sm:text-2xl font-black text-[#FAC747] mb-4">
             {finalResult.rank === 1
               ? '🏆 Champion (1st Place)!'
               : finalResult.rank <= 3
@@ -1369,8 +1606,8 @@ export const Play: React.FC = () => {
               : `Finished #${finalResult.rank}`}
           </div>
 
-          <div className="bg-white/10 backdrop-blur px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-black text-lg sm:text-xl mb-6">
-            Final Score: {finalResult.totalScore.toLocaleString()} pts
+          <div className="cosmic-hero-card px-8 py-4 rounded-3xl font-black text-lg sm:text-xl mb-6 shadow-2xl">
+            Final Score: <span className="text-[#FAC747]">{finalResult.totalScore.toLocaleString()}</span> pts
           </div>
 
           <button
@@ -1390,7 +1627,7 @@ export const Play: React.FC = () => {
               setSearchParams({});
               navigate('/play');
             }}
-            className="px-6 py-3 rounded-xl bg-white text-[#46178F] font-black text-sm shadow hover:bg-slate-100 cursor-pointer active:scale-95 transition-all"
+            className="btn-gold px-8 py-3.5 rounded-full text-sm font-black shadow-lg shadow-amber-500/25 cursor-pointer active:scale-95 transition-all"
           >
             Play Another Game
           </button>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { X, Trophy, Flame, Target, Award, History, User, Check, Edit2 } from 'lucide-react';
 import type { PlayerProfile } from '../types/quiz';
+import { useEscapeKey } from '../hooks/useEscapeKey';
 
 interface PlayerProfileModalProps {
   isOpen: boolean;
@@ -32,7 +33,7 @@ export const PlayerProfileModal: React.FC<PlayerProfileModalProps> = ({
     if (!isOpen || !userUuid) return;
 
     setLoading(true);
-    fetch(`/api/player/profile?userUuid=${encodeURIComponent(userUuid)}`)
+    fetch('/api/player/profile')
       .then((res) => res.json())
       .then((data) => {
         if (data.profile) {
@@ -45,26 +46,16 @@ export const PlayerProfileModal: React.FC<PlayerProfileModalProps> = ({
       .finally(() => setLoading(false));
   }, [isOpen, userUuid, initialNickname, initialAvatar]);
 
-  useEffect(() => {
-    if (!isOpen) return;
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', handleEsc);
-    return () => window.removeEventListener('keydown', handleEsc);
-  }, [isOpen, onClose]);
+  useEscapeKey(onClose, isOpen);
 
   if (!isOpen) return null;
 
   const handleSaveIdentity = async () => {
-    if (!userUuid) return;
-
     try {
       const res = await fetch('/api/player/profile', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          userUuid,
           nickname: editNickname.trim(),
           avatar: editAvatar,
         }),
@@ -88,18 +79,18 @@ export const PlayerProfileModal: React.FC<PlayerProfileModalProps> = ({
   const avatar = profile?.avatar || initialAvatar || '🦊';
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 animate-in fade-in duration-150">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-150">
       <div
         role="dialog"
         aria-modal="true"
         aria-label="Player Profile"
-        className="relative w-full max-w-2xl bg-slate-900 border border-white/10 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+        className="relative w-full max-w-2xl bg-[#0F1433]/98 cosmic-surface border border-white/10 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] text-[#FBF6E9]"
       >
         {/* Header / Identity Banner */}
-        <div className="relative p-6 sm:p-8 bg-gradient-to-br from-indigo-900/60 via-purple-900/40 to-slate-900 border-b border-white/10 flex items-center justify-between">
+        <div className="relative p-6 sm:p-8 bg-gradient-to-br from-[#182046]/90 via-[#0F1433] to-[#080A1F] border-b border-white/10 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="relative group">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-4xl sm:text-5xl shadow-xl ring-4 ring-white/10">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-[#FAC747] to-[#DB941F] flex items-center justify-center text-4xl sm:text-5xl shadow-xl ring-4 ring-white/10">
                 {avatar}
               </div>
               {isEditing && (
@@ -111,18 +102,18 @@ export const PlayerProfileModal: React.FC<PlayerProfileModalProps> = ({
 
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-2xl sm:text-3xl font-black text-white">{nickname}</h2>
+                <h2 className="text-2xl sm:text-3xl font-black text-[#FBF6E9]">{nickname}</h2>
                 {!isEditing && (
                   <button
                     onClick={() => setIsEditing(true)}
-                    className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition"
+                    className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition cursor-pointer"
                     title="Edit nickname & avatar"
                   >
                     <Edit2 className="w-4 h-4" />
                   </button>
                 )}
               </div>
-              <p className="text-xs text-indigo-300 font-mono tracking-wider mt-0.5">
+              <p className="text-xs text-[#FAC747] font-mono tracking-wider mt-0.5">
                 ID: {userUuid.slice(0, 12)}...
               </p>
               {saveSuccess && (
@@ -135,7 +126,7 @@ export const PlayerProfileModal: React.FC<PlayerProfileModalProps> = ({
 
           <button
             onClick={onClose}
-            className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition"
+            className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -143,10 +134,10 @@ export const PlayerProfileModal: React.FC<PlayerProfileModalProps> = ({
 
         {/* Identity Edit Panel */}
         {isEditing && (
-          <div className="p-6 bg-slate-800/80 border-b border-white/10 animate-in slide-in-from-top duration-200">
+          <div className="p-6 bg-[#131938]/90 border-b border-white/10 animate-in slide-in-from-top duration-200">
             <div className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-white/70 uppercase tracking-wider mb-1.5">
                   Nickname
                 </label>
                 <input
@@ -155,12 +146,12 @@ export const PlayerProfileModal: React.FC<PlayerProfileModalProps> = ({
                   maxLength={20}
                   onChange={(e) => setEditNickname(e.target.value)}
                   placeholder="Enter your nickname..."
-                  className="w-full px-4 py-2.5 bg-slate-900 border border-white/20 rounded-xl text-white font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-4 py-2.5 bg-[#0F1433] border border-white/15 rounded-xl text-[#FBF6E9] font-bold focus:outline-none focus:border-[#FAC747]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-white/70 uppercase tracking-wider mb-1.5">
                   Choose Avatar
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -169,10 +160,10 @@ export const PlayerProfileModal: React.FC<PlayerProfileModalProps> = ({
                       key={av}
                       type="button"
                       onClick={() => setEditAvatar(av)}
-                      className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl transition ${
+                      className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl transition cursor-pointer ${
                         editAvatar === av
-                          ? 'bg-indigo-600 ring-2 ring-white scale-110'
-                          : 'bg-white/10 hover:bg-white/20'
+                          ? 'bg-amber-400/20 border-2 border-[#FAC747] ring-2 ring-[#FAC747]/40 scale-110 shadow-lg'
+                          : 'bg-white/5 hover:bg-white/15 border border-white/5'
                       }`}
                     >
                       {av}
@@ -185,14 +176,14 @@ export const PlayerProfileModal: React.FC<PlayerProfileModalProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsEditing(false)}
-                  className="px-4 py-2 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 text-white transition"
+                  className="px-4 py-2 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 text-white transition cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="button"
                   onClick={handleSaveIdentity}
-                  className="px-5 py-2 rounded-xl text-xs font-black bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg transition"
+                  className="btn-gold px-5 py-2 rounded-xl text-xs font-black text-[#2A1A00] shadow-lg transition cursor-pointer"
                 >
                   Save Profile
                 </button>

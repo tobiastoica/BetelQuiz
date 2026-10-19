@@ -57,9 +57,9 @@ export const QuestionTypeAnimation: React.FC<QuestionTypeAnimationProps> = ({
                 </g>
               </g>
 
-              {/* Center bouncing Kahoot K! badge */}
-              <circle cx="70" cy="70" r="18" fill="#46178F" stroke="#fff" strokeWidth="3" filter="url(#shadow)" className="animate-pulse" />
-              <text x="70" y="77" fill="#fff" fontSize="18" fontWeight="900" textAnchor="middle" fontFamily="sans-serif">
+              {/* Center bouncing question mark badge */}
+              <circle cx="70" cy="70" r="18" fill="#FAC747" stroke="#2A1A00" strokeWidth="2.5" filter="url(#shadow)" className="animate-pulse" />
+              <text x="70" y="77" fill="#2A1A00" fontSize="18" fontWeight="900" textAnchor="middle" fontFamily="sans-serif">
                 ?
               </text>
             </svg>
@@ -198,7 +198,7 @@ export const QuestionTypeAnimation: React.FC<QuestionTypeAnimationProps> = ({
               />
 
               {/* Center Pivot */}
-              <circle cx="70" cy="95" r="9" fill="#fff" stroke="#33106A" strokeWidth="3" />
+              <circle cx="70" cy="95" r="9" fill="#fff" stroke="#0F1433" strokeWidth="3" />
 
               {/* Swinging Needle Pointer */}
               <g className="origin-[70px_95px] animate-[pulse_1.5s_ease-in-out_infinite]">
@@ -208,8 +208,8 @@ export const QuestionTypeAnimation: React.FC<QuestionTypeAnimationProps> = ({
 
               {/* Juggling Numbers Floating Above */}
               <g className="animate-bounce">
-                <rect x="52" y="16" width="36" height="24" rx="6" fill="#46178F" stroke="#FFD700" strokeWidth="2" />
-                <text x="70" y="33" fill="#FFD700" fontSize="13" fontWeight="900" textAnchor="middle" fontFamily="monospace">
+                <rect x="52" y="16" width="36" height="24" rx="6" fill="#0F1433" stroke="#FAC747" strokeWidth="2" />
+                <text x="70" y="33" fill="#FAC747" fontSize="13" fontWeight="900" textAnchor="middle" fontFamily="monospace">
                   100%
                 </text>
               </g>
@@ -252,7 +252,7 @@ export const QuestionTypeAnimation: React.FC<QuestionTypeAnimationProps> = ({
                   <feDropShadow dx="0" dy="4" stdDeviation="4" floodOpacity="0.3" />
                 </filter>
               </defs>
-              <rect x="25" y="25" width="90" height="90" rx="14" fill="#46178F" stroke="#fff" strokeWidth="2" filter="url(#shadow-pr)" />
+              <rect x="25" y="25" width="90" height="90" rx="14" fill="#0F1433" stroke="#FAC747" strokeWidth="2" filter="url(#shadow-pr)" />
               <circle cx="85" cy="55" r="14" fill="#D89E00" />
               <polygon points="35,95 65,65 95,95" fill="#26890C" />
               <rect x="30" y="30" width="24" height="24" rx="4" fill="#1368CE" opacity="0.9" />

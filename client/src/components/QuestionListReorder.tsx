@@ -6,6 +6,8 @@ import type { Question } from '../types/quiz';
 interface QuestionListReorderProps {
   questions: Question[];
   activeQuestionIndex: number;
+  defaultTimeLimit?: number;
+  defaultPoints?: number;
   onSelectQuestion: (index: number) => void;
   onReorderQuestions: (newQuestions: Question[], newActiveIndex: number) => void;
   onDuplicateQuestion: (index: number, e: React.MouseEvent) => void;
@@ -15,6 +17,8 @@ interface QuestionListReorderProps {
 export const QuestionListReorder: React.FC<QuestionListReorderProps> = ({
   questions,
   activeQuestionIndex,
+  defaultTimeLimit = 20,
+  defaultPoints = 1000,
   onSelectQuestion,
   onReorderQuestions,
   onDuplicateQuestion,
@@ -237,6 +241,9 @@ export const QuestionListReorder: React.FC<QuestionListReorderProps> = ({
         }
 
         const isActive = idx === activeQuestionIndex;
+        const isCustom =
+          (q.timeLimit !== undefined && Number(q.timeLimit) !== Number(defaultTimeLimit ?? 20)) ||
+          (q.points !== undefined && Number(q.points) !== Number(defaultPoints ?? 1000));
 
         return (
           <div
@@ -253,25 +260,30 @@ export const QuestionListReorder: React.FC<QuestionListReorderProps> = ({
               transition,
               zIndex: isBeingDragged ? 40 : 1,
             }}
-            className={`p-2.5 rounded-xl border-2 cursor-grab active:cursor-grabbing transition-shadow relative group flex flex-col gap-1.5 touch-none ${
+            className={`p-2.5 rounded-xl border cursor-grab active:cursor-grabbing transition-all relative group flex flex-col gap-1.5 touch-none ${
               isActive
-                ? 'border-[#46178F] bg-purple-50/70 shadow-md ring-1 ring-[#46178F]/30'
-                : 'border-slate-200 hover:border-slate-300 bg-white'
+                ? 'border-[#FAC747] bg-amber-400/10 shadow-lg ring-1 ring-[#FAC747]/40'
+                : 'border-white/10 hover:border-white/20 bg-[#131938]/70'
             } ${
               isBeingDragged
-                ? 'shadow-2xl ring-2 ring-[#46178F] bg-white scale-[1.02] opacity-95'
+                ? 'shadow-2xl ring-2 ring-[#FAC747] bg-[#182046] scale-[1.02] opacity-95'
                 : 'shadow-xs'
             }`}
           >
             {/* Header: Grip Handle, Question Number & Type, Action Buttons */}
-            <div className="flex items-center justify-between text-xs font-bold text-slate-500 pointer-events-none">
+            <div className="flex items-center justify-between text-xs font-bold text-white/60 pointer-events-none">
               <div className="flex items-center gap-1.5 min-w-0">
-                <div className="text-slate-400 group-hover:text-slate-700 transition-colors">
+                <div className="text-white/40 group-hover:text-white/80 transition-colors">
                   <GripVertical className="w-3.5 h-3.5 stroke-[2.5]" />
                 </div>
-                <span className="truncate">
+                <span className={`truncate ${isActive ? 'text-[#FAC747]' : 'text-white/80'}`}>
                   {displaySlot + 1} {q.type.replace('_', ' ').toUpperCase()}
                 </span>
+                {isCustom && (
+                  <span className="text-[9px] font-black text-[#FAC747] bg-amber-400/15 border border-amber-400/30 px-1.5 py-0.5 rounded-full uppercase tracking-wider shrink-0">
+                    Custom
+                  </span>
+                )}
               </div>
 
               {/* Action Buttons: Duplicate & Delete (pointerEvents auto to allow clicks) */}
@@ -281,7 +293,7 @@ export const QuestionListReorder: React.FC<QuestionListReorderProps> = ({
                   onPointerDown={(e) => e.stopPropagation()}
                   onClick={(e) => onDuplicateQuestion(idx, e)}
                   title="Duplicate question"
-                  className="p-1 hover:text-[#46178F] hover:bg-purple-100/60 rounded transition-colors cursor-pointer"
+                  className="p-1 hover:text-[#FAC747] hover:bg-white/10 rounded transition-colors cursor-pointer text-white/60"
                 >
                   <Copy className="w-3.5 h-3.5" />
                 </button>
@@ -290,7 +302,7 @@ export const QuestionListReorder: React.FC<QuestionListReorderProps> = ({
                   onPointerDown={(e) => e.stopPropagation()}
                   onClick={(e) => onDeleteQuestion(idx, e)}
                   title="Delete question"
-                  className="p-1 hover:text-red-600 hover:bg-red-50 rounded transition-colors cursor-pointer"
+                  className="p-1 hover:text-rose-400 hover:bg-rose-500/20 rounded transition-colors cursor-pointer text-white/60"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
@@ -298,8 +310,8 @@ export const QuestionListReorder: React.FC<QuestionListReorderProps> = ({
             </div>
 
             {/* Mini card visual preview */}
-            <div className="h-16 bg-slate-100 rounded-lg p-1.5 flex flex-col justify-between border border-slate-200 overflow-hidden pointer-events-none">
-              <div className="text-[10px] text-slate-700 font-semibold line-clamp-1">
+            <div className="h-16 bg-[#0F1433]/90 rounded-lg p-1.5 flex flex-col justify-between border border-white/10 overflow-hidden pointer-events-none">
+              <div className="text-[10px] text-white/80 font-semibold line-clamp-1">
                 {q.title || 'Question text...'}
               </div>
               <div className="grid grid-cols-2 gap-1">

@@ -10,6 +10,8 @@ client/dist-ssr/
 data/games/
 data/profiles/
 data/reports/
+data/game_logs/
+data/test_game_logs/
 data/test_profiles/
 data/test_reports/
 data/uploads/

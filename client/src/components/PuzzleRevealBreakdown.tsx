@@ -27,10 +27,10 @@ export const PuzzleRevealBreakdown: React.FC<PuzzleRevealBreakdownProps> = ({
   const wrongPct = Math.max(0, 100 - correctPct - partialPct);
 
   return (
-    <div className="w-full max-w-4xl bg-slate-950/80 backdrop-blur-xl border-3 border-white/20 rounded-3xl p-5 sm:p-7 shadow-2xl flex flex-col items-center animate-bounce-in">
+    <div className="w-full max-w-4xl cosmic-surface rounded-3xl p-5 sm:p-7 shadow-2xl border border-white/15 flex flex-col items-center animate-bounce-in text-[#FBF6E9]">
       {/* Header Pill */}
       <div className="flex items-center gap-3 mb-5 sm:mb-6">
-        <div className="p-2 sm:p-2.5 rounded-2xl bg-amber-500/20 border border-amber-400/40 text-amber-400">
+        <div className="p-2 sm:p-2.5 rounded-2xl bg-amber-400/15 border border-amber-400/30 text-[#FAC747]">
           <Puzzle className="w-6 h-6 sm:w-7 sm:h-7 stroke-[2.5]" />
         </div>
         <div>

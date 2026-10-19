@@ -1,0 +1,292 @@
+{
+  "id": "daniel-capitolul-5",
+  "title": "Cartea Daniel - Partea 4 (Capitolul 5)",
+  "description": "Întrebările 42–50: Marele ospăț al lui Belșațar, profanarea vaselor sfinte, apariția degetelor mâinii pe perete (Mene, Mene, Techel, Ufarsin) și căderea Babilonului.",
+  "coverImage": "",
+  "theme": "summer",
+  "defaultTimeLimit": 30,
+  "defaultPoints": 1000,
+  "createdAt": "2026-10-17T12:06:21.660Z",
+  "updatedAt": "2026-10-17T13:35:17.380Z",
+  "questions": [
+    {
+      "id": "d4_q42",
+      "type": "quiz",
+      "title": "Al cui fiu a fost împăratul Belșațar?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d4_q42_opt1",
+          "text": "al împăratului Dariu",
+          "isCorrect": false
+        },
+        {
+          "id": "d4_q42_opt2",
+          "text": "al împăratului Cir",
+          "isCorrect": false
+        },
+        {
+          "id": "d4_q42_opt3",
+          "text": "al împăratului Nebucadnețar",
+          "isCorrect": true
+        },
+        {
+          "id": "d4_q42_opt4",
+          "text": "al împăratului Ahașveroș",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d4_q43",
+      "type": "quiz",
+      "title": "Ce a poruncit împăratul Belșațar în timpul ospățului dat celor o mie de mai-mari ai lui?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d4_q43_opt1",
+          "text": "să aducă vasele de aur și de argint pe care le luase tatăl său din Templul din Ierusalim",
+          "isCorrect": true
+        },
+        {
+          "id": "d4_q43_opt2",
+          "text": "să vină împărăteasa, pentru a o prezenta celor o mie de mai-mari ai lui",
+          "isCorrect": false
+        },
+        {
+          "id": "d4_q43_opt3",
+          "text": "să fie aduși toți slujitorii evrei să cânte la harfele lor",
+          "isCorrect": false
+        },
+        {
+          "id": "d4_q43_opt4",
+          "text": "să se aducă statuia de aur din Valea Dura în sala ospățului",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d4_q44",
+      "type": "quiz",
+      "title": "Unde a scris mâna care a apărut, atunci când împăratul și invitații lui își lăudau dumnezeii, mână care a scris pe tencuiala zidului palatului?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d4_q44_opt1",
+          "text": "în fața altarului unde aceștia își lăudau zeii",
+          "isCorrect": false
+        },
+        {
+          "id": "d4_q44_opt2",
+          "text": "în fața sfeșnicului",
+          "isCorrect": true
+        },
+        {
+          "id": "d4_q44_opt3",
+          "text": "în fața scaunului de domnie",
+          "isCorrect": false
+        },
+        {
+          "id": "d4_q44_opt4",
+          "text": "deasupra porții principale a palatului",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d4_q45",
+      "type": "quiz",
+      "title": "Care dintre lucrurile de mai jos NU se spune că le-a pățit împăratul la vederea mâinii care scria pe zid?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d4_q45_opt1",
+          "text": "a îngălbenit",
+          "isCorrect": false
+        },
+        {
+          "id": "d4_q45_opt2",
+          "text": "gândurile l-au tulburat și genunchii i s-au izbit unul de altul",
+          "isCorrect": false
+        },
+        {
+          "id": "d4_q45_opt3",
+          "text": "a căzut cu fața la pământ",
+          "isCorrect": true
+        },
+        {
+          "id": "d4_q45_opt4",
+          "text": "i s-au desfăcut încheieturile coapselor",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d4_q46",
+      "type": "quiz",
+      "title": "Cine i-a spus împăratului Belșațar că este în împărăție un om care va putea tâlcui scrisul de pe zid?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d4_q46_opt1",
+          "text": "vrăjitorii și cititorii în stele",
+          "isCorrect": false
+        },
+        {
+          "id": "d4_q46_opt2",
+          "text": "famenii împăratului",
+          "isCorrect": false
+        },
+        {
+          "id": "d4_q46_opt3",
+          "text": "împărăteasa",
+          "isCorrect": true
+        },
+        {
+          "id": "d4_q46_opt4",
+          "text": "căpetenia oștirii",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d4_q47",
+      "type": "quiz",
+      "title": "Cui i-a promis împăratul că, dacă îi va tâlcui scrierea de pe zid, va fi îmbrăcat în purpură, va primi un lănțișor de aur la gât și va fi pus al treilea în împărăție?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": true,
+      "options": [
+        {
+          "id": "d4_q47_opt1",
+          "text": "lui Daniel",
+          "isCorrect": true
+        },
+        {
+          "id": "d4_q47_opt2",
+          "text": "aceluia dintre vrăjitori și cititori în stele care va fi în stare să facă acest lucru",
+          "isCorrect": true
+        },
+        {
+          "id": "d4_q47_opt3",
+          "text": "oricărui înțelept din Egipt sau Siria",
+          "isCorrect": false
+        },
+        {
+          "id": "d4_q47_opt4",
+          "text": "căpeteniei străjerilor palatului",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d4_q48",
+      "type": "quiz",
+      "title": "Ce i-a spus Daniel împăratului, când acesta i-a promis mari răsplătiri?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d4_q48_opt1",
+          "text": "„Ține-ți darurile și dă-i altuia răsplătirile tale!”",
+          "isCorrect": true
+        },
+        {
+          "id": "d4_q48_opt2",
+          "text": "„Împăratul nu trebuie să poarte de grija răsplătirii mele.”",
+          "isCorrect": false
+        },
+        {
+          "id": "d4_q48_opt3",
+          "text": "„Să mă ferească Dumnezeu să primesc ceva din mâna ta, împărate!”",
+          "isCorrect": false
+        },
+        {
+          "id": "d4_q48_opt4",
+          "text": "„Voi primi darurile numai dacă vei elibera robii din Iuda.”",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d4_q49",
+      "type": "quiz",
+      "title": "Care este acuza pe care i-a adus-o Daniel lui Belșațar, după ce i-a spus ce a pățit tatăl lui, împăratul Nebucadnețar?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": true,
+      "options": [
+        {
+          "id": "d4_q49_opt1",
+          "text": "că nu și-a smerit inima",
+          "isCorrect": true
+        },
+        {
+          "id": "d4_q49_opt2",
+          "text": "că s-a înălțat împotriva Domnului cerurilor",
+          "isCorrect": true
+        },
+        {
+          "id": "d4_q49_opt3",
+          "text": "că a adus jertfe umane zeilor din Babilon",
+          "isCorrect": false
+        },
+        {
+          "id": "d4_q49_opt4",
+          "text": "că a dărâmat altarele de rugăciune ale evreilor",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d4_q50",
+      "type": "quiz",
+      "title": "Ce cuvinte au fost scrise pe zid, cuvinte care în evreiește au sunat astfel: „Mene mene techel upfarsin”?",
+      "timeLimit": 30,
+      "points": 2000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d4_q50_opt1",
+          "text": "numărat, numărat, cântărit și împărțit",
+          "isCorrect": true
+        },
+        {
+          "id": "d4_q50_opt2",
+          "text": "cântărit, cântărit, numărat și împărțit",
+          "isCorrect": false
+        },
+        {
+          "id": "d4_q50_opt3",
+          "text": "împărțit, împărțit, numărat și cântărit",
+          "isCorrect": false
+        },
+        {
+          "id": "d4_q50_opt4",
+          "text": "numărat, cântărit, judecat și nimicit",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    }
+  ]
+}

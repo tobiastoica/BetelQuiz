@@ -15,7 +15,8 @@ export async function checkAuth() {
   try {
     const res = await fetch(`${API_BASE}/auth/me`);
     return await res.json();
-  } catch {
+  } catch (err) {
+    console.warn('Auth check error:', err);
     return { authenticated: false };
   }
 }
@@ -72,6 +73,17 @@ export async function duplicateQuiz(id: string): Promise<Quiz> {
   return data.quiz;
 }
 
+export async function createGame(quizId: string): Promise<{ pin: string; gameId: string; hostSecret: string }> {
+  const res = await fetch(`${API_BASE}/games`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ quizId }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Failed to create game');
+  return data;
+}
+
 export async function uploadImage(file: File): Promise<string> {
   const formData = new FormData();
   formData.append('image', file);
@@ -85,7 +97,7 @@ export async function uploadImage(file: File): Promise<string> {
   return data.url;
 }
 
-export async function checkActiveGame(userUuid: string): Promise<{
+export async function checkActiveGame(): Promise<{
   hasActiveGame: boolean;
   pin?: string;
   gameId?: string;
@@ -100,10 +112,11 @@ export async function checkActiveGame(userUuid: string): Promise<{
   };
 }> {
   try {
-    const res = await fetch(`${API_BASE}/player/active-game?userUuid=${encodeURIComponent(userUuid)}`);
+    const res = await fetch(`${API_BASE}/player/active-game`);
     if (!res.ok) return { hasActiveGame: false };
     return await res.json();
-  } catch {
+  } catch (err) {
+    console.warn('Failed to check active game:', err);
     return { hasActiveGame: false };
   }
 }

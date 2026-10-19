@@ -13,34 +13,37 @@ export const WordCloudReveal: React.FC<WordCloudRevealProps> = ({
 }) => {
   const entries = Object.entries(wordSubmissions);
 
+  const normalizeWord = (w: any): string =>
+    typeof w === 'string'
+      ? w.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      : '';
+
   // Normalize accepted answers for fast lookup
   const acceptedNormalized = new Set(
-    (acceptedAnswers || []).map((ans) =>
-      ans.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-    )
+    (acceptedAnswers || []).map(normalizeWord).filter(Boolean)
   );
 
-  const isAccepted = (word: string) => {
-    const norm = word.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    return acceptedNormalized.has(norm);
+  const isAccepted = (word: any) => {
+    const norm = normalizeWord(word);
+    return norm ? acceptedNormalized.has(norm) : false;
   };
 
   if (entries.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center p-8 bg-slate-900/60 backdrop-blur-md rounded-3xl border border-white/10 text-white shadow-2xl max-w-2xl mx-auto text-center">
-        <MessageSquare className="w-16 h-16 text-slate-400 mb-3 animate-pulse" />
+      <div className="flex flex-col items-center justify-center p-8 bg-[#0F1433]/85 backdrop-blur-2xl rounded-3xl border border-white/10 text-[#FBF6E9] shadow-2xl max-w-2xl mx-auto text-center">
+        <MessageSquare className="w-16 h-16 text-white/40 mb-3 animate-pulse" />
         <h3 className="text-2xl font-black mb-1">No Word Submissions</h3>
-        <p className="text-slate-400 text-sm">No players submitted words for this question.</p>
+        <p className="text-white/60 text-sm">No players submitted words for this question.</p>
         {acceptedAnswers.length > 0 && (
-          <div className="mt-6 p-4 bg-emerald-500/20 border border-emerald-500/40 rounded-2xl w-full">
+          <div className="mt-6 p-4 bg-emerald-500/15 border border-emerald-500/30 rounded-2xl w-full">
             <span className="text-xs uppercase tracking-wider text-emerald-300 font-bold block mb-1">
               Accepted Answers
             </span>
             <div className="flex flex-wrap gap-2 justify-center">
-              {acceptedAnswers.map((ans, i) => (
+              {(acceptedAnswers || []).filter((ans) => Boolean(ans && String(ans).trim())).map((ans, i) => (
                 <span
                   key={i}
-                  className="px-3 py-1 bg-emerald-500/30 text-emerald-200 font-bold rounded-lg text-sm border border-emerald-400/30"
+                  className="px-3 py-1 bg-emerald-500/25 text-emerald-200 font-bold rounded-lg text-sm border border-emerald-400/30"
                 >
                   {ans}
                 </span>
@@ -70,14 +73,14 @@ export const WordCloudReveal: React.FC<WordCloudRevealProps> = ({
     <div className="w-full max-w-5xl mx-auto flex flex-col items-center">
       {/* Accepted answers banner */}
       {acceptedAnswers.length > 0 && (
-        <div className="mb-6 flex flex-wrap items-center justify-center gap-2 px-6 py-3 bg-emerald-500/20 border border-emerald-500/40 backdrop-blur-md rounded-2xl shadow-lg">
-          <span className="text-xs font-black uppercase tracking-widest text-emerald-400 flex items-center gap-1.5 mr-2">
+        <div className="mb-6 flex flex-wrap items-center justify-center gap-2 px-6 py-3 bg-emerald-500/15 border border-emerald-500/30 backdrop-blur-md rounded-2xl shadow-lg">
+          <span className="text-xs font-black uppercase tracking-widest text-emerald-300 flex items-center gap-1.5 mr-2">
             <CheckCircle2 className="w-4 h-4" /> Correct Answers:
           </span>
           {acceptedAnswers.map((ans, i) => (
             <span
               key={i}
-              className="px-3 py-1 bg-emerald-500/30 text-white font-black text-sm rounded-xl border border-emerald-400/50 shadow"
+              className="px-3 py-1 bg-emerald-500/30 text-emerald-100 font-black text-sm rounded-xl border border-emerald-400/40 shadow"
             >
               {ans}
             </span>
@@ -86,7 +89,7 @@ export const WordCloudReveal: React.FC<WordCloudRevealProps> = ({
       )}
 
       {/* Cloud Container */}
-      <div className="w-full bg-slate-900/70 backdrop-blur-xl border border-white/10 rounded-3xl p-8 sm:p-12 shadow-2xl flex flex-wrap items-center justify-center gap-4 sm:gap-6 min-h-[320px] transition-all">
+      <div className="w-full bg-[#0F1433]/85 backdrop-blur-2xl border border-white/10 rounded-3xl p-8 sm:p-12 shadow-[0_16px_48px_rgba(0,0,0,0.5)] flex flex-wrap items-center justify-center gap-4 sm:gap-6 min-h-[320px] transition-all">
         {entries.map(([word, count], idx) => {
           const accepted = isAccepted(word);
           // Scale size smoothly between text-base and text-5xl

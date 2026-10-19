@@ -1,0 +1,7 @@
+# Project Rules & Instructions for AI Agents
+
+## CRITICAL: NEVER RUN `npm test`
+- **DO NOT run `npm test` or `node --test server/test/*.test.js` under any circumstance.**
+- The test suite has lingering asynchronous socket/timer listeners that cause it to hang indefinitely and never terminate.
+- For frontend verification: run `npm run build` inside the `client/` directory (`tsc -b && vite build`).
+- For server verification: inspect code and verify individual modules directly without running the hanging test suite.

@@ -1,11 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 import { REPORTS_DIR } from './config.js';
-import { calculateQuestionScore } from './scoring.js';
-
-function isValidId(id) {
-  return typeof id === 'string' && /^[a-zA-Z0-9_-]+$/.test(id);
-}
+import { calculateQuestionScore, normalizeSelected, extractWordInputs, normalizeString } from './scoring.js';
+import { isValidId, writeJsonAtomic, readJsonDir } from './fsUtils.js';
+import { csvCell, csvRow } from './csv.js';
+import { rankPlayers } from './ranking.js';
 
 function getReportPath(reportId) {
   return path.join(REPORTS_DIR, `${reportId}.json`);
@@ -15,7 +14,7 @@ function getReportPath(reportId) {
  * Compiles and persists an exhaustive, permanent game report.
  */
 export function generateGameReport(game) {
-  if (!game || !game.gameId) return null;
+  if (!game || !game.gameId || !isValidId(game.gameId)) return null;
 
   if (!fs.existsSync(REPORTS_DIR)) {
     fs.mkdirSync(REPORTS_DIR, { recursive: true });
@@ -29,16 +28,7 @@ export function generateGameReport(game) {
   );
 
   // 1. Leaderboard & Podium compilation
-  const rankedPlayers = Array.from(game.players.values())
-    .sort((a, b) => b.score - a.score)
-    .map((p, idx) => ({
-      rank: idx + 1,
-      userUuid: p.userUuid,
-      nickname: p.nickname,
-      avatar: p.avatar,
-      score: p.score,
-      streak: p.streak,
-    }));
+  const rankedPlayers = rankPlayers(game.players);
 
   const podium = {
     first: rankedPlayers[0] || null,
@@ -47,7 +37,15 @@ export function generateGameReport(game) {
   };
 
   // 2. Question-by-question analytics
-  const questions = game.quiz?.questions || [];
+  const isGetReady = game.state === 'GET_READY' || game.prevState === 'GET_READY';
+  const allQuestions = game.quiz?.questions || [];
+  const playedCount =
+    game.currentQuestionIndex !== undefined && game.currentQuestionIndex !== null && game.currentQuestionIndex >= 0
+      ? isGetReady
+        ? Math.max(0, game.currentQuestionIndex)
+        : game.currentQuestionIndex + 1
+      : (game.currentQuestionIndex === -1 ? 0 : allQuestions.length);
+  const questions = allQuestions.slice(0, playedCount);
   const questionAnalytics = [];
 
   let minAccuracyRate = 101;
@@ -59,32 +57,29 @@ export function generateGameReport(game) {
     const questionAnswers = game.answers.get(idx) || new Map();
     const submissions = [];
 
+    const voteDistribution = {};
+    (q.options || []).forEach((opt) => {
+      voteDistribution[opt.id] = 0;
+    });
+
+    const wordSubmissions = {};
     let correctCount = 0;
     let partialCount = 0;
     let wrongCount = 0;
     let totalResponseTimeMs = 0;
-    let fastestSolver = null;
     let fastestTimeMs = Infinity;
-
-    const voteDistribution = {};
-    if (Array.isArray(q.options)) {
-      q.options.forEach((opt) => {
-        voteDistribution[opt.id] = 0;
-      });
-    }
-
-    const wordSubmissions = {};
+    let fastestSolver = null;
 
     for (const [userUuid, record] of questionAnswers.entries()) {
-      const player = game.players.get(userUuid);
+      const player = game.players?.get?.(userUuid);
       const nickname = player ? player.nickname : 'Player';
       const avatar = player ? player.avatar : '👤';
 
       const responseTimeMs = record.responseTimeMs || 0;
       totalResponseTimeMs += responseTimeMs;
 
-      // Check results for this player
-      const scoreResult = calculateQuestionScore(q, record.answerPayload, responseTimeMs);
+      // Reuse precomputed scoreResult or fallback
+      const scoreResult = record.scoreResult ?? calculateQuestionScore(q, record.answerPayload, responseTimeMs);
       const isCorrect = Boolean(scoreResult?.isCorrect);
       const isPartial = Boolean(scoreResult?.isPartial);
       const pointsEarned = scoreResult?.points ?? 0;
@@ -107,21 +102,20 @@ export function generateGameReport(game) {
 
       // Tally choices / words
       if (q.type === 'quiz' || q.type === 'true_false' || q.type === 'yes_no' || q.type === 'picture_reveal') {
-        const selected = Array.isArray(record.answerPayload?.selected)
-          ? record.answerPayload.selected
-          : [record.answerPayload?.selected];
+        const selected = normalizeSelected(record.answerPayload);
         selected.forEach((optId) => {
           if (voteDistribution[optId] !== undefined) {
             voteDistribution[optId]++;
           }
         });
       } else if (q.type === 'word_guess') {
-        const text =
-          record.answerPayload?.text ||
-          (Array.isArray(record.answerPayload?.answers) ? record.answerPayload.answers.join(', ') : '');
-        if (text) {
-          wordSubmissions[text] = (wordSubmissions[text] || 0) + 1;
-        }
+        const words = extractWordInputs(record.answerPayload);
+        words.forEach((w) => {
+          const key = normalizeString(w, Boolean(q.caseSensitive));
+          if (key) {
+            wordSubmissions[key] = (wordSubmissions[key] || 0) + 1;
+          }
+        });
       }
 
       submissions.push({
@@ -145,6 +139,7 @@ export function generateGameReport(game) {
     const averageResponseTimeMs =
       totalSubmissions > 0 ? Math.round(totalResponseTimeMs / totalSubmissions) : 0;
 
+    // Track toughest question
     if (totalSubmissions > 0 && accuracyRate < minAccuracyRate) {
       minAccuracyRate = accuracyRate;
       toughestQuestionInfo = {
@@ -156,10 +151,11 @@ export function generateGameReport(game) {
 
     questionAnalytics.push({
       questionIndex: idx + 1,
+      questionId: q.id,
       title: q.title,
       type: q.type,
-      timeLimit: q.timeLimit || game.questionTimeLimit || 20,
-      points: q.points ?? 1000,
+      timeLimit: q.timeLimit,
+      points: q.points,
       totalSubmissions,
       correctCount,
       partialCount,
@@ -167,63 +163,70 @@ export function generateGameReport(game) {
       accuracyRate,
       averageResponseTimeMs,
       fastestSolver,
-      submissions,
       voteDistribution,
-      wordSubmissions: Object.keys(wordSubmissions).length > 0 ? wordSubmissions : undefined,
+      wordSubmissions,
+      numberTarget: q.numberTarget,
+      numberMin: q.numberMin,
+      numberMax: q.numberMax,
+      acceptedAnswers: q.acceptedAnswers,
+      submissions,
     });
   });
 
-  // 3. Speed champion calculation
+  // 3. Overall Speed Champion across game
   let speedChampion = null;
-  let bestAvgCorrectTime = Infinity;
+  let bestAvgTime = Infinity;
 
   for (const [userUuid, data] of playerCorrectTimes.entries()) {
     if (data.times.length > 0) {
       const avg = Math.round(data.times.reduce((a, b) => a + b, 0) / data.times.length);
-      if (avg < bestAvgCorrectTime) {
-        bestAvgCorrectTime = avg;
+      if (avg < bestAvgTime) {
+        bestAvgTime = avg;
         speedChampion = {
           userUuid,
           nickname: data.nickname,
           averageResponseTimeMs: avg,
+          correctAnswersCount: data.times.length,
         };
       }
     }
   }
 
+  // 4. Overall Accuracy
+  const totalQuestions = questions.length;
+  const overallAccuracy =
+    questionAnalytics.length > 0
+      ? Math.round(
+          questionAnalytics.reduce((acc, q) => acc + q.accuracyRate, 0) / questionAnalytics.length
+        )
+      : 0;
+
   const report = {
     reportId: game.gameId,
     gameId: game.gameId,
     pin: game.pin,
-    quizId: game.quizId,
-    quizTitle: game.quiz?.title || 'BetelQuiz',
+    quizId: game.quiz?.id || 'unknown',
+    quizTitle: game.quiz?.title || 'Untitled Quiz',
     startedAt,
     finishedAt,
     durationSeconds,
-    totalPlayers: rankedPlayers.length,
-    totalQuestions: questions.length,
+    totalPlayers: game.players instanceof Map ? game.players.size : rankedPlayers.length,
+    totalQuestions,
+    overallAccuracy,
     podium,
     leaderboard: rankedPlayers,
-    questionAnalytics,
     toughestQuestion: toughestQuestionInfo,
     speedChampion,
+    questionAnalytics,
   };
 
   const filePath = getReportPath(game.gameId);
-  const tempPath = `${filePath}.tmp_${Date.now()}`;
-
   try {
-    fs.writeFileSync(tempPath, JSON.stringify(report, null, 2), 'utf-8');
-    fs.renameSync(tempPath, filePath);
+    writeJsonAtomic(filePath, report);
     console.log(`Game report generated and saved: ${game.gameId} (${game.pin})`);
     return report;
   } catch (err) {
     console.error(`Failed to save report for ${game.gameId}:`, err);
-    if (fs.existsSync(tempPath)) {
-      try {
-        fs.unlinkSync(tempPath);
-      } catch {}
-    }
     return null;
   }
 }
@@ -232,41 +235,29 @@ export function generateGameReport(game) {
  * Lists all game reports with overview summaries.
  */
 export function listGameReports() {
-  if (!fs.existsSync(REPORTS_DIR)) return [];
-
   try {
-    const files = fs.readdirSync(REPORTS_DIR).filter((f) => f.endsWith('.json'));
-    const list = [];
-
-    for (const file of files) {
-      try {
-        const content = fs.readFileSync(path.join(REPORTS_DIR, file), 'utf-8');
-        const report = JSON.parse(content);
-        list.push({
-          reportId: report.reportId || report.gameId,
-          gameId: report.gameId,
-          pin: report.pin,
-          quizId: report.quizId,
-          quizTitle: report.quizTitle,
-          startedAt: report.startedAt,
-          finishedAt: report.finishedAt,
-          durationSeconds: report.durationSeconds,
-          totalPlayers: report.totalPlayers,
-          totalQuestions: report.totalQuestions,
-          winner: report.podium?.first
-            ? {
-                nickname: report.podium.first.nickname,
-                avatar: report.podium.first.avatar,
-                score: report.podium.first.score,
-              }
-            : null,
-          toughestQuestion: report.toughestQuestion,
-          speedChampion: report.speedChampion,
-        });
-      } catch (err) {
-        console.error(`Error reading report file ${file}:`, err);
-      }
-    }
+    const rawReports = readJsonDir(REPORTS_DIR);
+    const list = rawReports.map((report) => ({
+      reportId: report.reportId || report.gameId,
+      gameId: report.gameId,
+      pin: report.pin,
+      quizId: report.quizId,
+      quizTitle: report.quizTitle,
+      startedAt: report.startedAt,
+      finishedAt: report.finishedAt,
+      durationSeconds: report.durationSeconds,
+      totalPlayers: report.totalPlayers,
+      totalQuestions: report.totalQuestions,
+      winner: report.podium?.first
+        ? {
+            nickname: report.podium.first.nickname,
+            avatar: report.podium.first.avatar,
+            score: report.podium.first.score,
+          }
+        : null,
+      toughestQuestion: report.toughestQuestion,
+      speedChampion: report.speedChampion,
+    }));
 
     return list.sort((a, b) => new Date(b.finishedAt).getTime() - new Date(a.finishedAt).getTime());
   } catch (err) {
@@ -305,6 +296,7 @@ export function deleteGameReport(reportId) {
       fs.unlinkSync(filePath);
       return true;
     }
+    return false;
   } catch (err) {
     console.error(`Error deleting report ${reportId}:`, err);
   }
@@ -312,7 +304,7 @@ export function deleteGameReport(reportId) {
 }
 
 /**
- * Converts a game report into a downloadable spreadsheet CSV.
+ * Converts a game report into a downloadable spreadsheet CSV with formula neutralization.
  */
 export function exportReportToCsv(reportId) {
   const report = getGameReport(reportId);
@@ -321,28 +313,46 @@ export function exportReportToCsv(reportId) {
   const lines = [];
 
   // 1. Overview Header
-  lines.push(`"BetelQuiz Game Report - ${report.quizTitle}"`);
-  lines.push(`"Game PIN","${report.pin}","Game ID","${report.gameId}"`);
-  lines.push(`"Played At","${report.finishedAt}","Duration (seconds)","${report.durationSeconds}"`);
-  lines.push(`"Total Players","${report.totalPlayers}","Total Questions","${report.totalQuestions}"`);
+  lines.push(csvRow([`BetelQuiz Game Report - ${report.quizTitle}`]));
+  lines.push(csvRow(['Game PIN', report.pin, 'Game ID', report.gameId]));
+  lines.push(csvRow(['Played At', report.finishedAt, 'Duration (seconds)', report.durationSeconds]));
+  lines.push(csvRow(['Total Players', report.totalPlayers, 'Total Questions', report.totalQuestions]));
   lines.push('');
 
   // 2. Final Leaderboard
-  lines.push('"--- FINAL LEADERBOARD ---"');
-  lines.push('"Rank","Nickname","Score","Streak","User UUID"');
+  lines.push(csvRow(['--- FINAL LEADERBOARD ---']));
+  lines.push(csvRow(['Rank', 'Nickname', 'Score', 'Streak', 'User UUID']));
   (report.leaderboard || []).forEach((p) => {
-    lines.push(`"${p.rank}","${(p.nickname || '').replace(/"/g, '""')}","${p.score}","${p.streak}","${p.userUuid}"`);
+    lines.push(csvRow([p.rank, p.nickname || '', p.score, p.streak, p.userUuid], { neutralizeFormulas: true }));
   });
   lines.push('');
 
   // 3. Question Analytics
-  lines.push('"--- QUESTION PERFORMANCE ---"');
+  lines.push(csvRow(['--- QUESTION PERFORMANCE ---']));
   lines.push(
-    '"Question #","Question Title","Type","Accuracy (%)","Correct Count","Partial Count","Wrong Count","Avg Response Time (ms)"'
+    csvRow([
+      'Question #',
+      'Question Title',
+      'Type',
+      'Accuracy (%)',
+      'Correct Count',
+      'Partial Count',
+      'Wrong Count',
+      'Avg Response Time (ms)',
+    ])
   );
   (report.questionAnalytics || []).forEach((q) => {
     lines.push(
-      `"${q.questionIndex}","${(q.title || '').replace(/"/g, '""')}","${q.type}","${q.accuracyRate}%","${q.correctCount}","${q.partialCount}","${q.wrongCount}","${q.averageResponseTimeMs}"`
+      csvRow([
+        q.questionIndex,
+        q.title || '',
+        q.type,
+        `${q.accuracyRate}%`,
+        q.correctCount,
+        q.partialCount,
+        q.wrongCount,
+        q.averageResponseTimeMs,
+      ], { neutralizeFormulas: true })
     );
   });
 

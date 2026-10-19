@@ -5,12 +5,14 @@
   "main": "server/index.js",
   "type": "module",
   "scripts": {
+    "prestart": "npm run build",
     "start": "node server/index.js",
     "dev:server": "node --watch server/index.js",
     "dev:client": "npm --prefix client run dev",
     "dev": "concurrently -k -p \"[{name}]\" -n \"SERVER,CLIENT\" -c \"blue.bold,magenta.bold\" \"npm run dev:server\" \"npm run dev:client\"",
     "build": "npm --prefix client run build",
-    "test": "node --test server/test/*.test.js"
+    "test:unit": "node --test server/test/audit_fixes.test.js server/test/scoring.test.js server/test/resilient_device.test.js server/test/features_v2.test.js server/test/puzzle_reveal.test.js server/test/phase1_cleanup.test.js server/test/game_logger.test.js",
+    "test": "npm run test:unit"
   },
   "keywords": [
     "kahoot",

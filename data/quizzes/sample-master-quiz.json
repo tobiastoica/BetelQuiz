@@ -4,6 +4,8 @@
   "description": "Showcasing all 5 question types, image media, multi-select, puzzle ranking, and number guessing!",
   "coverImage": "",
   "theme": "spring",
+  "defaultTimeLimit": 20,
+  "defaultPoints": 1000,
   "createdAt": "2026-10-13T08:39:30.678Z",
   "updatedAt": "2026-10-13T09:52:54.242Z",
   "questions": [

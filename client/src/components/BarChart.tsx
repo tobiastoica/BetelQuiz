@@ -19,7 +19,8 @@ export const BarChart: React.FC<BarChartProps> = ({
     <div className="flex items-end justify-center gap-4 sm:gap-6 md:gap-8 h-40 sm:h-48 md:h-56 px-4 sm:px-8 py-2 w-full max-w-5xl mx-auto">
       {options.map((opt, idx) => {
         const count = voteDistribution[opt.id] || 0;
-        const color = KAHOOT_COLORS[idx % KAHOOT_COLORS.length];
+        const itemIdx = opt.colorIndex ?? idx;
+        const color = KAHOOT_COLORS[itemIdx % KAHOOT_COLORS.length];
         const heightPercent = totalAnswers > 0 ? Math.max(14, (count / maxVotes) * 100) : 10;
 
         return (
@@ -36,7 +37,7 @@ export const BarChart: React.FC<BarChartProps> = ({
               }}
             >
               <div className="flex items-center gap-2 text-white font-black text-xl sm:text-2xl drop-shadow-md">
-                <ShapeIcon index={idx} size={24} />
+                <ShapeIcon index={itemIdx} size={24} />
                 <span>{count}</span>
               </div>
             </div>

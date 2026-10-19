@@ -296,6 +296,7 @@ test('Bulletproof Hardening: Security, Concurrency, Reconnect, and Scoring', asy
     gameManager.socketToGame.set(player2SocketId, { pin, role: 'player', userUuid: 'player_2' });
     // When Player 2 disconnects, server detects all remaining connected players have submitted
     gameManager.handleDisconnect(player2SocketId);
+    await new Promise((resolve) => setTimeout(resolve, 600));
     assert.strictEqual(game.state, 'QUESTION_REVEAL', 'Must immediately transition to reveal without hanging');
   } finally {
     if (hostClient) hostClient.disconnect();

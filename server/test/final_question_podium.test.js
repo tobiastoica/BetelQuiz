@@ -69,8 +69,10 @@ test('Final question transitions directly from QUESTION_REVEAL to PODIUM without
     playerSocket.emit('player_join', { pin, nickname: 'Runner1', userUuid: 'sess_1' });
     await joinPromise;
 
-    // Directly transition to QUESTION_REVEAL for this final (and only) question
+    // Transition through valid state lifecycle to QUESTION_REVEAL for final question
     game.currentQuestionIndex = 0;
+    gameManager.setState(game, 'GET_READY');
+    gameManager.setState(game, 'QUESTION_ACTIVE');
     gameManager.transitionToQuestionReveal(game);
     assert.strictEqual(game.state, 'QUESTION_REVEAL');
 

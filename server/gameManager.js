@@ -1,11 +1,48 @@
 import { v4 as uuidv4 } from 'uuid';
-import QRCode from 'qrcode';
-import { getQuizById, saveGameSnapshot } from './storage.js';
-import { calculateQuestionScore, calculateStreakBonus, shuffleArray } from './scoring.js';
+import { getQuizById, normalizePuzzleOrder } from './storage.js';
+import { isValidId } from './fsUtils.js';
+import {
+  calculateQuestionScore,
+  calculateStreakBonus,
+  shuffleArray,
+  normalizeSelected,
+  extractWordInputs,
+  normalizeString,
+} from './scoring.js';
 import { generateGameReport } from './reportsManager.js';
-import { recordGameResult, updatePlayerIdentity } from './playerProfiles.js';
+import { recordGameResult, cleanAvatar } from './playerProfiles.js';
+import { toPublicPlayer, rankPlayers } from './ranking.js';
+import { GameLogger } from './gameLogger.js';
 
-const AVATARS = ['🦊', '🐼', '🦁', '🐯', '🐨', '🐵', '🦄', '🚀', '⚡', '🌟', '🐬', '🦉'];
+const TRANSITIONS = {
+  LOBBY: ['GET_READY'],
+  GET_READY: ['QUESTION_ACTIVE', 'PODIUM'],
+  QUESTION_ACTIVE: ['QUESTION_REVEAL', 'PODIUM'],
+  QUESTION_REVEAL: ['SCOREBOARD', 'PODIUM'],
+  SCOREBOARD: ['GET_READY', 'PODIUM'],
+  PODIUM: [],
+};
+
+export function prepareQuiz(quiz) {
+  if (!quiz) return null;
+  const questions = (quiz.questions || []).map((q) => {
+    let question = { ...q };
+    if (['quiz', 'true_false', 'yes_no', 'picture_reveal'].includes(question.type) && Array.isArray(question.options)) {
+      question.options = question.options
+        .filter((opt) => Boolean(opt && opt.text && opt.text.trim() !== ''))
+        .map((opt, idx) => ({
+          ...opt,
+          colorIndex: opt.colorIndex ?? idx,
+        }));
+    }
+    return normalizePuzzleOrder({
+      ...question,
+      timeLimit: question.timeLimit ?? quiz.defaultTimeLimit ?? 20,
+      points: question.points ?? quiz.defaultPoints ?? 1000,
+    });
+  });
+  return { ...quiz, questions };
+}
 
 export class GameManager {
   constructor(io) {
@@ -13,7 +50,7 @@ export class GameManager {
     this.games = new Map(); // pin -> gameState
     this.gamesById = new Map(); // gameId -> pin
     this.socketToGame = new Map(); // socket.id -> { pin, role, userUuid }
-    this.timers = new Map(); // pin -> Set of timerIds
+    this.timers = new Map(); // pin -> Set of timer handles
 
     // Periodic cleanup of stale games (runs every 10 minutes)
     this.cleanupInterval = setInterval(() => {
@@ -24,41 +61,39 @@ export class GameManager {
     }
   }
 
-  // Track a timer handle associated with a game PIN
+  setState(game, next) {
+    if (!TRANSITIONS[game.state]?.includes(next)) {
+      game.logger?.warn('INVALID_TRANSITION', `Attempted invalid transition from ${game.state} to ${next}`);
+      return false;
+    }
+    const fromState = game.state;
+    this.clearGameTimer(game.pin);
+    game.prevState = game.state;
+    game.state = next;
+    game.lastStateTransitionTime = Date.now();
+    game.logger?.stateTransition(fromState, next, {
+      questionIndex: game.currentQuestionIndex,
+      playersCount: game.players?.size ?? 0,
+    });
+    return true;
+  }
+
   addGameTimer(pin, timerId) {
-    if (!this.timers.has(pin)) {
-      this.timers.set(pin, new Set());
-    }
-    const entry = this.timers.get(pin);
-    if (entry instanceof Set) {
-      entry.add(timerId);
-    } else {
-      const set = new Set([entry, timerId]);
-      this.timers.set(pin, set);
-    }
+    const set = this.timers.get(pin) ?? this.timers.set(pin, new Set()).get(pin);
+    set.add(timerId);
     return timerId;
   }
 
-  // Clear all pending timers for a game PIN
   clearGameTimer(pin) {
-    if (this.timers.has(pin)) {
-      const entry = this.timers.get(pin);
-      if (entry instanceof Set || Array.isArray(entry)) {
-        for (const t of entry) {
-          clearTimeout(t);
-        }
-      } else {
-        clearTimeout(entry);
-      }
-      this.timers.delete(pin);
-    }
+    this.timers.get(pin)?.forEach(clearTimeout);
+    this.timers.delete(pin);
   }
 
-  // Explicitly delete a game and clean up timers and socket mappings
   deleteGame(pin) {
     const game = this.games.get(pin);
     if (!game) return false;
 
+    game.logger?.info('GAME_ENDED', `Game session ${pin} removed from active memory`);
     this.clearGameTimer(pin);
     this.games.delete(pin);
     if (game.gameId) {
@@ -73,25 +108,24 @@ export class GameManager {
     return true;
   }
 
-  // Prune games older than 2 hours or games that reached PODIUM over 30 minutes ago
+  // Prune games idle past 2 hours, or finished games past 30 minutes
   pruneOldGames() {
     const now = Date.now();
     const TWO_HOURS_MS = 2 * 60 * 60 * 1000;
     const THIRTY_MINUTES_MS = 30 * 60 * 1000;
 
     for (const [pin, game] of this.games.entries()) {
-      const createdTime = game.createdAt ? new Date(game.createdAt).getTime() : now;
-      const isPast2Hours = now - createdTime > TWO_HOURS_MS;
+      const idleTime = now - (game.lastStateTransitionTime || 0);
       const isPodiumExpired =
         game.state === 'PODIUM' && game.podiumReachedAt && now - game.podiumReachedAt > THIRTY_MINUTES_MS;
 
-      if (isPast2Hours || isPodiumExpired) {
+      if (idleTime > TWO_HOURS_MS || isPodiumExpired) {
+        this.io.to(pin).emit('player_kicked', { reason: 'This game has ended' });
         this.deleteGame(pin);
       }
     }
   }
 
-  // Check cooldown between host-triggered state transitions (1000ms guard)
   checkHostCooldown(game) {
     const now = Date.now();
     if (game.lastHostTransitionTime && now - game.lastHostTransitionTime < 1000) {
@@ -100,9 +134,7 @@ export class GameManager {
     return true;
   }
 
-  // Generate unique 6-digit numeric PIN without infinite looping
   generatePin() {
-    this.pruneOldGames();
     let attempts = 0;
     const maxAttempts = 1000;
     while (attempts < maxAttempts) {
@@ -113,7 +145,6 @@ export class GameManager {
       attempts++;
     }
 
-    // Fallback: systematic search through 6-digit space
     for (let p = 100000; p <= 999999; p++) {
       const pinStr = p.toString();
       if (!this.games.has(pinStr)) {
@@ -124,34 +155,16 @@ export class GameManager {
     throw new Error('No available game PINs. All PINs are currently in use.');
   }
 
-  async createGame(quizId, hostSocketId, customHostUrl = '') {
-    const quiz = getQuizById(quizId);
-    if (!quiz) {
+  createGame(quizId) {
+    const rawQuiz = getQuizById(quizId);
+    if (!rawQuiz) {
       throw new Error('Quiz not found');
     }
+    const quiz = prepareQuiz(rawQuiz);
 
     const pin = this.generatePin();
     const gameId = uuidv4();
     const hostSecret = uuidv4();
-
-    // Clean up any previous game hosted by this hostSocketId
-    const existingHostInfo = this.socketToGame.get(hostSocketId);
-    if (existingHostInfo && existingHostInfo.role === 'host') {
-      const prevGame = this.games.get(existingHostInfo.pin);
-      if (prevGame && prevGame.state !== 'PODIUM') {
-        this.endGame(prevGame.pin);
-      }
-    }
-
-    // Generate QR Code for players to join instantly
-    // Default join URL with game_id
-    const joinPath = `/play?game_id=${pin}`;
-    let qrCodeDataUrl = '';
-    try {
-      qrCodeDataUrl = await QRCode.toDataURL(joinPath);
-    } catch (err) {
-      console.error('Failed to generate QR code:', err);
-    }
 
     const game = {
       pin,
@@ -159,16 +172,16 @@ export class GameManager {
       hostSecret,
       quizId,
       quiz,
-      hostSocketId,
-      qrCodeDataUrl,
-      state: 'LOBBY', // 'LOBBY' | 'GET_READY' | 'QUESTION_ACTIVE' | 'QUESTION_REVEAL' | 'SCOREBOARD' | 'PODIUM'
+      hostSocketId: null,
+      state: 'LOBBY',
       currentQuestionIndex: -1,
       questionStartTime: 0,
       questionTimeLimit: 20,
       lastStateTransitionTime: Date.now(),
       lastHostTransitionTime: 0,
+      resultsRecorded: false,
       players: new Map(), // userUuid -> Player
-      answers: new Map(), // questionIndex -> Map(userUuid, AnswerData)
+      answers: new Map(), // questionIndex -> Map(userUuid, AnswerRecord)
       settings: {
         randomizeAnswers: false,
         randomizeQuestions: false,
@@ -179,11 +192,15 @@ export class GameManager {
       createdAt: new Date().toISOString(),
     };
 
+    game.logger = new GameLogger(game);
+    game.logger.info('GAME_INIT', `Game session initialized for "${quiz.title || 'Quiz'}" with PIN ${pin}`, {
+      pin,
+      gameId,
+      totalQuestions: quiz.questions?.length ?? 0,
+    });
+
     this.games.set(pin, game);
     this.gamesById.set(gameId, pin);
-    this.socketToGame.set(hostSocketId, { pin, role: 'host', hostSecret });
-
-    saveGameSnapshot(gameId, this.serializeGame(game));
     return game;
   }
 
@@ -193,222 +210,204 @@ export class GameManager {
 
   getGameById(gameId) {
     const pin = this.gamesById.get(gameId);
-    if (pin) return this.games.get(pin) || null;
-    return null;
+    return pin ? this.games.get(pin) || null : null;
   }
 
   getGameByPinOrId(pinOrId) {
     if (!pinOrId) return null;
-    const clean = String(pinOrId).trim().replace(/^(game_id=|gameId=)/i, '');
-    return this.games.get(clean) || this.getGameById(clean) || null;
+    return this.getGameByPin(pinOrId) || this.getGameById(pinOrId);
   }
 
-  updateSettings(pin, newSettings = {}) {
-    const game = this.getGameByPinOrId(pin);
+  updateSettings(pinOrId, newSettings) {
+    const game = this.getGameByPinOrId(pinOrId);
     if (!game) return false;
-    game.settings = { ...game.settings, ...newSettings };
-    if (game.hostSocketId) {
-      this.io.to(game.hostSocketId).emit('settings_updated', game.settings);
+
+    const SETTING_KEYS = [
+      'randomizeAnswers',
+      'randomizeQuestions',
+      'showQuestionsOnPlayerScreens',
+      'lockGame',
+    ];
+    for (const key of SETTING_KEYS) {
+      if (key in newSettings) {
+        game.settings[key] = Boolean(newSettings[key]);
+      }
     }
+
+    game.logger?.settingsUpdated(game.settings);
     this.io.to(game.pin).emit('settings_updated', game.settings);
     return true;
   }
 
-  serializeGame(game) {
-    const playersList = Array.from(game.players.values()).map((p) => ({
-      userUuid: p.userUuid,
-      nickname: p.nickname,
-      avatar: p.avatar,
-      score: p.score,
-      streak: p.streak,
-      connected: p.connected,
-    }));
-
-    return {
-      pin: game.pin,
-      gameId: game.gameId,
-      quizId: game.quizId,
-      quizTitle: game.quiz.title,
-      totalQuestions: game.quiz.questions.length,
-      state: game.state,
-      currentQuestionIndex: game.currentQuestionIndex,
-      playersCount: playersList.length,
-      players: playersList,
-    };
-  }
-
-  // Check if a socket ID is currently live and connected
-  isSocketAlive(socketId) {
-    if (!socketId) return false;
-    const s = this.io.sockets?.sockets?.get(socketId);
-    return Boolean(s && s.connected);
-  }
-
-  // Get active ongoing game session for a userUuid (across all active games)
-  getActiveSessionForUser(userUuid) {
-    if (!userUuid) return null;
-    const sortedGames = Array.from(this.games.values()).sort(
-      (a, b) => (b.lastStateTransitionTime || 0) - (a.lastStateTransitionTime || 0)
-    );
-    for (const game of sortedGames) {
-      if (game.state !== 'PODIUM') {
-        const player = game.players.get(userUuid);
-        if (player) {
-          return {
-            pin: game.pin,
-            gameId: game.gameId,
-            gameState: game.state,
-            quizTitle: game.quiz?.title,
-            player: {
-              userUuid: player.userUuid,
-              nickname: player.nickname,
-              avatar: player.avatar,
-              score: player.score,
-              streak: player.streak,
-            },
-          };
-        }
-      }
-    }
-    return null;
-  }
-
-  // Join or resume player session using persistent userUuid
-  joinPlayer(pin, nickname, requestedUserUuid, socketId, requestedAvatar) {
-    const game = this.getGameByPinOrId(pin);
-    if (!game) {
-      return { success: false, error: 'Game not found with this PIN or Game ID' };
-    }
-
-    const cleanName = (nickname || '').trim();
-    let userUuid = requestedUserUuid;
-    let player = null;
-
-    // 1. Reconnect by explicit userUuid if already registered in this game
-    if (userUuid && game.players.has(userUuid)) {
-      player = game.players.get(userUuid);
-      console.log(`Reconnected player "${player.nickname}" using userUuid: ${userUuid}`);
-    }
-    // 2. Fallback: match by disconnected nickname if no userUuid was provided
-    else if (!userUuid && cleanName) {
-      const match = Array.from(game.players.values()).find(
-        (p) => p.nickname.trim().toLowerCase() === cleanName.toLowerCase()
+  cleanNickname(game, raw, selfUuid) {
+    const name = (raw || '').trim().slice(0, 20);
+    const taken =
+      Boolean(name) &&
+      [...game.players.values()].some(
+        (p) => p.userUuid !== selfUuid && p.nickname.toLowerCase() === name.toLowerCase()
       );
-      if (match) {
-        const isLive = match.connected && this.isSocketAlive(match.socketId);
-        if (!isLive) {
-          player = match;
-          userUuid = match.userUuid;
-          console.log(`Resumed disconnected player "${player.nickname}" (userUuid: ${userUuid})`);
-        }
-      }
+    return { name, taken };
+  }
+
+  joinPlayer(pinOrId, nickname, userUuid, socketId, avatar) {
+    const game = this.getGameByPinOrId(pinOrId);
+    if (!game) {
+      return { success: false, error: 'Game not found. Please check your PIN.' };
     }
 
-    if (player) {
-      // Reconnecting / resuming player session!
+    if (!userUuid || !isValidId(userUuid)) {
+      game.logger?.warn('JOIN_FAILED', 'User UUID required to join game', { userUuid, socketId });
+      return { success: false, error: 'User UUID required to join game' };
+    }
+
+    if (game.state === 'PODIUM' && !game.players.has(userUuid)) {
+      game.logger?.warn('JOIN_FAILED', 'Cannot join ended game in PODIUM state', { userUuid, nickname, socketId });
+      return { success: false, error: 'This game has already ended.' };
+    }
+
+    // Reconnecting player
+    if (game.players.has(userUuid)) {
+      const player = game.players.get(userUuid);
+
+      // Clean up old socket mapping without kicking the player
+      if (player.socketId && player.socketId !== socketId) {
+        this.socketToGame.delete(player.socketId);
+      }
+
       player.socketId = socketId;
       player.connected = true;
-      if (cleanName && (!player.nickname || game.state === 'LOBBY')) {
-        player.nickname = cleanName;
-      }
-      if (requestedAvatar) {
-        player.avatar = requestedAvatar;
-      }
-      userUuid = player.userUuid || userUuid;
-    } else {
-      // New player attempting to join
-      if (game.settings?.lockGame) {
-        return { success: false, error: 'This game is currently locked by the host' };
-      }
 
-      if (game.state !== 'LOBBY') {
-        return { success: false, error: 'Game already in progress' };
-      }
-
-      userUuid = userUuid || uuidv4();
-
-      // Verify nickname uniqueness among other players in this game
-      if (cleanName) {
-        const nameConflict = Array.from(game.players.values()).find(
-          (p) => p.userUuid !== userUuid && p.nickname.trim().toLowerCase() === cleanName.toLowerCase()
-        );
-        if (nameConflict) {
-          return { success: false, error: 'Nickname is already in use by an active player' };
+      // In LOBBY, allow updating nickname / avatar
+      if (game.state === 'LOBBY') {
+        const { name, taken } = this.cleanNickname(game, nickname, userUuid);
+        if (name && !taken) {
+          player.nickname = name;
+        }
+        const validAvatar = cleanAvatar(avatar);
+        if (validAvatar) {
+          player.avatar = validAvatar;
         }
       }
 
-      const finalName = cleanName.slice(0, 20) || `Player ${game.players.size + 1}`;
-      const avatar = requestedAvatar || AVATARS[Math.floor(Math.random() * AVATARS.length)];
+      this.socketToGame.set(socketId, { pin: game.pin, role: 'player', userUuid });
+      this.notifyHostPlayersUpdate(game);
+      game.logger?.playerConnected(player, true, socketId);
 
-      player = {
-        userUuid,
-        socketId,
-        nickname: finalName,
-        avatar,
-        score: 0,
-        streak: 0,
-        connected: true,
-        joinedAt: Date.now(),
+      return {
+        success: true,
+        isReconnect: true,
+        pin: game.pin,
+        gameId: game.gameId,
+        gameState: game.state,
+        currentQuestionIndex: game.currentQuestionIndex,
+        totalQuestions: game.quiz?.questions?.length || 0,
+        settings: game.settings,
+        player: toPublicPlayer(player),
       };
-      game.players.set(userUuid, player);
     }
 
+    // New join
+    if (game.settings.lockGame) {
+      game.logger?.warn('JOIN_FAILED', 'Game locked by host to new players', { userUuid, nickname, socketId });
+      return { success: false, error: 'This game is locked by the host.' };
+    }
+
+    const { name: cleanName, taken } = this.cleanNickname(game, nickname, userUuid);
+    if (!cleanName) {
+      game.logger?.warn('JOIN_FAILED', 'Invalid nickname provided', { userUuid, nickname, socketId });
+      return { success: false, error: 'Please enter a valid nickname.' };
+    }
+    if (taken) {
+      game.logger?.warn('JOIN_FAILED', `Nickname "${cleanName}" already taken in game`, { userUuid, socketId });
+      return { success: false, error: 'That nickname is already taken in this game.' };
+    }
+
+    const validAvatar = cleanAvatar(avatar) || '🦊';
+
+    const player = {
+      userUuid,
+      nickname: cleanName,
+      avatar: validAvatar,
+      score: 0,
+      streak: 0,
+      connected: true,
+      socketId,
+    };
+
+    game.players.set(userUuid, player);
     this.socketToGame.set(socketId, { pin: game.pin, role: 'player', userUuid });
-
-    // Sync persistent player profile identity
-    try {
-      updatePlayerIdentity(userUuid, { nickname: player.nickname, avatar: player.avatar });
-    } catch (e) {
-      // Non-critical
-    }
-
-    // Notify host of updated player list
     this.notifyHostPlayersUpdate(game);
-
-    // Save snapshot
-    saveGameSnapshot(game.gameId, this.serializeGame(game));
+    game.logger?.playerConnected(player, false, socketId);
 
     return {
       success: true,
+      isReconnect: false,
       pin: game.pin,
       gameId: game.gameId,
-      userUuid,
-      player: {
-        userUuid: player.userUuid,
-        nickname: player.nickname,
-        avatar: player.avatar,
-        score: player.score,
-        streak: player.streak,
-      },
       gameState: game.state,
       settings: game.settings,
-      quizTitle: game.quiz.title,
+      player: toPublicPlayer(player),
     };
   }
 
-  // Update player avatar emoji
-  updatePlayerAvatar(pin, userUuid, avatar) {
-    const game = this.getGameByPinOrId(pin);
-    if (!game) return false;
+  bindSocketToUser(pinOrId, userUuid, newSocket) {
+    const game = this.getGameByPinOrId(pinOrId);
+    if (!game || !userUuid || !newSocket) return null;
 
     const player = game.players.get(userUuid);
-    if (player && avatar) {
-      player.avatar = avatar;
-      try {
-        updatePlayerIdentity(userUuid, { avatar });
-      } catch (e) {
-        // Non-critical
+    if (!player) return null;
+
+    // Drop old session for this user if it had a different socket
+    if (player.socketId && player.socketId !== newSocket.id) {
+      game.logger?.unusualRequest('SESSION_REBIND', newSocket.id, {
+        userUuid,
+        playerNickname: player.nickname,
+        oldSocketId: player.socketId,
+        newSocketId: newSocket.id,
+      });
+      const oldSocket = this.io.sockets?.sockets?.get(player.socketId);
+      if (oldSocket) {
+        try {
+          oldSocket.leave(game.pin);
+        } catch (err) {
+          game.logger?.exception('bindSocketToUser_leaveOldSocket', err, { oldSocketId: player.socketId });
+          console.error(`Error removing old socket ${player.socketId} from room:`, err);
+        }
       }
+      this.socketToGame.delete(player.socketId);
+    }
+
+    // Bind to the new active websocket session
+    player.socketId = newSocket.id;
+    player.connected = true;
+    try {
+      newSocket.join(game.pin);
+    } catch (err) {
+      game.logger?.exception('bindSocketToUser_joinNewSocket', err, { newSocketId: newSocket.id });
+      console.error(`Error joining room ${game.pin} for new socket ${newSocket.id}:`, err);
+    }
+
+    const sessionInfo = { pin: game.pin, role: 'player', userUuid };
+    this.socketToGame.set(newSocket.id, sessionInfo);
+    return sessionInfo;
+  }
+
+  updatePlayerAvatar(pinOrId, userUuid, avatar) {
+    const game = this.getGameByPinOrId(pinOrId);
+    if (!game) return false;
+    const player = game.players.get(userUuid);
+    const validAvatar = cleanAvatar(avatar);
+    if (player && validAvatar) {
+      player.avatar = validAvatar;
       this.notifyHostPlayersUpdate(game);
-      saveGameSnapshot(game.gameId, this.serializeGame(game));
+      game.logger?.avatarUpdated(userUuid, player.nickname, validAvatar);
       return true;
     }
     return false;
   }
 
-  // Kick player (by host)
-  kickPlayer(pin, userUuid) {
-    const game = this.games.get(pin);
+  kickPlayer(pinOrId, userUuid) {
+    const game = this.getGameByPinOrId(pinOrId);
     if (!game) return false;
 
     const player = game.players.get(userUuid);
@@ -418,11 +417,16 @@ export class GameManager {
         this.socketToGame.delete(player.socketId);
         try {
           this.io.sockets?.sockets?.get(player.socketId)?.leave(game.pin);
-        } catch (e) {}
+        } catch (e) {
+          console.warn('Could not leave room on kicked player socket:', e.message);
+        }
       }
       game.players.delete(userUuid);
       this.notifyHostPlayersUpdate(game);
-      saveGameSnapshot(game.gameId, this.serializeGame(game));
+      game.logger?.playerKicked(userUuid, player.nickname, 'Host removed you from game');
+      if (game.state === 'QUESTION_ACTIVE' && this.allActivePlayersAnswered(game)) {
+        this.scheduleReveal(game, 500);
+      }
       return true;
     }
     return false;
@@ -430,29 +434,210 @@ export class GameManager {
 
   notifyHostPlayersUpdate(game) {
     if (!game.hostSocketId) return;
-    const playersList = Array.from(game.players.values()).map((p) => ({
-      userUuid: p.userUuid,
-      nickname: p.nickname,
-      avatar: p.avatar,
-      score: p.score,
-      streak: p.streak,
-      connected: p.connected,
-    }));
-
+    const playersList = Array.from(game.players.values()).map(toPublicPlayer);
     this.io.to(game.hostSocketId).emit('players_updated', {
       count: playersList.length,
       players: playersList,
     });
   }
 
-  // Start game by host
+  isActive(p) {
+    return p.connected || this.isSocketAlive(p.socketId);
+  }
+
+  isSocketAlive(socketId) {
+    if (!socketId) return false;
+    return Boolean(this.io.sockets?.sockets?.get(socketId)?.connected);
+  }
+
+  allActivePlayersAnswered(game) {
+    const answers = game.answers.get(game.currentQuestionIndex);
+    if (!answers) return false;
+    const everyone = [...game.players.values()];
+    const active = everyone.filter((p) => this.isActive(p));
+    const pool = active.length > 0 ? active : everyone;
+    return pool.length > 0 && pool.every((p) => answers.has(p.userUuid));
+  }
+
+  scheduleReveal(game, delayMs = 500) {
+    this.clearGameTimer(game.pin);
+    const timer = setTimeout(() => {
+      if (game.state === 'QUESTION_ACTIVE') {
+        this.transitionToQuestionReveal(game);
+      }
+    }, delayMs);
+    this.addGameTimer(game.pin, timer);
+  }
+
+  currentQuestion(game) {
+    return game?.quiz?.questions?.[game.currentQuestionIndex] ?? null;
+  }
+
+  questionView(game, audience, options = game.currentQuestionOptions) {
+    const q = this.currentQuestion(game);
+    if (!q) return null;
+
+    const toOptionView = (o, idx) => ({
+      id: o.id,
+      text: o.text,
+      colorIndex: o.colorIndex ?? idx,
+    });
+
+    const view = {
+      id: q.id,
+      type: q.type,
+      title: q.title,
+      image: q.image,
+      timeLimit: q.timeLimit,
+      points: q.points,
+      theme: q.theme || game.quiz?.theme || 'spring',
+      backgroundImage: q.backgroundImage || game.quiz?.backgroundImage,
+      isMultiSelect: Boolean(q.isMultiSelect),
+      numberMin: q.numberMin ?? 0,
+      numberMax: q.numberMax ?? 100,
+      tileLevel: q.tileLevel || 'medium',
+      allowMultipleAnswers: Boolean(q.allowMultipleAnswers),
+      fuzzyMatching: q.fuzzyMatching !== false,
+      options: (options || []).map(toOptionView),
+    };
+
+    return audience === 'host'
+      ? {
+          ...view,
+          acceptedAnswers: q.acceptedAnswers || [],
+          caseSensitive: Boolean(q.caseSensitive),
+          fuzzyScorePercentage: q.fuzzyScorePercentage ?? 80,
+          numberTarget: q.numberTarget,
+        }
+      : view;
+  }
+
+  activePayload(game, audience, options) {
+    const answers = game.answers.get(game.currentQuestionIndex);
+    const timeLimitSec = game.questionTimeLimit || 20;
+    const remainingTimeMs = Math.max(0, game.questionStartTime + timeLimitSec * 1000 - Date.now());
+
+    return {
+      state: 'QUESTION_ACTIVE',
+      questionIndex: game.currentQuestionIndex,
+      totalQuestions: game.quiz?.questions?.length || 0,
+      questionStartTime: game.questionStartTime,
+      endsAt: game.questionStartTime + timeLimitSec * 1000,
+      remainingTimeMs,
+      remainingSeconds: Math.ceil(remainingTimeMs / 1000),
+      settings: {
+        showQuestionsOnPlayerScreens: Boolean(game.settings?.showQuestionsOnPlayerScreens),
+      },
+      question: this.questionView(game, audience, options),
+      ...(audience === 'host' && {
+        answersReceived: answers?.size ?? 0,
+        totalPlayers: game.players.size,
+      }),
+    };
+  }
+
+  playerOptions(game) {
+    const opts = game.currentQuestionOptions || [];
+    const q = this.currentQuestion(game);
+    if (q?.type !== 'puzzle' || opts.length < 2) return opts;
+
+    const isSolved = (list) => list.every((o, i) => o.order === i);
+    let shuffled = shuffleArray(opts);
+    for (let i = 0; i < 10 && isSolved(shuffled); i++) {
+      shuffled = shuffleArray(opts);
+    }
+    return shuffled;
+  }
+
+  getReadyPayload(game) {
+    const q = this.currentQuestion(game);
+    return {
+      state: 'GET_READY',
+      questionIndex: game.currentQuestionIndex,
+      settings: {
+        showQuestionsOnPlayerScreens: Boolean(game.settings?.showQuestionsOnPlayerScreens),
+      },
+      questionInfo: {
+        index: game.currentQuestionIndex + 1,
+        total: game.quiz?.questions?.length || 0,
+        type: q?.type || 'quiz',
+        title: q?.title,
+        theme: q?.theme || game.quiz?.theme || 'spring',
+        isMultiSelect: Boolean(q?.isMultiSelect),
+        points: q?.points !== undefined ? q.points : 1000,
+        timeLimit: q?.timeLimit || 20,
+      },
+    };
+  }
+
+  standingFor(game, userUuid) {
+    const ranked = rankPlayers(game.players);
+    const me = ranked.find((p) => p.userUuid === userUuid);
+    const leader = ranked[0] || null;
+    const rank = me ? me.rank : ranked.length + 1;
+    return {
+      rank,
+      totalPlayers: ranked.length,
+      score: me ? me.score : 0,
+      streak: me ? me.streak : 0,
+      pointsBehindLeader: me && leader && leader.userUuid !== userUuid ? Math.max(0, leader.score - me.score) : 0,
+      leaderName: leader && leader.userUuid !== userUuid ? leader.nickname : '',
+      isOnLeaderboard: rank <= 5,
+    };
+  }
+
+  finalResultFor(game, userUuid) {
+    const ranked = rankPlayers(game.players);
+    const me = ranked.find((p) => p.userUuid === userUuid);
+    const rank = me ? me.rank : ranked.length + 1;
+    return {
+      rank,
+      totalPlayers: ranked.length,
+      totalScore: me ? me.score : 0,
+      isWinner: rank === 1,
+      isPodium: rank <= 3,
+    };
+  }
+
+  getPlayerResumeEvents(game, userUuid) {
+    switch (game.state) {
+      case 'GET_READY':
+        return [['game_state_changed', this.getReadyPayload(game)]];
+      case 'QUESTION_ACTIVE':
+        return [
+          [
+            'question_active',
+            {
+              ...this.activePayload(game, 'player', this.playerOptions(game)),
+              alreadyAnswered: Boolean(game.answers.get(game.currentQuestionIndex)?.has(userUuid)),
+            },
+          ],
+        ];
+      case 'QUESTION_REVEAL': {
+        const r = game.lastPlayerResults?.get(userUuid);
+        return r ? [['player_feedback', r]] : [['game_state_changed', { state: 'QUESTION_REVEAL' }]];
+      }
+      case 'SCOREBOARD':
+        return [['player_standing', this.standingFor(game, userUuid)]];
+      case 'PODIUM':
+        return [['final_results', this.finalResultFor(game, userUuid)]];
+      default:
+        return [];
+    }
+  }
+
   startGame(pin) {
     const game = this.getGameByPinOrId(pin);
-    if (!game) return false;
-    if (game.quiz.questions.length === 0) return false;
+    if (!game || game.state !== 'LOBBY' || !game.quiz?.questions?.length) {
+      game?.logger?.warn('START_GAME_FAILED', `Could not start game in state ${game?.state || 'UNKNOWN'}`);
+      return false;
+    }
 
-    if (game.settings?.randomizeQuestions) {
+    game.logger?.info('HOST_ACTION', 'Host started the game', { totalPlayers: game.players.size });
+
+    if (game.settings.randomizeQuestions) {
       game.quiz.questions = shuffleArray(game.quiz.questions);
+      game.logger?.info('SETTINGS_APPLIED', 'Questions randomized');
     }
 
     game.currentQuestionIndex = 0;
@@ -460,351 +645,247 @@ export class GameManager {
     return true;
   }
 
-  // End game early and go straight to podium
   endGame(pin) {
     const game = this.getGameByPinOrId(pin);
-    if (!game) return false;
+    if (!game || game.state === 'PODIUM') return false;
+    game.logger?.warn('HOST_ACTION', 'Host ended game', { state: game.state });
+    if (game.state === 'LOBBY') {
+      this.io.to(game.pin).emit('player_kicked', { reason: 'The host closed this game' });
+      this.deleteGame(game.pin);
+      return true;
+    }
     this.transitionToPodium(game);
     return true;
   }
 
-  // Transition to GET_READY screen
   transitionToGetReady(game) {
-    this.clearGameTimer(game.pin);
-    game.state = 'GET_READY';
-    game.lastStateTransitionTime = Date.now();
+    if (!this.setState(game, 'GET_READY')) return;
 
-    const question = game.quiz.questions[game.currentQuestionIndex];
-    const questionInfo = {
-      index: game.currentQuestionIndex + 1,
-      total: game.quiz.questions.length,
-      type: question.type,
-      title: question.title,
-      theme: question.theme || game.quiz.theme || 'spring',
-    };
-
-    // Broadcast state to host and all players
-    this.io.to(game.pin).emit('game_state_changed', {
-      state: 'GET_READY',
-      questionIndex: game.currentQuestionIndex,
-      questionInfo,
-      settings: game.settings,
+    const payload = this.getReadyPayload(game);
+    const q = this.currentQuestion(game);
+    game.logger?.info('GET_READY_INIT', `Question #${game.currentQuestionIndex + 1}: "${q?.title || 'Untitled'}"`, {
+      type: q?.type || 'quiz',
+      timeLimit: q?.timeLimit || 20,
+      points: q?.points ?? 1000,
+      isMultiSelect: Boolean(q?.isMultiSelect),
     });
 
-    saveGameSnapshot(game.gameId, this.serializeGame(game));
+    this.io.to(game.pin).emit('game_state_changed', payload);
 
-    // Automatically transition to QUESTION_ACTIVE after 4 seconds
-    const timerId = setTimeout(() => {
-      this.transitionToQuestionActive(game);
-    }, 4000);
-    this.addGameTimer(game.pin, timerId);
+    const timer = setTimeout(() => {
+      if (game.state === 'GET_READY') {
+        this.transitionToQuestionActive(game);
+      }
+    }, 6000);
+    this.addGameTimer(game.pin, timer);
   }
 
-  // Transition to QUESTION_ACTIVE screen
   transitionToQuestionActive(game) {
-    this.clearGameTimer(game.pin);
-    game.state = 'QUESTION_ACTIVE';
-    game.questionStartTime = Date.now();
-    game.lastStateTransitionTime = Date.now();
+    if (!this.setState(game, 'QUESTION_ACTIVE')) return;
 
-    const question = game.quiz.questions[game.currentQuestionIndex];
-    game.questionTimeLimit = question.timeLimit ?? game.quiz?.defaultTimeLimit ?? 20;
-
-    // Reset answers map for current question
-    if (!game.answers.has(game.currentQuestionIndex)) {
-      game.answers.set(game.currentQuestionIndex, new Map());
+    const question = this.currentQuestion(game);
+    if (!question) {
+      game.logger?.error('QUESTION_ACTIVE_FAILED', 'Current question is missing or undefined');
+      this.transitionToPodium(game);
+      return;
     }
 
-    // Determine option ordering for this question
-    let activeOptions = (question.options || []).map((o, idx) => ({
-      id: o.id,
-      text: o.text,
-      order: o.order ?? idx,
-      isCorrect: o.isCorrect,
-    }));
-
-    // Randomize option order if setting is enabled (applies to quiz and picture_reveal)
-    if (game.settings?.randomizeAnswers && (question.type === 'quiz' || question.type === 'picture_reveal')) {
+    let activeOptions = [...(question.options || [])];
+    if (game.settings.randomizeAnswers && question.type === 'quiz') {
       activeOptions = shuffleArray(activeOptions);
+      game.logger?.info('SETTINGS_APPLIED', `Answer options randomized for Q#${game.currentQuestionIndex + 1}`);
     }
 
-    // Set colorIndex matching the exact visual slot index on screen!
-    activeOptions = activeOptions.map((o, idx) => ({
-      ...o,
-      colorIndex: idx,
-    }));
-
-    // Store activeOptions on game session so question reveal uses identical ordering and colors
     game.currentQuestionOptions = activeOptions;
+    game.questionStartTime = Date.now();
+    game.questionTimeLimit = question.timeLimit || 20;
+    game.answers.set(game.currentQuestionIndex, new Map());
 
-    // Host payload: includes full question data (with options text, images, etc.)
-    const hostPayload = {
-      state: 'QUESTION_ACTIVE',
-      questionIndex: game.currentQuestionIndex,
-      totalQuestions: game.quiz.questions.length,
-      questionStartTime: game.questionStartTime,
-      question: {
-        id: question.id,
-        type: question.type,
-        title: question.title,
-        timeLimit: game.questionTimeLimit,
-        points: question.points ?? game.quiz?.defaultPoints ?? 1000,
-        image: question.image,
-        theme: question.theme || game.quiz?.theme || 'spring',
-        backgroundImage: question.backgroundImage || game.quiz?.backgroundImage,
-        isMultiSelect: question.isMultiSelect,
-        options: activeOptions.map((o, idx) => ({
-          id: o.id,
-          text: o.text,
-          order: o.order ?? idx,
-          colorIndex: o.colorIndex ?? idx,
-        })),
-        numberMin: question.numberMin,
-        numberMax: question.numberMax,
-        tileLevel: question.tileLevel || 'medium',
-        allowMultipleAnswers: question.allowMultipleAnswers,
-        fuzzyMatching: question.fuzzyMatching,
-        fuzzyScorePercentage: question.fuzzyScorePercentage,
-        caseSensitive: question.caseSensitive,
-        acceptedAnswers: question.acceptedAnswers,
-      },
-      answersReceived: 0,
-      totalPlayers: game.players.size,
-    };
+    game.logger?.info('QUESTION_STARTED', `Timer started: ${game.questionTimeLimit}s for Q#${game.currentQuestionIndex + 1}`, {
+      questionId: question.id,
+      optionsCount: activeOptions.length,
+      startedAt: new Date(game.questionStartTime).toISOString(),
+    });
 
-    // Send host payload
+    // Host payload
     if (game.hostSocketId) {
-      this.io.to(game.hostSocketId).emit('question_active', hostPayload);
+      this.io.to(game.hostSocketId).emit('question_active', this.activePayload(game, 'host', activeOptions));
     }
 
-    // Base player options
-    const basePlayerOptions = activeOptions.map((o, idx) => ({
-      id: o.id,
-      text: o.text,
-      order: o.order ?? idx,
-      colorIndex: o.colorIndex ?? idx,
-    }));
-
-    const shuffleOptions = (arr) => {
-      const copy = [...arr];
-      for (let i = copy.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [copy[i], copy[j]] = [copy[j], copy[i]];
-      }
-      return copy;
-    };
-
-    // Issue 20: Broadcast personalized permutation per player for puzzle questions
+    // Player payloads: send sanitized options without order or isCorrect
     for (const player of game.players.values()) {
       if (!player.socketId) continue;
-
-      let playerOptions = basePlayerOptions;
-      if (question.type === 'puzzle') {
-        playerOptions = shuffleOptions(basePlayerOptions);
-        if (playerOptions.length > 1) {
-          let attempts = 0;
-          const isSorted = (opts) => opts.every((o, i) => i === 0 || (o.order ?? 0) >= (opts[i - 1].order ?? 0));
-          while (isSorted(playerOptions) && attempts < 5) {
-            playerOptions = shuffleOptions(basePlayerOptions);
-            attempts++;
-          }
-        }
-      }
-
-      const playerPayload = {
-        state: 'QUESTION_ACTIVE',
-        questionIndex: game.currentQuestionIndex,
-        totalQuestions: game.quiz.questions.length,
-        settings: {
-          showQuestionsOnPlayerScreens: Boolean(game.settings?.showQuestionsOnPlayerScreens),
-        },
-        question: {
-          id: question.id,
-          type: question.type,
-          title: question.title,
-          timeLimit: game.questionTimeLimit,
-          points: question.points ?? game.quiz?.defaultPoints ?? 1000,
-          image: question.image,
-          theme: question.theme || game.quiz?.theme || 'spring',
-          backgroundImage: question.backgroundImage || game.quiz?.backgroundImage,
-          isMultiSelect: question.isMultiSelect,
-          options: playerOptions,
-          numberMin: question.numberMin ?? 0,
-          numberMax: question.numberMax ?? 100,
-          tileLevel: question.tileLevel || 'medium',
-          allowMultipleAnswers: question.allowMultipleAnswers,
-          fuzzyMatching: question.fuzzyMatching,
-        },
-      };
-
-      this.io.to(player.socketId).emit('question_active', playerPayload);
+      const opts = this.playerOptions(game);
+      const alreadyAnswered = Boolean(game.answers.get(game.currentQuestionIndex)?.has(player.userUuid));
+      this.io.to(player.socketId).emit('question_active', {
+        ...this.activePayload(game, 'player', opts),
+        alreadyAnswered,
+      });
     }
 
-    // Set countdown timeout
-    const timerId = setTimeout(() => {
-      this.transitionToQuestionReveal(game);
+    const timer = setTimeout(() => {
+      if (game.state === 'QUESTION_ACTIVE') {
+        this.transitionToQuestionReveal(game);
+      }
     }, game.questionTimeLimit * 1000);
-    this.addGameTimer(game.pin, timerId);
+    this.addGameTimer(game.pin, timer);
   }
 
-  // Player submits answer
-  submitAnswer(pin, playerUuid, answerPayload) {
-    const game = this.games.get(pin);
+  submitAnswer(pinOrId, userUuid, answerPayload) {
+    const game = this.getGameByPinOrId(pinOrId);
     if (!game || game.state !== 'QUESTION_ACTIVE') {
+      game?.logger?.warn('ANSWER_REJECTED', `Answer rejected: state is ${game?.state || 'UNKNOWN'}`, { userUuid, payload: answerPayload });
       return { success: false, error: 'Cannot submit answer right now' };
     }
 
-    // Issue 3: Verify that player actually belongs to this game
-    if (!playerUuid || !game.players.has(playerUuid)) {
+    if (!userUuid || !game.players.has(userUuid)) {
+      game.logger?.warn('ANSWER_REJECTED', 'Player session not found in this game', { userUuid, payload: answerPayload });
       return { success: false, error: 'Player session not found in this game' };
     }
 
     const questionAnswers = game.answers.get(game.currentQuestionIndex);
-    if (!questionAnswers) return { success: false };
+    if (!questionAnswers) {
+      game.logger?.error('ANSWER_REJECTED', `No answer container for Q#${game.currentQuestionIndex + 1}`);
+      return { success: false };
+    }
 
-    // Check if already answered
-    if (questionAnswers.has(playerUuid)) {
-      return { success: false, error: 'Answer already submitted' };
+    // Idempotent submission: duplicate returns success
+    if (questionAnswers.has(userUuid)) {
+      const player = game.players.get(userUuid);
+      game.logger?.unusualRequest('DUPLICATE_ANSWER', player.socketId, { userUuid, nickname: player.nickname, payload: answerPayload });
+      return { success: true, duplicate: true };
     }
 
     const responseTimeMs = Date.now() - game.questionStartTime;
     const record = {
-      userUuid: playerUuid,
+      userUuid,
       answerPayload,
       responseTimeMs,
       submittedAt: Date.now(),
+      scoreResult: null,
     };
 
-    questionAnswers.set(playerUuid, record);
+    questionAnswers.set(userUuid, record);
 
-    // Notify host of answers count
-    const answersCount = questionAnswers.size;
     if (game.hostSocketId) {
       this.io.to(game.hostSocketId).emit('answer_count_updated', {
-        answersReceived: answersCount,
+        answersReceived: questionAnswers.size,
         totalPlayers: game.players.size,
       });
     }
 
-    // Ensure the submitting player is marked connected
-    const submittingPlayer = game.players.get(playerUuid);
+    const submittingPlayer = game.players.get(userUuid);
     if (submittingPlayer) {
       submittingPlayer.connected = true;
     }
 
-    // Check if all players have submitted:
-    // A player is active if they are marked connected OR their socket is currently alive
-    const isPlayerActive = (p) => p.connected || this.isSocketAlive(p.socketId);
-    const activePlayers = Array.from(game.players.values()).filter(isPlayerActive);
+    game.logger?.info('ANSWER_RECEIVED', `Player "${submittingPlayer?.nickname}" (${userUuid}) submitted answer in ${responseTimeMs}ms`, {
+      questionIndex: game.currentQuestionIndex,
+      responseTimeMs,
+      payload: answerPayload,
+      answersCount: questionAnswers.size,
+      totalPlayers: game.players.size,
+    });
 
-    const allRegisteredAnswered = game.players.size > 0 && answersCount >= game.players.size;
-    const allActiveAnswered = activePlayers.length > 0 && answersCount >= activePlayers.length;
-
-    if (allRegisteredAnswered || allActiveAnswered) {
-      // Issue 2: Cancel pending countdown and track early reveal timer in this.timers
-      this.clearGameTimer(game.pin);
-      const earlyRevealTimer = setTimeout(() => {
-        if (game.state === 'QUESTION_ACTIVE') {
-          this.transitionToQuestionReveal(game);
-        }
-      }, 500);
-      this.addGameTimer(game.pin, earlyRevealTimer);
+    if (this.allActivePlayersAnswered(game)) {
+      this.scheduleReveal(game, 500);
     }
 
     return { success: true };
   }
 
-  // Transition to QUESTION_REVEAL
+  applyQuestionScores(game) {
+    const q = this.currentQuestion(game);
+    const results = new Map();
+    if (!q) return results;
+    const answers = game.answers.get(game.currentQuestionIndex) ?? new Map();
+
+    for (const [uuid, player] of game.players.entries()) {
+      const record = answers.get(uuid);
+      const scoreResult = record
+        ? calculateQuestionScore(q, record.answerPayload, record.responseTimeMs)
+        : { points: 0, isCorrect: false, isPartial: false, isExact: false, accuracy: 0, timeScore: 0 };
+
+      if (record) {
+        record.scoreResult = scoreResult;
+      }
+
+      const fullyCorrect = scoreResult.isCorrect && !scoreResult.isPartial;
+      player.streak = fullyCorrect ? player.streak + 1 : scoreResult.isCorrect ? player.streak : 0;
+      const streakBonus = fullyCorrect && q.points > 0 ? calculateStreakBonus(player.streak) : 0;
+      const pointsEarned = scoreResult.points + streakBonus;
+      player.score += pointsEarned;
+
+      results.set(uuid, {
+        scoreResult,
+        pointsEarned,
+      });
+
+      if (record) {
+        game.logger?.answerSubmitted(player, game.currentQuestionIndex, record.answerPayload, { ...scoreResult, points: pointsEarned }, record.responseTimeMs);
+      } else {
+        game.logger?.info('ANSWER_TIMEOUT', `Player "${player.nickname}" (${uuid}) timed out on Q#${game.currentQuestionIndex + 1} (0 points)`);
+      }
+    }
+    return results;
+  }
+
   transitionToQuestionReveal(game) {
-    this.clearGameTimer(game.pin);
-    game.state = 'QUESTION_REVEAL';
+    if (!this.setState(game, 'QUESTION_REVEAL')) return;
 
-    const question = game.quiz.questions[game.currentQuestionIndex];
+    const question = this.currentQuestion(game);
+    if (!question) {
+      this.transitionToPodium(game);
+      return;
+    }
     const questionAnswers = game.answers.get(game.currentQuestionIndex) || new Map();
+    const scoredResults = this.applyQuestionScores(game);
 
-    // Compile vote distribution & calculate individual scores
     const voteDistribution = {};
     (question.options || []).forEach((opt) => {
       voteDistribution[opt.id] = 0;
     });
 
     const playerResults = new Map();
+    const correctOptionIds = (question.options || []).filter((opt) => opt.isCorrect).map((opt) => opt.id);
+    const revealOptionViews = (game.currentQuestionOptions || question.options || []).map((o, idx) => ({
+      id: o.id,
+      text: o.text,
+      isCorrect: Boolean(o.isCorrect),
+      order: o.order ?? idx,
+      colorIndex: o.colorIndex ?? idx,
+    }));
 
     for (const [userUuid, player] of game.players.entries()) {
       const submission = questionAnswers.get(userUuid);
-      let pointsEarned = 0;
-      let isCorrect = false;
-      let accuracy = 0;
+      const { scoreResult, pointsEarned } = scoredResults.get(userUuid);
 
-      let scoreResult;
       if (submission) {
-        // Tally vote distribution
-        if (question.type === 'quiz' || question.type === 'true_false' || question.type === 'yes_no' || question.type === 'picture_reveal') {
-          const selected = Array.isArray(submission.answerPayload?.selected)
-            ? submission.answerPayload.selected
-            : [submission.answerPayload?.selected];
+        if (['quiz', 'true_false', 'yes_no', 'picture_reveal'].includes(question.type)) {
+          const selected = normalizeSelected(submission.answerPayload);
           selected.forEach((id) => {
             if (voteDistribution[id] !== undefined) {
               voteDistribution[id]++;
             }
           });
         }
-
-        scoreResult = calculateQuestionScore(question, submission.answerPayload, submission.responseTimeMs);
-        pointsEarned = scoreResult.points;
-        isCorrect = scoreResult.isCorrect;
-        accuracy = scoreResult.accuracy;
-
-        // In number guessing or partial quiz, don't break streak if partially correct, but only award streak bonus if not partial
-        if (isCorrect && !scoreResult.isPartial) {
-          player.streak += 1;
-          const streakBonus = calculateStreakBonus(player.streak);
-          pointsEarned += streakBonus;
-        } else if (isCorrect && scoreResult.isPartial) {
-          // Keep streak intact, but don't add full bonus
-        } else {
-          player.streak = 0;
-        }
-
-        player.score += pointsEarned;
-      } else {
-        // Didn't answer
-        player.streak = 0;
-        scoreResult = { points: 0, isCorrect: false, isPartial: false, isExact: false, accuracy: 0, timeScore: 0 };
       }
 
-      const correctOptionIds = (question.options || [])
-        .filter((opt) => opt.isCorrect)
-        .map((opt) => opt.id);
-
-      const userSelected = submission
-        ? Array.isArray(submission.answerPayload?.selected)
-          ? submission.answerPayload.selected
-          : submission.answerPayload?.selected
-          ? [submission.answerPayload.selected]
-          : []
-        : [];
+      const userSelected = submission ? normalizeSelected(submission.answerPayload) : [];
 
       playerResults.set(userUuid, {
-        isCorrect,
+        isCorrect: scoreResult.isCorrect,
         isPartial: Boolean(scoreResult.isPartial),
         isExact: Boolean(scoreResult.isExact),
         pointsEarned,
-        accuracy,
+        accuracy: scoreResult.accuracy,
         totalScore: player.score,
         streak: player.streak,
-        // Detailed feedback for player screen
         questionType: question.type,
         isMultiSelect: Boolean(question.isMultiSelect),
         correctOptionIds,
         selectedOptionIds: userSelected,
-        options: (game.currentQuestionOptions || question.options || []).map((o, idx) => ({
-          id: o.id,
-          text: o.text,
-          isCorrect: Boolean(o.isCorrect),
-          order: o.order ?? idx,
-          colorIndex: o.colorIndex ?? idx,
-        })),
+        options: revealOptionViews,
         numberTarget: question.numberTarget,
         playerGuess: submission?.answerPayload?.number,
         userInput: scoreResult.userInput || submission?.answerPayload?.text || submission?.answerPayload?.answers,
@@ -813,9 +894,8 @@ export class GameManager {
       });
     }
 
-    // Puzzle statistics compilation
     let puzzleStats = null;
-    let revealOptions = game.currentQuestionOptions || question.options || [];
+    let revealOptions = revealOptionViews;
 
     if (question.type === 'puzzle') {
       puzzleStats = {
@@ -825,18 +905,13 @@ export class GameManager {
         total: game.players.size,
       };
 
-      for (const [userUuid, player] of game.players.entries()) {
+      for (const [userUuid] of game.players.entries()) {
         const res = playerResults.get(userUuid);
-        if (res && res.isCorrect && !res.isPartial) {
-          puzzleStats.correct++;
-        } else if (res && res.isCorrect && res.isPartial) {
-          puzzleStats.partial++;
-        } else {
-          puzzleStats.wrong++;
-        }
+        if (res && res.isCorrect && !res.isPartial) puzzleStats.correct++;
+        else if (res && res.isCorrect && res.isPartial) puzzleStats.partial++;
+        else puzzleStats.wrong++;
       }
 
-      // Sort reveal options strictly in chronological / correct order (earliest first: 0, 1, 2, 3...)
       revealOptions = [...(question.options || [])]
         .map((opt, originalIdx) => ({
           ...opt,
@@ -846,7 +921,6 @@ export class GameManager {
         .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
     }
 
-    // Number guessing compilation
     const numberGuesses = [];
     if (question.type === 'number_guess') {
       for (const [userUuid, player] of game.players.entries()) {
@@ -866,33 +940,22 @@ export class GameManager {
       numberGuesses.sort((a, b) => a.distance - b.distance);
     }
 
-    // Word guess compilation (for Word Cloud reveal on host)
     const wordSubmissions = {};
     if (question.type === 'word_guess') {
-      for (const [userUuid, player] of game.players.entries()) {
+      for (const [userUuid] of game.players.entries()) {
         const submission = questionAnswers.get(userUuid);
         if (submission) {
-          let words = [];
-          if (Array.isArray(submission.answerPayload?.answers)) {
-            words = submission.answerPayload.answers;
-          } else if (Array.isArray(submission.answerPayload?.selected)) {
-            words = submission.answerPayload.selected;
-          } else if (typeof submission.answerPayload?.text === 'string') {
-            words = [submission.answerPayload.text];
-          } else if (typeof submission.answerPayload?.selected === 'string') {
-            words = [submission.answerPayload.selected];
-          }
+          const words = extractWordInputs(submission.answerPayload);
           words.forEach((w) => {
-            const trimmed = typeof w === 'string' ? w.trim() : '';
-            if (trimmed) {
-              wordSubmissions[trimmed] = (wordSubmissions[trimmed] || 0) + 1;
+            const key = normalizeString(w, Boolean(question.caseSensitive));
+            if (key) {
+              wordSubmissions[key] = (wordSubmissions[key] || 0) + 1;
             }
           });
         }
       }
     }
 
-    // Host reveal data
     const hostRevealPayload = {
       state: 'QUESTION_REVEAL',
       questionIndex: game.currentQuestionIndex,
@@ -902,8 +965,8 @@ export class GameManager {
         title: question.title,
         image: question.image,
         tileLevel: question.tileLevel || 'medium',
-        theme: question.theme || game.quiz.theme || 'spring',
-        backgroundImage: question.backgroundImage || game.quiz.backgroundImage,
+        theme: question.theme || game.quiz?.theme || 'spring',
+        backgroundImage: question.backgroundImage || game.quiz?.backgroundImage,
         options: revealOptions,
         numberTarget: question.numberTarget,
         numberMin: question.numberMin ?? 0,
@@ -920,14 +983,12 @@ export class GameManager {
       totalAnswers: questionAnswers.size,
     };
 
-    game.lastStateTransitionTime = Date.now();
     game.lastRevealPayload = hostRevealPayload;
 
     if (game.hostSocketId) {
       this.io.to(game.hostSocketId).emit('question_reveal', hostRevealPayload);
     }
 
-    // Send individual feedback to each player
     for (const [userUuid, player] of game.players.entries()) {
       if (player.socketId) {
         const result = playerResults.get(userUuid);
@@ -936,251 +997,55 @@ export class GameManager {
     }
 
     game.lastPlayerResults = playerResults;
-    saveGameSnapshot(game.gameId, this.serializeGame(game));
   }
 
-  // Host clicks Next / Skip (debounced with 1000ms cooldown)
-  handleHostNext(pin) {
-    const game = this.games.get(pin);
-    if (!game) return false;
-
-    // Issue 1: Guard against rapid consecutive advances / double clicks
-    if (!this.checkHostCooldown(game)) {
-      return false;
-    }
-
-    if (game.state === 'GET_READY') {
-      this.clearGameTimer(game.pin);
-      game.lastHostTransitionTime = Date.now();
-      game.lastStateTransitionTime = Date.now();
-      this.transitionToQuestionActive(game);
-      return true;
-    }
-
-    if (game.state === 'QUESTION_ACTIVE') {
-      this.clearGameTimer(game.pin);
-      game.lastHostTransitionTime = Date.now();
-      game.lastStateTransitionTime = Date.now();
-      this.transitionToQuestionReveal(game);
-      return true;
-    }
-
-    if (game.state === 'QUESTION_REVEAL') {
-      game.lastHostTransitionTime = Date.now();
-      game.lastStateTransitionTime = Date.now();
-      const isFinalQuestion = game.currentQuestionIndex + 1 >= game.quiz.questions.length;
-      if (isFinalQuestion) {
-        this.transitionToPodium(game);
-      } else {
-        this.transitionToScoreboard(game);
-      }
-      return true;
-    }
-
-    if (game.state === 'SCOREBOARD') {
-      game.lastHostTransitionTime = Date.now();
-      game.lastStateTransitionTime = Date.now();
-      if (game.currentQuestionIndex + 1 < game.quiz.questions.length) {
-        // Next question
-        game.currentQuestionIndex++;
-        this.transitionToGetReady(game);
-      } else {
-        // Grand finale podium
-        this.transitionToPodium(game);
-      }
-      return true;
-    }
-
-    return false;
-  }
-
-  // Host manually skips active question or countdown (debounced with 1000ms cooldown)
-  skipQuestion(pin) {
-    const game = this.games.get(pin);
-    if (!game) return false;
-
-    // Issue 1: Guard against rapid consecutive skips
-    if (!this.checkHostCooldown(game)) {
-      return false;
-    }
-
-    if (game.state === 'GET_READY') {
-      this.clearGameTimer(game.pin);
-      game.lastHostTransitionTime = Date.now();
-      game.lastStateTransitionTime = Date.now();
-      this.transitionToQuestionActive(game);
-      return true;
-    }
-
-    if (game.state === 'QUESTION_ACTIVE') {
-      this.clearGameTimer(game.pin);
-      game.lastHostTransitionTime = Date.now();
-      game.lastStateTransitionTime = Date.now();
-      this.transitionToQuestionReveal(game);
-      return true;
-    }
-
-    return this.handleHostNext(pin);
-  }
-
-  // Host forces skip directly to the next question (bypassing reveal if desired, debounced)
-  skipToNextQuestion(pin) {
-    const game = this.games.get(pin);
-    if (!game) return false;
-
-    // Issue 1: Guard against rapid consecutive skips
-    if (!this.checkHostCooldown(game)) {
-      return false;
-    }
-
-    this.clearGameTimer(game.pin);
-    game.lastHostTransitionTime = Date.now();
-    game.lastStateTransitionTime = Date.now();
-
-    // If question was active, calculate scores for whoever already submitted
-    if (game.state === 'QUESTION_ACTIVE' || game.state === 'GET_READY') {
-      const question = game.quiz.questions[game.currentQuestionIndex];
-      const questionAnswers = game.answers.get(game.currentQuestionIndex) || new Map();
-      for (const [userUuid, player] of game.players.entries()) {
-        const submission = questionAnswers.get(userUuid);
-        if (submission) {
-          const scoreResult = calculateQuestionScore(question, submission.answerPayload, submission.responseTimeMs);
-          if (scoreResult.isCorrect && !scoreResult.isPartial) {
-            player.streak += 1;
-            player.score += scoreResult.points + calculateStreakBonus(player.streak);
-          } else if (scoreResult.isCorrect && scoreResult.isPartial) {
-            player.score += scoreResult.points;
-          } else {
-            player.streak = 0;
-            player.score += scoreResult.points;
-          }
-        } else {
-          player.streak = 0;
-        }
-      }
-    }
-
-    if (game.currentQuestionIndex + 1 < game.quiz.questions.length) {
-      game.currentQuestionIndex++;
-      this.transitionToGetReady(game);
-    } else {
-      this.transitionToPodium(game);
-    }
-    return true;
-  }
-
-  // Transition to SCOREBOARD
   transitionToScoreboard(game) {
-    this.clearGameTimer(game.pin);
-    game.state = 'SCOREBOARD';
-    game.lastStateTransitionTime = Date.now();
+    if (!this.setState(game, 'SCOREBOARD')) return;
 
-    // Sort players by score descending
-    const sortedPlayers = Array.from(game.players.values())
-      .sort((a, b) => b.score - a.score)
-      .map((p, idx) => ({
-        rank: idx + 1,
-        userUuid: p.userUuid,
-        nickname: p.nickname,
-        avatar: p.avatar,
-        score: p.score,
-        streak: p.streak,
-      }));
+    const leaderboard = rankPlayers(game.players).slice(0, 5);
+    game.logger?.info('SCOREBOARD_STATS', `Scoreboard for Q#${game.currentQuestionIndex + 1}`, {
+      top5: leaderboard.map((p) => ({ rank: p.rank, nickname: p.nickname, score: p.score })),
+    });
 
-    const top5 = sortedPlayers.slice(0, 5);
     const scoreboardPayload = {
       state: 'SCOREBOARD',
-      questionIndex: game.currentQuestionIndex + 1,
+      questionIndex: game.currentQuestionIndex,
       totalQuestions: game.quiz.questions.length,
-      leaderboard: top5,
+      leaderboard,
     };
 
     game.lastScoreboardPayload = scoreboardPayload;
 
-    // Host scoreboard payload
     if (game.hostSocketId) {
       this.io.to(game.hostSocketId).emit('scoreboard_update', scoreboardPayload);
     }
 
-    // Notify each player of their personal standing
-    sortedPlayers.forEach((playerStanding) => {
-      const player = game.players.get(playerStanding.userUuid);
-      if (player && player.socketId) {
-        const leaderScore = sortedPlayers[0]?.score || 0;
-        this.io.to(player.socketId).emit('player_standing', {
-          rank: playerStanding.rank,
-          score: player.score,
-          pointsBehindLeader: Math.max(0, leaderScore - player.score),
-          leaderName: sortedPlayers[0]?.nickname || '',
-          isOnLeaderboard: playerStanding.rank <= 5,
-        });
+    for (const [userUuid, player] of game.players.entries()) {
+      if (player.socketId) {
+        this.io.to(player.socketId).emit('player_standing', this.standingFor(game, userUuid));
       }
-    });
-
-    saveGameSnapshot(game.gameId, this.serializeGame(game));
+    }
   }
 
-  // Transition to PODIUM (Final celebration)
-  transitionToPodium(game) {
-    this.clearGameTimer(game.pin);
-    game.state = 'PODIUM';
-    game.lastStateTransitionTime = Date.now();
-    game.podiumReachedAt = Date.now();
+  recordResults(game) {
+    if (game.resultsRecorded) return;
+    game.resultsRecorded = true;
 
-    const rankedPlayers = Array.from(game.players.values())
-      .sort((a, b) => b.score - a.score)
-      .map((p, idx) => ({
-        rank: idx + 1,
-        userUuid: p.userUuid,
-        nickname: p.nickname,
-        avatar: p.avatar,
-        score: p.score,
-      }));
-
-    const podiumData = {
-      state: 'PODIUM',
-      first: rankedPlayers[0] || null,
-      second: rankedPlayers[1] || null,
-      third: rankedPlayers[2] || null,
-      runnersUp: rankedPlayers.slice(3, 10),
-      totalPlayers: rankedPlayers.length,
-    };
-
-    game.lastPodiumPayload = podiumData;
-
-    if (game.hostSocketId) {
-      this.io.to(game.hostSocketId).emit('podium_update', podiumData);
-    }
-
-    // Notify all players of final podium celebration
-    for (const player of game.players.values()) {
-      if (player.socketId) {
-        const myRankInfo = rankedPlayers.find((r) => r.userUuid === player.userUuid);
-        this.io.to(player.socketId).emit('final_results', {
-          rank: myRankInfo ? myRankInfo.rank : 0,
-          totalScore: player.score,
-          firstPlace: rankedPlayers[0],
-          isWinner: myRankInfo ? myRankInfo.rank === 1 : false,
-          isPodium: myRankInfo ? myRankInfo.rank <= 3 : false,
-        });
-      }
-    }
-
-    saveGameSnapshot(game.gameId, this.serializeGame(game));
-
-    // Archive Game Report
     try {
       generateGameReport(game);
     } catch (err) {
       console.error('Failed to generate game report:', err);
     }
 
-    // Update Player Profiles & Career Stats
     try {
-      const totalQuestions = Math.min(
-        game.quiz.questions.length,
-        (game.currentQuestionIndex !== undefined ? game.currentQuestionIndex + 1 : game.quiz.questions.length)
-      );
+      const isGetReady = game.state === 'GET_READY' || game.prevState === 'GET_READY';
+      const quizLength = game.quiz?.questions?.length || 0;
+      const totalQuestions =
+        game.currentQuestionIndex !== undefined && game.currentQuestionIndex !== null && game.currentQuestionIndex >= 0
+          ? Math.min(quizLength, isGetReady ? Math.max(0, game.currentQuestionIndex) : game.currentQuestionIndex + 1)
+          : (game.currentQuestionIndex === -1 ? 0 : quizLength);
+      const rankedPlayers = rankPlayers(game.players);
+
       for (const [userUuid, player] of game.players.entries()) {
         const myRankInfo = rankedPlayers.find((r) => r.userUuid === userUuid);
         const rank = myRankInfo ? myRankInfo.rank : rankedPlayers.length;
@@ -1190,9 +1055,8 @@ export class GameManager {
           const qAnswers = game.answers.get(qIdx);
           const sub = qAnswers ? qAnswers.get(userUuid) : null;
           if (sub) {
-            const q = game.quiz.questions[qIdx];
-            const scoreRes = calculateQuestionScore(q, sub.answerPayload, sub.responseTimeMs);
-            if (scoreRes.isCorrect) correctCount++;
+            const isCorrect = sub.scoreResult?.isCorrect ?? calculateQuestionScore(game.quiz.questions[qIdx], sub.answerPayload, sub.responseTimeMs).isCorrect;
+            if (isCorrect) correctCount++;
           }
         }
         const accuracy = totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
@@ -1201,7 +1065,7 @@ export class GameManager {
           pin: game.pin,
           gamePin: game.pin,
           gameId: game.gameId,
-          quizTitle: game.quiz.title,
+          quizTitle: game.quiz?.title || 'Quiz',
           score: player.score,
           rank,
           totalPlayers: rankedPlayers.length,
@@ -1218,96 +1082,118 @@ export class GameManager {
     }
   }
 
-  // Handle socket disconnect
+  transitionToPodium(game) {
+    const wasActive = game.state === 'QUESTION_ACTIVE';
+    if (!this.setState(game, 'PODIUM')) return;
+    if (wasActive) {
+      this.applyQuestionScores(game);
+    }
+    game.podiumReachedAt = Date.now();
+
+    const rankedPlayers = rankPlayers(game.players);
+    const podiumRanks = rankedPlayers.slice(0, 3).map((p) => ({ rank: p.rank, nickname: p.nickname, score: p.score }));
+    game.logger?.gameEnded({
+      totalPlayers: rankedPlayers.length,
+      totalQuestions: game.quiz?.questions?.length || 0,
+      podium: podiumRanks,
+    });
+
+    const podiumData = {
+      state: 'PODIUM',
+      first: rankedPlayers[0] || null,
+      second: rankedPlayers[1] || null,
+      third: rankedPlayers[2] || null,
+      runnersUp: rankedPlayers.slice(3, 10),
+      totalPlayers: rankedPlayers.length,
+    };
+
+    game.lastPodiumPayload = podiumData;
+
+    if (game.hostSocketId) {
+      this.io.to(game.hostSocketId).emit('podium_update', podiumData);
+    }
+
+    // Notify all players of final podium celebration (strip firstPlace to prevent userUuid leakage)
+    for (const player of game.players.values()) {
+      if (player.socketId) {
+        this.io.to(player.socketId).emit('final_results', this.finalResultFor(game, player.userUuid));
+      }
+    }
+
+    this.recordResults(game);
+  }
+
+  handleHostNext(pinOrId) {
+    const game = this.getGameByPinOrId(pinOrId);
+    if (!game || !this.checkHostCooldown(game)) return false;
+
+    const isLast = game.currentQuestionIndex + 1 >= (game.quiz?.questions?.length || 0);
+    game.logger?.info('HOST_ACTION', `Host clicked Next / Skip in state ${game.state}`, {
+      questionIndex: game.currentQuestionIndex,
+      isLast,
+    });
+
+    const step = {
+      GET_READY: () => this.transitionToQuestionActive(game),
+      QUESTION_ACTIVE: () => this.transitionToQuestionReveal(game),
+      QUESTION_REVEAL: () => (isLast ? this.transitionToPodium(game) : this.transitionToScoreboard(game)),
+      SCOREBOARD: () => {
+        game.currentQuestionIndex++;
+        this.transitionToGetReady(game);
+      },
+    }[game.state];
+
+    if (!step) return false;
+    game.lastHostTransitionTime = Date.now();
+    step();
+    return true;
+  }
+
   handleDisconnect(socketId) {
     const info = this.socketToGame.get(socketId);
     if (!info) return;
+
+    this.socketToGame.delete(socketId);
 
     const game = this.games.get(info.pin);
     if (!game) return;
 
     if (info.role === 'host') {
       console.log(`Host disconnected from game PIN ${info.pin}`);
-      // Host may reconnect
+      game.logger?.info('HOST_DISCONNECT', `Host socket ${socketId} disconnected from game PIN ${info.pin}`);
     } else if (info.role === 'player') {
       const player = game.players.get(info.userUuid);
-      // Only mark disconnected if the disconnecting socket is actually the player's current active socket
       if (player && player.socketId === socketId) {
         player.connected = false;
         console.log(`Player ${player.nickname} disconnected from game PIN ${info.pin}`);
+        game.logger?.playerDisconnected(player, socketId, 'WebSocket disconnected');
         this.notifyHostPlayersUpdate(game);
 
-        // Issue 9: If in QUESTION_ACTIVE and all remaining connected players have answered,
-        // transition to reveal immediately without hanging
-        if (game.state === 'QUESTION_ACTIVE') {
-          const isPlayerActive = (p) => p.connected || this.isSocketAlive(p.socketId);
-          const activePlayers = Array.from(game.players.values()).filter(isPlayerActive);
-          const questionAnswers = game.answers.get(game.currentQuestionIndex);
-          if (questionAnswers) {
-            const allAnswered =
-              (activePlayers.length > 0 && activePlayers.every((p) => questionAnswers.has(p.userUuid))) ||
-              (game.players.size > 0 && questionAnswers.size >= game.players.size);
-            if (allAnswered) {
-              this.clearGameTimer(game.pin);
-              this.transitionToQuestionReveal(game);
-            }
-          }
+        if (game.state === 'QUESTION_ACTIVE' && this.allActivePlayersAnswered(game)) {
+          this.scheduleReveal(game, 500);
         }
       }
     }
-
-    this.socketToGame.delete(socketId);
   }
 
-  // Helper: Construct complete active question payload for host
-  getHostActivePayload(game) {
-    if (!game || game.currentQuestionIndex < 0) return null;
-    const question = game.quiz?.questions?.[game.currentQuestionIndex];
-    if (!question) return null;
-
-    const now = Date.now();
-    const elapsedMs = Math.max(0, now - (game.questionStartTime || now));
-    const totalDurationMs = (game.questionTimeLimit || 20) * 1000;
-    const remainingTimeMs = Math.max(0, totalDurationMs - elapsedMs);
-    const remainingSeconds = Math.ceil(remainingTimeMs / 1000);
-
-    const questionAnswers = game.answers.get(game.currentQuestionIndex) || new Map();
-    const activeOptions = game.currentQuestionOptions || (question.options || []).map((o, idx) => ({
-      id: o.id,
-      text: o.text,
-      order: o.order ?? idx,
-      colorIndex: o.colorIndex ?? idx,
-    }));
-
-    return {
-      state: 'QUESTION_ACTIVE',
-      questionIndex: game.currentQuestionIndex,
-      totalQuestions: game.quiz.questions.length,
-      remainingTimeMs,
-      remainingSeconds,
-      questionStartTime: game.questionStartTime,
-      answersReceived: questionAnswers.size,
-      totalPlayers: game.players.size,
-      question: {
-        id: question.id,
-        type: question.type,
-        title: question.title,
-        timeLimit: game.questionTimeLimit,
-        remainingTimeMs,
-        remainingSeconds,
-        points: question.points ?? game.quiz?.defaultPoints ?? 1000,
-        image: question.image,
-        theme: question.theme || game.quiz?.theme || 'spring',
-        backgroundImage: question.backgroundImage || game.quiz?.backgroundImage,
-        isMultiSelect: question.isMultiSelect,
-        options: activeOptions,
-        numberMin: question.numberMin,
-        numberMax: question.numberMax,
-      },
-    };
+  getActiveSessionForUser(userUuid) {
+    if (!userUuid) return null;
+    for (const game of this.games.values()) {
+      if (game.state === 'PODIUM') continue;
+      const player = game.players.get(userUuid);
+      if (player) {
+        return {
+          pin: game.pin,
+          gameId: game.gameId,
+          gameState: game.state,
+          quizTitle: game.quiz?.title,
+          player: toPublicPlayer(player),
+        };
+      }
+    }
+    return null;
   }
 
-  // Issue 16: Complete host state data for reconnection so host screen is never blank
   getHostStateData(pinOrId) {
     const game = this.getGameByPinOrId(pinOrId);
     if (!game) return null;
@@ -1318,42 +1204,34 @@ export class GameManager {
       gameId: game.gameId,
       quizTitle: game.quiz?.title,
       totalQuestions: game.quiz?.questions?.length || 0,
-      qrCodeDataUrl: game.qrCodeDataUrl,
       state: game.state,
       settings: game.settings,
-      players: Array.from(game.players.values()).map((p) => ({
-        userUuid: p.userUuid,
-        nickname: p.nickname,
-        avatar: p.avatar,
-        score: p.score,
-        streak: p.streak,
-        connected: p.connected,
-      })),
+      players: Array.from(game.players.values()).map(toPublicPlayer),
       currentQuestionIndex: game.currentQuestionIndex,
     };
 
     if (game.state === 'GET_READY') {
-      const q = game.quiz?.questions?.[game.currentQuestionIndex];
+      const q = this.currentQuestion(game);
       if (q) {
         baseData.currentQuestion = {
           id: q.id,
           title: q.title,
           type: q.type,
           timeLimit: q.timeLimit,
-          points: q.points,
-          imageUrl: q.imageUrl,
+          points: q.points !== undefined ? q.points : 1000,
+          isMultiSelect: Boolean(q.isMultiSelect),
+          image: q.image,
           index: game.currentQuestionIndex + 1,
           total: game.quiz.questions.length,
           options: (q.options || []).map((o, idx) => ({
             id: o.id,
             text: o.text,
-            order: o.order ?? idx,
             colorIndex: o.colorIndex ?? idx,
           })),
         };
       }
     } else if (game.state === 'QUESTION_ACTIVE') {
-      const activePayload = this.getHostActivePayload(game);
+      const activePayload = this.activePayload(game, 'host', game.currentQuestionOptions);
       baseData.activeQuestionData = activePayload;
       baseData.currentQuestion = activePayload?.question;
       baseData.questionStartTime = game.questionStartTime;

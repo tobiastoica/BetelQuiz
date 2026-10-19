@@ -7,6 +7,7 @@ interface PictureRevealGridProps {
   tileLevel?: TileLevel;
   durationSeconds?: number;
   timeRemaining?: number;
+  endsAt?: number;
   fullyRevealed?: boolean;
   className?: string;
 }
@@ -16,6 +17,7 @@ export const PictureRevealGrid: React.FC<PictureRevealGridProps> = ({
   tileLevel = 'medium',
   durationSeconds = 20,
   timeRemaining,
+  endsAt,
   fullyRevealed = false,
   className = '',
 }) => {
@@ -54,6 +56,18 @@ export const PictureRevealGrid: React.FC<PictureRevealGridProps> = ({
       return;
     }
 
+    if (endsAt && durationSeconds > 0) {
+      const updateFromEndsAt = () => {
+        const remainingMs = Math.max(0, endsAt - Date.now());
+        const totalMs = durationSeconds * 1000;
+        const elapsed = Math.max(0, totalMs - remainingMs);
+        setLocalProgress(Math.min(1, elapsed / totalMs));
+      };
+      updateFromEndsAt();
+      const interval = setInterval(updateFromEndsAt, 200);
+      return () => clearInterval(interval);
+    }
+
     if (timeRemaining !== undefined && durationSeconds > 0) {
       const elapsed = Math.max(0, durationSeconds - timeRemaining);
       setLocalProgress(Math.min(1, elapsed / durationSeconds));
@@ -70,7 +84,7 @@ export const PictureRevealGrid: React.FC<PictureRevealGridProps> = ({
     }, 200);
 
     return () => clearInterval(interval);
-  }, [durationSeconds, timeRemaining, fullyRevealed]);
+  }, [durationSeconds, timeRemaining, endsAt, fullyRevealed]);
 
   // Number of tiles that should be removed based on progress
   const tilesToRemoveCount = fullyRevealed
@@ -121,17 +135,17 @@ export const PictureRevealGrid: React.FC<PictureRevealGridProps> = ({
               className={`relative flex items-center justify-center transition-all duration-700 ease-out ${
                 isDissolved
                   ? 'opacity-0 scale-90 pointer-events-none'
-                  : 'opacity-100 scale-100 bg-gradient-to-br from-indigo-700 via-indigo-900 to-purple-950 border border-indigo-400/30 shadow-md'
+                  : 'opacity-100 scale-100 bg-gradient-to-br from-[#1E2756] via-[#131938] to-[#0B0F24] border border-[#FAC747]/20 shadow-md'
               }`}
             >
               {!isDissolved && (
-                <div className="flex flex-col items-center justify-center text-indigo-300/40 pointer-events-none">
+                <div className="flex flex-col items-center justify-center text-[#FAC747]/40 pointer-events-none">
                   {tileLevel === 'small' ? (
-                    <Sparkles className="w-8 h-8 opacity-60" />
+                    <Sparkles className="w-8 h-8 opacity-60 text-[#FAC747]" />
                   ) : tileLevel === 'medium' ? (
-                    <HelpCircle className="w-5 h-5 opacity-50" />
+                    <HelpCircle className="w-5 h-5 opacity-50 text-[#FAC747]" />
                   ) : (
-                    <span className="w-2 h-2 rounded-full bg-indigo-400/40" />
+                    <span className="w-2 h-2 rounded-full bg-[#FAC747]/40" />
                   )}
                 </div>
               )}

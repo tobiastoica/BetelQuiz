@@ -1,10 +1,19 @@
 import fs from 'fs';
 import path from 'path';
-import { DATA_DIR, QUIZZES_DIR, GAMES_DIR, UPLOADS_DIR, PROFILES_DIR, REPORTS_DIR } from './config.js';
+import { DATA_DIR, QUIZZES_DIR, UPLOADS_DIR, PROFILES_DIR, REPORTS_DIR } from './config.js';
+import { isValidId, writeJsonAtomic, readJsonDir } from './fsUtils.js';
+
+export function normalizePuzzleOrder(q) {
+  if (!q || q.type !== 'puzzle') return q;
+  const sorted = (q.options || [])
+    .map((o, i) => ({ ...o, order: o.order ?? i }))
+    .sort((a, b) => a.order - b.order);
+  return { ...q, options: sorted.map((o, i) => ({ ...o, order: i })) };
+}
 
 // Ensure directories exist
 export function initStorage() {
-  [DATA_DIR, QUIZZES_DIR, GAMES_DIR, UPLOADS_DIR, PROFILES_DIR, REPORTS_DIR].forEach((dir) => {
+  [DATA_DIR, QUIZZES_DIR, UPLOADS_DIR, PROFILES_DIR, REPORTS_DIR].forEach((dir) => {
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
@@ -19,35 +28,23 @@ export function initStorage() {
 
 export function listQuizzes() {
   try {
-    if (!fs.existsSync(QUIZZES_DIR)) return [];
-    const files = fs.readdirSync(QUIZZES_DIR).filter((f) => f.endsWith('.json'));
-    const list = [];
-    for (const file of files) {
-      try {
-        const content = fs.readFileSync(path.join(QUIZZES_DIR, file), 'utf-8');
-        const parsed = JSON.parse(content);
-        list.push({
-          id: parsed.id,
-          title: parsed.title,
-          description: parsed.description || '',
-          coverImage: parsed.coverImage || '',
-          theme: parsed.theme || 'spring',
-          questionCount: Array.isArray(parsed.questions) ? parsed.questions.length : 0,
-          updatedAt: parsed.updatedAt || new Date().toISOString(),
-        });
-      } catch (err) {
-        console.error(`Error reading quiz file ${file}:`, err);
-      }
-    }
+    const rawQuizzes = readJsonDir(QUIZZES_DIR);
+    const list = rawQuizzes.map((parsed) => ({
+      id: parsed.id,
+      title: parsed.title,
+      description: parsed.description || '',
+      coverImage: parsed.coverImage || '',
+      theme: parsed.theme || 'spring',
+      defaultTimeLimit: parsed.defaultTimeLimit ?? 20,
+      defaultPoints: parsed.defaultPoints ?? 1000,
+      questionCount: Array.isArray(parsed.questions) ? parsed.questions.length : 0,
+      updatedAt: parsed.updatedAt || new Date().toISOString(),
+    }));
     return list.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
   } catch (err) {
     console.error('Error listing quizzes:', err);
     return [];
   }
-}
-
-function isValidId(id) {
-  return typeof id === 'string' && /^[a-zA-Z0-9_-]+$/.test(id);
 }
 
 export function getQuizById(id) {
@@ -56,7 +53,16 @@ export function getQuizById(id) {
     const filePath = path.join(QUIZZES_DIR, `${id}.json`);
     if (!fs.existsSync(filePath)) return null;
     const content = fs.readFileSync(filePath, 'utf-8');
-    return JSON.parse(content);
+    const parsed = JSON.parse(content);
+    if (parsed) {
+      if (parsed.defaultTimeLimit === undefined) parsed.defaultTimeLimit = 20;
+      if (parsed.defaultPoints === undefined) parsed.defaultPoints = 1000;
+      if (!parsed.theme) parsed.theme = 'spring';
+    }
+    if (Array.isArray(parsed?.questions)) {
+      parsed.questions = parsed.questions.map(normalizePuzzleOrder);
+    }
+    return parsed;
   } catch (err) {
     console.error(`Error getting quiz ${id}:`, err);
     return null;
@@ -72,8 +78,20 @@ export function saveQuiz(quiz) {
     if (!quiz.createdAt) {
       quiz.createdAt = quiz.updatedAt;
     }
+    quiz.defaultTimeLimit = quiz.defaultTimeLimit ?? 20;
+    quiz.defaultPoints = quiz.defaultPoints ?? 1000;
+    quiz.theme = quiz.theme || 'spring';
+    if (Array.isArray(quiz.questions)) {
+      quiz.questions = quiz.questions.map((q) => {
+        let question = { ...q };
+        if (['quiz', 'true_false', 'yes_no', 'picture_reveal'].includes(question.type) && Array.isArray(question.options)) {
+          question.options = question.options.filter((opt) => Boolean(opt && opt.text && opt.text.trim() !== ''));
+        }
+        return normalizePuzzleOrder(question);
+      });
+    }
     const filePath = path.join(QUIZZES_DIR, `${quiz.id}.json`);
-    fs.writeFileSync(filePath, JSON.stringify(quiz, null, 2), 'utf-8');
+    writeJsonAtomic(filePath, quiz);
     return quiz;
   } catch (err) {
     console.error('Error saving quiz:', err);
@@ -96,37 +114,11 @@ export function deleteQuiz(id) {
   }
 }
 
-export function saveGameSnapshot(gameId, gameState) {
-  try {
-    if (!isValidId(gameId)) return;
-    const filePath = path.join(GAMES_DIR, `${gameId}.json`);
-    const data = JSON.stringify(gameState, null, 2);
-    fs.promises.writeFile(filePath, data, 'utf-8').catch((err) => {
-      console.error(`Error saving game snapshot ${gameId}:`, err);
-    });
-  } catch (err) {
-    console.error(`Error saving game snapshot ${gameId}:`, err);
-  }
-}
-
-export function loadGameSnapshot(gameId) {
-  try {
-    if (!isValidId(gameId)) return null;
-    const filePath = path.join(GAMES_DIR, `${gameId}.json`);
-    if (fs.existsSync(filePath)) {
-      return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-    }
-  } catch (err) {
-    console.error(`Error loading game snapshot ${gameId}:`, err);
-  }
-  return null;
-}
-
 export function createSampleQuiz() {
   const sampleQuiz = {
     id: 'sample-master-quiz',
     title: 'BetelQuiz Master Showcase',
-    description: 'Showcasing all 5 question types, image media, multi-select, puzzle ranking, and number guessing!',
+    description: 'Showcasing all question types, image media, multi-select, puzzle ranking, and number guessing!',
     coverImage: '',
     theme: 'spring',
     createdAt: new Date().toISOString(),
@@ -144,8 +136,8 @@ export function createSampleQuiz() {
           { id: 'opt_1', text: 'Mars', isCorrect: true },
           { id: 'opt_2', text: 'Venus', isCorrect: false },
           { id: 'opt_3', text: 'Jupiter', isCorrect: false },
-          { id: 'opt_4', text: 'Saturn', isCorrect: false }
-        ]
+          { id: 'opt_4', text: 'Saturn', isCorrect: false },
+        ],
       },
       {
         id: 'q2',
@@ -161,8 +153,8 @@ export function createSampleQuiz() {
           { id: 'opt_3', text: '9', isCorrect: false },
           { id: 'opt_4', text: '13', isCorrect: true },
           { id: 'opt_5', text: '15', isCorrect: false },
-          { id: 'opt_6', text: '19', isCorrect: true }
-        ]
+          { id: 'opt_6', text: '19', isCorrect: true },
+        ],
       },
       {
         id: 'q3',
@@ -173,8 +165,8 @@ export function createSampleQuiz() {
         theme: 'autumn',
         options: [
           { id: 'tf_true', text: 'True', isCorrect: false },
-          { id: 'tf_false', text: 'False', isCorrect: true }
-        ]
+          { id: 'tf_false', text: 'False', isCorrect: true },
+        ],
       },
       {
         id: 'q4',
@@ -185,8 +177,8 @@ export function createSampleQuiz() {
         theme: 'winter',
         options: [
           { id: 'yn_yes', text: 'Yes', isCorrect: true },
-          { id: 'yn_no', text: 'No', isCorrect: false }
-        ]
+          { id: 'yn_no', text: 'No', isCorrect: false },
+        ],
       },
       {
         id: 'q5',
@@ -197,10 +189,10 @@ export function createSampleQuiz() {
         theme: 'dark',
         options: [
           { id: 'puz_1', text: 'Invention of the Printing Press (1440)', isCorrect: true, order: 0 },
-          { id: 'puz_2', text: 'First Moon Landing (1969)', isCorrect: true, order: 2 },
           { id: 'puz_3', text: 'Declaration of Independence (1776)', isCorrect: true, order: 1 },
-          { id: 'puz_4', text: 'Launch of the World Wide Web (1991)', isCorrect: true, order: 3 }
-        ]
+          { id: 'puz_2', text: 'First Moon Landing (1969)', isCorrect: true, order: 2 },
+          { id: 'puz_4', text: 'Launch of the World Wide Web (1991)', isCorrect: true, order: 3 },
+        ],
       },
       {
         id: 'q6',
@@ -212,9 +204,9 @@ export function createSampleQuiz() {
         numberTarget: 2013,
         numberMin: 1990,
         numberMax: 2030,
-        options: []
-      }
-    ]
+        options: [],
+      },
+    ],
   };
 
   saveQuiz(sampleQuiz);

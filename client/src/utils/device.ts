@@ -36,7 +36,9 @@ export function onDeviceUuidChange(callback: (uuid: string) => void): () => void
   if (cachedDeviceUuid && isValidUuid(cachedDeviceUuid)) {
     try {
       callback(cachedDeviceUuid);
-    } catch {}
+    } catch (err) {
+      console.error('Error calling device UUID change callback:', err);
+    }
   }
   return () => {
     listeners.delete(callback);
@@ -54,7 +56,9 @@ function readCookie(): string | null {
       const decoded = decodeURIComponent(match[3]).trim();
       return isValidUuid(decoded) ? decoded : null;
     }
-  } catch {}
+  } catch (err) {
+    console.warn('Failed to read device UUID from cookie:', err);
+  }
   return null;
 }
 
@@ -64,7 +68,9 @@ function writeCookie(uuid: string): void {
     // 10 years expiration
     const maxAge = 10 * 365 * 24 * 60 * 60;
     document.cookie = `${COOKIE_NAME}=${encodeURIComponent(uuid)}; path=/; max-age=${maxAge}; SameSite=Lax`;
-  } catch {}
+  } catch (err) {
+    console.warn('Failed to write device UUID to cookie:', err);
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -75,7 +81,8 @@ function readLocalStorage(): string | null {
   try {
     const val = (localStorage.getItem(STORAGE_KEY) || '').trim();
     return isValidUuid(val) ? val : null;
-  } catch {
+  } catch (err) {
+    console.warn('Failed to read device UUID from localStorage:', err);
     return null;
   }
 }
@@ -84,7 +91,9 @@ function writeLocalStorage(uuid: string): void {
   if (typeof localStorage === 'undefined' || !isValidUuid(uuid)) return;
   try {
     localStorage.setItem(STORAGE_KEY, uuid);
-  } catch {}
+  } catch (err) {
+    console.warn('Failed to write device UUID to localStorage:', err);
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -114,7 +123,9 @@ function readIndexedDB(): Promise<string | null> {
           if (!db.objectStoreNames.contains(IDB_STORE_NAME)) {
             db.createObjectStore(IDB_STORE_NAME);
           }
-        } catch {}
+        } catch (err) {
+          console.warn('Failed to create IndexedDB object store:', err);
+        }
       };
 
       request.onsuccess = () => {
@@ -141,14 +152,16 @@ function readIndexedDB(): Promise<string | null> {
             }
           };
 
-          getReq.onerror = () => {
+          getReq.onerror = (e) => {
+            console.warn('IndexedDB read request error:', e);
             if (!settled) {
               settled = true;
               clearTimeout(timer);
               resolve(null);
             }
           };
-        } catch {
+        } catch (err) {
+          console.warn('IndexedDB transaction error:', err);
           if (!settled) {
             settled = true;
             clearTimeout(timer);
@@ -157,14 +170,16 @@ function readIndexedDB(): Promise<string | null> {
         }
       };
 
-      request.onerror = () => {
+      request.onerror = (e) => {
+        console.warn('IndexedDB open error:', e);
         if (!settled) {
           settled = true;
           clearTimeout(timer);
           resolve(null);
         }
       };
-    } catch {
+    } catch (err) {
+      console.warn('IndexedDB access error:', err);
       if (!settled) {
         settled = true;
         clearTimeout(timer);
@@ -189,7 +204,9 @@ function writeIndexedDB(uuid: string): Promise<boolean> {
           if (!db.objectStoreNames.contains(IDB_STORE_NAME)) {
             db.createObjectStore(IDB_STORE_NAME);
           }
-        } catch {}
+        } catch (err) {
+          console.warn('Failed to upgrade IndexedDB on write:', err);
+        }
       };
 
       request.onsuccess = () => {
@@ -200,14 +217,22 @@ function writeIndexedDB(uuid: string): Promise<boolean> {
           store.put(uuid, IDB_KEY);
 
           tx.oncomplete = () => resolve(true);
-          tx.onerror = () => resolve(false);
-        } catch {
+          tx.onerror = (e) => {
+            console.warn('IndexedDB write transaction error:', e);
+            resolve(false);
+          };
+        } catch (err) {
+          console.warn('IndexedDB write execution error:', err);
           resolve(false);
         }
       };
 
-      request.onerror = () => resolve(false);
-    } catch {
+      request.onerror = (e) => {
+        console.warn('IndexedDB write open error:', e);
+        resolve(false);
+      };
+    } catch (err) {
+      console.warn('IndexedDB write error:', err);
       resolve(false);
     }
   });
@@ -226,7 +251,8 @@ async function readCache(): Promise<string | null> {
     if (!response) return null;
     const text = (await response.text()).trim();
     return isValidUuid(text) ? text : null;
-  } catch {
+  } catch (err) {
+    console.warn('Failed to read device UUID from Cache API:', err);
     return null;
   }
 }
@@ -244,7 +270,8 @@ async function writeCache(uuid: string): Promise<boolean> {
       })
     );
     return true;
-  } catch {
+  } catch (err) {
+    console.warn('Failed to write device UUID to Cache API:', err);
     return false;
   }
 }
@@ -253,11 +280,9 @@ async function writeCache(uuid: string): Promise<boolean> {
 // Resilient Multi-Store Synchronization & Self-Healing
 // ---------------------------------------------------------------------------
 
-let provisionalUuid: string | null = null;
-
 /**
  * Runs a full 4-tier check (Cookie, LocalStorage, IndexedDB, Cache API).
- * Detects any surviving UUID, and if any stores were cleared, self-heals them.
+ * Detects any surviving authoritative UUID, and if any stores were cleared, self-heals them.
  * If no store had a UUID, securely creates one and propagates it to all 4 stores.
  */
 export async function syncResilientDeviceUuid(): Promise<string> {
@@ -273,25 +298,19 @@ export async function syncResilientDeviceUuid(): Promise<string> {
       // Read asynchronous stores in parallel
       const [idbVal, cacheVal] = await Promise.all([readIndexedDB(), readCache()]);
 
-      // Determine the authoritative surviving UUID
-      // Check IDB & Cache first, or non-provisional cookie / localStorage
+      // Determine authoritative surviving UUID across all 4 tiers
       let surviving: string | null = null;
       if (idbVal && isValidUuid(idbVal)) {
         surviving = idbVal;
       } else if (cacheVal && isValidUuid(cacheVal)) {
         surviving = cacheVal;
-      } else if (cookieVal && isValidUuid(cookieVal) && cookieVal !== provisionalUuid) {
-        surviving = cookieVal;
-      } else if (localVal && isValidUuid(localVal) && localVal !== provisionalUuid) {
-        surviving = localVal;
       } else if (cookieVal && isValidUuid(cookieVal)) {
         surviving = cookieVal;
       } else if (localVal && isValidUuid(localVal)) {
         surviving = localVal;
       }
 
-      const authoritativeUuid = surviving || provisionalUuid || uuidv4();
-      provisionalUuid = null;
+      const authoritativeUuid = surviving || uuidv4();
       const oldCached = cachedDeviceUuid;
       cachedDeviceUuid = authoritativeUuid;
 
@@ -311,10 +330,10 @@ export async function syncResilientDeviceUuid(): Promise<string> {
 
       // Request persistent storage from browser to prevent eviction under disk pressure
       if (typeof navigator !== 'undefined' && navigator.storage && typeof navigator.storage.persist === 'function') {
-        navigator.storage.persist().catch(() => {});
+        navigator.storage.persist().catch((err) => console.warn('Persistent storage request failed:', err));
       }
 
-      // If the authoritative UUID was restored from IndexedDB/Cache and differs from an early temporary guess
+      // If the authoritative UUID was restored and differs from any early cached state
       if (oldCached && oldCached !== authoritativeUuid) {
         notifyListeners(authoritativeUuid);
       }
@@ -329,45 +348,48 @@ export async function syncResilientDeviceUuid(): Promise<string> {
 }
 
 /**
+ * Authoritatively resolves the device UUID before the UI is unlocked.
+ * Awaits multi-store sync without provisional guesses.
+ */
+export async function initDeviceUuid(): Promise<string> {
+  if (cachedDeviceUuid && isValidUuid(cachedDeviceUuid)) {
+    return cachedDeviceUuid;
+  }
+  return await syncResilientDeviceUuid();
+}
+
+/**
  * Retrieves the device/user UUID immediately and synchronously.
- * If already known or in synchronous stores (Cookie/LocalStorage), returns it.
- * If synchronous stores were cleared, uses a temporary fallback while immediately
- * triggering asynchronous self-healing from IndexedDB/Cache API.
+ * Reads existing sync stores, or falls back to an immediate authoritative UUID
+ * persisted across stores.
  */
 export function getDeviceUuid(): string {
   if (cachedDeviceUuid && isValidUuid(cachedDeviceUuid)) {
     return cachedDeviceUuid;
   }
 
-  // 1. Check synchronous stores
   const cookieVal = readCookie();
   if (cookieVal) {
     cachedDeviceUuid = cookieVal;
-    // Kick off async self-healing in background to ensure IDB & Cache are in sync
-    syncResilientDeviceUuid().catch(() => {});
+    syncResilientDeviceUuid().catch((err) => console.warn('Background sync error:', err));
     return cookieVal;
   }
 
   const localVal = readLocalStorage();
   if (localVal) {
     cachedDeviceUuid = localVal;
-    // Heal cookie immediately & kick off async self-healing
     writeCookie(localVal);
-    syncResilientDeviceUuid().catch(() => {});
+    syncResilientDeviceUuid().catch((err) => console.warn('Background sync error:', err));
     return localVal;
   }
 
-  // 2. Neither synchronous store has it (e.g. cookies & localStorage were wiped, or brand new visitor)
-  // Generate a provisional UUID so caller has an immediate string without preempting async stores
-  const provisional = uuidv4();
-  provisionalUuid = provisional;
-  cachedDeviceUuid = provisional;
-
-  // 3. Immediately trigger async deep query. If IndexedDB or Cache API has a surviving UUID,
-  // it will overwrite `provisional`, self-heal cookie + localStorage, and notify listeners!
-  syncResilientDeviceUuid().catch(() => {});
-
-  return provisional;
+  const fresh = uuidv4();
+  cachedDeviceUuid = fresh;
+  writeCookie(fresh);
+  writeLocalStorage(fresh);
+  writeIndexedDB(fresh).catch((err) => console.warn('IDB write error on fresh UUID:', err));
+  writeCache(fresh).catch((err) => console.warn('Cache write error on fresh UUID:', err));
+  return fresh;
 }
 
 /**
@@ -378,14 +400,14 @@ export function saveDeviceUuid(uuid: string): void {
   cachedDeviceUuid = uuid;
   writeLocalStorage(uuid);
   writeCookie(uuid);
-  writeIndexedDB(uuid).catch(() => {});
-  writeCache(uuid).catch(() => {});
+  writeIndexedDB(uuid).catch((err) => console.warn('IDB write error on saveDeviceUuid:', err));
+  writeCache(uuid).catch((err) => console.warn('Cache write error on saveDeviceUuid:', err));
   notifyListeners(uuid);
 }
 
 // Automatically initiate multi-store synchronization on script load in browser environments
 if (typeof window !== 'undefined') {
-  syncResilientDeviceUuid().catch(() => {});
+  syncResilientDeviceUuid().catch((err) => console.warn('Initial syncResilientDeviceUuid error:', err));
 
   // Cross-tab synchronization via storage event
   try {
@@ -396,5 +418,7 @@ if (typeof window !== 'undefined') {
         notifyListeners(e.newValue);
       }
     });
-  } catch {}
+  } catch (err) {
+    console.warn('Storage event listener registration failed:', err);
+  }
 }

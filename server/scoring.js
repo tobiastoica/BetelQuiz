@@ -33,8 +33,9 @@ export function levenshteinDistance(a, b) {
 }
 
 export function normalizeString(str, caseSensitive = false) {
-  if (typeof str !== 'string') return '';
-  let s = str.trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  if (str == null) return '';
+  const sInput = typeof str === 'string' ? str : String(str);
+  let s = sInput.trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   if (!caseSensitive) {
     s = s.toLowerCase();
   }
@@ -59,11 +60,33 @@ export function shuffleArray(arr) {
   return result;
 }
 
-export function calculateQuestionScore(question, answerPayload, responseTimeMs) {
-  const maxPoints = typeof question?.points === 'number' && !isNaN(question.points) ? question.points : 1000;
-  if (maxPoints <= 0) {
-    return { points: 0, isCorrect: false, isPartial: false, accuracy: 0, timeScore: 0 };
+export function normalizeSelected(payload) {
+  if (typeof payload === 'string' || typeof payload === 'number') {
+    return [String(payload)];
   }
+  const raw = payload?.selected !== undefined ? payload.selected : (Array.isArray(payload) ? payload : null);
+  const list = Array.isArray(raw) ? raw : raw != null && raw !== '' ? [raw] : [];
+  return [...new Set(list.map(String))];
+}
+
+export function extractWordInputs(payload, caseSensitive = false) {
+  let rawList = [];
+  if (typeof payload === 'string' || typeof payload === 'number') rawList = [String(payload)];
+  else if (Array.isArray(payload)) rawList = payload.map(String);
+  else if (Array.isArray(payload?.answers)) rawList = payload.answers.map(String);
+  else if (Array.isArray(payload?.words)) rawList = payload.words.map(String);
+  else if (Array.isArray(payload?.selected)) rawList = payload.selected.map(String);
+  else if (typeof payload?.text === 'string' || typeof payload?.text === 'number') rawList = [String(payload.text)];
+  else if (typeof payload?.selected === 'string' || typeof payload?.selected === 'number') rawList = [String(payload.selected)];
+
+  return rawList
+    .map((item) => normalizeString(item, caseSensitive))
+    .filter(Boolean);
+}
+
+export function calculateQuestionScore(question, answerPayload, responseTimeMs) {
+  const rawPoints = typeof question?.points === 'number' && !isNaN(question.points) ? question.points : 1000;
+  const maxPoints = Math.max(0, rawPoints);
 
   const rawLimit = typeof question?.timeLimit === 'number' && !isNaN(question.timeLimit) && question.timeLimit > 0
     ? question.timeLimit
@@ -96,11 +119,7 @@ export function calculateQuestionScore(question, answerPayload, responseTimeMs) 
         .map((opt) => opt.id);
 
       const isMulti = Boolean(question.isMultiSelect);
-      const selectedIds = Array.isArray(answerPayload?.selected)
-        ? answerPayload.selected
-        : answerPayload?.selected
-        ? [answerPayload.selected]
-        : [];
+      const selectedIds = normalizeSelected(answerPayload);
 
       const correctSet = new Set(correctOptionIds);
       const userSet = new Set(selectedIds);
@@ -263,9 +282,9 @@ export function calculateQuestionScore(question, answerPayload, responseTimeMs) 
 
       return {
         points,
-        isCorrect: points > 0,
+        isCorrect: accuracy > 0,
         isExact: false,
-        isPartial: points > 0,
+        isPartial: accuracy > 0 && accuracy < 1,
         accuracy,
         timeScore,
         target,
@@ -291,27 +310,19 @@ export function calculateQuestionScore(question, answerPayload, responseTimeMs) 
             .filter(Boolean)
         : [];
 
-      const normalizedAccepted = rawAccepted.map((ans) => normalizeString(ans, caseSensitive));
+      const normalizedAccepted = [...new Set(
+        rawAccepted
+          .map((ans) => normalizeString(ans, caseSensitive))
+          .filter(Boolean)
+      )];
 
       if (normalizedAccepted.length === 0) {
         return { points: 0, isCorrect: false, isPartial: false, accuracy: 0, timeScore };
       }
 
       // Extract user input(s)
-      let userInputs = [];
-      if (Array.isArray(answerPayload?.answers)) {
-        userInputs = answerPayload.answers;
-      } else if (Array.isArray(answerPayload?.selected)) {
-        userInputs = answerPayload.selected;
-      } else if (typeof answerPayload?.text === 'string') {
-        userInputs = [answerPayload.text];
-      } else if (typeof answerPayload?.selected === 'string') {
-        userInputs = [answerPayload.selected];
-      }
-
-      const normalizedUserInputs = userInputs
-        .map((ans) => normalizeString(ans, caseSensitive))
-        .filter(Boolean);
+      const userInputs = extractWordInputs(answerPayload, caseSensitive);
+      const normalizedUserInputs = userInputs;
 
       if (normalizedUserInputs.length === 0) {
         return { points: 0, isCorrect: false, isPartial: false, accuracy: 0, timeScore };
@@ -422,13 +433,13 @@ export function calculateQuestionScore(question, answerPayload, responseTimeMs) 
         (correctMatches + partialMatches * (fuzzyScorePercentage / 100)) / totalTarget
       );
       const points = Math.round(timeScore * effectiveAccuracy);
-      const isCorrect = points > 0;
-      const isPartial = points < timeScore && points > 0;
+      const isCorrect = effectiveAccuracy > 0;
+      const isPartial = effectiveAccuracy > 0 && effectiveAccuracy < 1;
 
       return {
         points,
         isCorrect,
-        isExact: points === timeScore,
+        isExact: effectiveAccuracy === 1,
         isPartial,
         accuracy: effectiveAccuracy,
         timeScore,

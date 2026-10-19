@@ -14,6 +14,8 @@ export interface AnswerOption {
   text: string;
   isCorrect: boolean;
   order?: number; // for puzzle
+  colorIndex?: number;
+  originalIndex?: number;
 }
 
 export interface Question {
@@ -52,6 +54,7 @@ export interface Quiz {
   createdAt: string;
   updatedAt: string;
   questions: Question[];
+  questionCount?: number;
 }
 
 export interface Player {

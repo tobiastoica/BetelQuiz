@@ -1,0 +1,338 @@
+{
+  "id": "daniel-capitolul-2",
+  "title": "Cartea Daniel - Partea 2 (Capitolul 2)",
+  "description": "Întrebările 13–23: Visul împăratului Nebucadnețar, neputința haldeilor, descoperirea tainei statuii de aur, argint, aramă și fier, și înălțarea lui Daniel.",
+  "coverImage": "",
+  "theme": "summer",
+  "createdAt": "2026-10-17T12:06:21.660Z",
+  "updatedAt": "2026-10-17T13:37:57.296Z",
+  "questions": [
+    {
+      "id": "d2_q13",
+      "type": "quiz",
+      "title": "Cine a spus că nu este nimeni care să poată împlini ceea ce cere împăratul?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": true,
+      "options": [
+        {
+          "id": "d2_q13_opt1",
+          "text": "haldeii",
+          "isCorrect": true
+        },
+        {
+          "id": "d2_q13_opt2",
+          "text": "Daniel",
+          "isCorrect": true
+        },
+        {
+          "id": "d2_q13_opt3",
+          "text": "Așpenaz",
+          "isCorrect": false
+        },
+        {
+          "id": "d2_q13_opt4",
+          "text": "Arioc",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d2_q14",
+      "type": "quiz",
+      "title": "Ce a poruncit împăratul Nebucadnețar, văzând că înțelepții Babilonului nu sunt în stare să-i spună ce a visat?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d2_q14_opt1",
+          "text": "să-i ucidă pe toți înțelepții Babilonului",
+          "isCorrect": true
+        },
+        {
+          "id": "d2_q14_opt2",
+          "text": "să caute pe cineva vrednic să-i tălmăcească visul",
+          "isCorrect": false
+        },
+        {
+          "id": "d2_q14_opt3",
+          "text": "să fie aruncați în temniță pe viață",
+          "isCorrect": false
+        },
+        {
+          "id": "d2_q14_opt4",
+          "text": "să le fie luate toate averile și casele",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d2_q15",
+      "type": "quiz",
+      "title": "La cine s-a dus Daniel să-i spună să nu-i omoare pe înțelepți și să-l ducă la împărat?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d2_q15_opt1",
+          "text": "la Așpenaz",
+          "isCorrect": false
+        },
+        {
+          "id": "d2_q15_opt2",
+          "text": "la Arioc",
+          "isCorrect": true
+        },
+        {
+          "id": "d2_q15_opt3",
+          "text": "nu este menționat cu numele famenul la care s-a dus Daniel",
+          "isCorrect": false
+        },
+        {
+          "id": "d2_q15_opt4",
+          "text": "la căpetenia haldeilor",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d2_q16",
+      "type": "quiz",
+      "title": "Care era numele pe care l-a primit Daniel în Babilon?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d2_q16_opt1",
+          "text": "Belșațar",
+          "isCorrect": false
+        },
+        {
+          "id": "d2_q16_opt2",
+          "text": "Beltșațar",
+          "isCorrect": true
+        },
+        {
+          "id": "d2_q16_opt3",
+          "text": "Șadrac",
+          "isCorrect": false
+        },
+        {
+          "id": "d2_q16_opt4",
+          "text": "Abed-Nego",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d2_q17",
+      "type": "puzzle",
+      "title": "Așază în ordine metalele din care era făcută statuia visată de împărat (de la cap spre picioare):",
+      "timeLimit": 60,
+      "points": 1000,
+      "options": [
+        {
+          "id": "d2_q17_opt1",
+          "text": "Aur (capul)",
+          "isCorrect": true,
+          "order": 0
+        },
+        {
+          "id": "d2_q17_opt2",
+          "text": "Argint (pieptul și brațele)",
+          "isCorrect": true,
+          "order": 1
+        },
+        {
+          "id": "d2_q17_opt3",
+          "text": "Aramă (pântecele și coapsele)",
+          "isCorrect": true,
+          "order": 2
+        },
+        {
+          "id": "d2_q17_opt4",
+          "text": "Fier (fluierele picioarelor)",
+          "isCorrect": true,
+          "order": 3
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d2_q18",
+      "type": "quiz",
+      "title": "Ce ni se spune legat de piatra care a lovit statuia?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": true,
+      "options": [
+        {
+          "id": "d2_q18_opt1",
+          "text": "că s-a făcut un munte mare",
+          "isCorrect": true
+        },
+        {
+          "id": "d2_q18_opt2",
+          "text": "că a umplut tot pământul",
+          "isCorrect": true
+        },
+        {
+          "id": "d2_q18_opt3",
+          "text": "că a fost cioplită de mâini omenești",
+          "isCorrect": false
+        },
+        {
+          "id": "d2_q18_opt4",
+          "text": "că s-a sfărâmat în pulbere măruntă la impact",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d2_q19",
+      "type": "quiz",
+      "title": "Cum l-a numit Daniel pe Nebucadnețar?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d2_q19_opt1",
+          "text": "împăratul împăraților",
+          "isCorrect": true
+        },
+        {
+          "id": "d2_q19_opt2",
+          "text": "domnul domnilor",
+          "isCorrect": false
+        },
+        {
+          "id": "d2_q19_opt3",
+          "text": "stăpânul cerului și al pământului",
+          "isCorrect": false
+        },
+        {
+          "id": "d2_q19_opt4",
+          "text": "înțeleptul tuturor popoarelor",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d2_q20",
+      "type": "number_guess",
+      "title": "Câte împărății a spus Daniel că se vor ridica după împărăția lui Nebucadnețar?",
+      "timeLimit": 60,
+      "points": 1000,
+      "numberTarget": 5,
+      "numberMin": 1,
+      "numberMax": 10,
+      "options": [],
+      "theme": "summer"
+    },
+    {
+      "id": "d2_q21",
+      "type": "quiz",
+      "title": "Ce a făcut împăratul Nebucadnețar după ce a auzit tâlcuirea visului său?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": true,
+      "options": [
+        {
+          "id": "d2_q21_opt1",
+          "text": "a căzut cu fața la pământ și s-a închinat înaintea lui Daniel",
+          "isCorrect": true
+        },
+        {
+          "id": "d2_q21_opt2",
+          "text": "a poruncit să i se aducă lui Daniel jertfe de mâncare și miresme",
+          "isCorrect": true
+        },
+        {
+          "id": "d2_q21_opt3",
+          "text": "a poruncit să se construiască un altar pentru Daniel",
+          "isCorrect": false
+        },
+        {
+          "id": "d2_q21_opt4",
+          "text": "l-a încoronat pe Daniel ca împărat în locul lui",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d2_q22",
+      "type": "quiz",
+      "title": "Ce a mai făcut Nebucadnețar după ce a auzit cuvintele lui Daniel?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": true,
+      "options": [
+        {
+          "id": "d2_q22_opt1",
+          "text": "l-a înălțat pe Daniel și i-a dat daruri multe și bogate",
+          "isCorrect": true
+        },
+        {
+          "id": "d2_q22_opt2",
+          "text": "i-a dat stăpânire peste tot ținutul Babilonului",
+          "isCorrect": true
+        },
+        {
+          "id": "d2_q22_opt3",
+          "text": "i-a trimis pe toți evreii înapoi la Ierusalim",
+          "isCorrect": false
+        },
+        {
+          "id": "d2_q22_opt4",
+          "text": "a renunțat la toți idolii Babilonului",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d2_q23",
+      "type": "quiz",
+      "title": "Care au fost numele pe care le-au primit Hanania, Mișael și Azaria în Babilon?",
+      "timeLimit": 30,
+      "points": 2000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d2_q23_opt1",
+          "text": "Șadrac, Meșac și Abed-Nego",
+          "isCorrect": true
+        },
+        {
+          "id": "d2_q23_opt2",
+          "text": "Meșac, Șadrac și Abed-Nego",
+          "isCorrect": false
+        },
+        {
+          "id": "d2_q23_opt3",
+          "text": "Șadrac, Abed-Nego și Meșac",
+          "isCorrect": false
+        },
+        {
+          "id": "d2_q23_opt4",
+          "text": "Beltșațar, Șadrac și Abed-Nego",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    }
+  ],
+  "defaultTimeLimit": 30,
+  "defaultPoints": 1000
+}

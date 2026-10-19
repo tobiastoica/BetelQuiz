@@ -13,7 +13,6 @@ import {
   Check,
   X,
   SkipForward,
-  FastForward,
   Settings,
   Maximize,
   Flag,
@@ -23,11 +22,15 @@ import {
   Palette,
   QrCode,
   Smartphone,
+  CheckSquare,
+  CheckCircle,
+  Zap,
+  ZapOff,
 } from 'lucide-react';
 
 import { getSocket } from '../utils/socket';
 import { sound } from '../utils/audio';
-import { TimerCircle } from '../components/TimerCircle';
+import { useEscapeKey } from '../hooks/useEscapeKey';
 import { BarChart } from '../components/BarChart';
 import { NumberGuessDistribution } from '../components/NumberGuessDistribution';
 import { PuzzleRevealBreakdown } from '../components/PuzzleRevealBreakdown';
@@ -48,10 +51,10 @@ export const Host: React.FC = () => {
   const [hostSecret, setHostSecret] = useState<string>(() => {
     const fromState = (location.state as any)?.hostSecret;
     if (fromState) {
-      if (pin) sessionStorage.setItem(`kahoot_host_secret_${pin}`, fromState);
+      if (pin) localStorage.setItem(`kahoot_host_secret_${pin}`, fromState);
       return fromState;
     }
-    return pin ? sessionStorage.getItem(`kahoot_host_secret_${pin}`) || '' : '';
+    return pin ? localStorage.getItem(`kahoot_host_secret_${pin}`) || '' : '';
   });
   const hostSecretRef = useRef<string>(hostSecret);
   useEffect(() => {
@@ -81,6 +84,7 @@ export const Host: React.FC = () => {
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState('');
   const [qrSvg, setQrSvg] = useState<string>('');
   const [players, setPlayers] = useState<Player[]>([]);
+  const [hostError, setHostError] = useState<string | null>(null);
 
   // Configuration sidebar & QR modal
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -96,17 +100,10 @@ export const Host: React.FC = () => {
     };
   });
 
-  useEffect(() => {
-    if (!showQrModal && !isSettingsOpen) return;
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setShowQrModal(false);
-        setIsSettingsOpen(false);
-      }
-    };
-    window.addEventListener('keydown', handleEsc);
-    return () => window.removeEventListener('keydown', handleEsc);
-  }, [showQrModal, isSettingsOpen]);
+  useEscapeKey(() => {
+    setShowQrModal(false);
+    setIsSettingsOpen(false);
+  }, showQrModal || isSettingsOpen);
 
   // Active question state
   const [questionIndex, setQuestionIndex] = useState(0);
@@ -127,7 +124,56 @@ export const Host: React.FC = () => {
   // Podium state
   const [podiumData, setPodiumData] = useState<any>(null);
 
+  // Progressive question feature reveal stage during GET_READY (1: Type, 2: Multi-select, 3: Points)
+  const [getReadyStage, setGetReadyStage] = useState<number>(1);
+
+  useEffect(() => {
+    if (gameState === 'GET_READY') {
+      setGetReadyStage(1);
+      const t1 = setTimeout(() => {
+        setGetReadyStage(2);
+      }, 4000);
+      const t2 = setTimeout(() => {
+        setGetReadyStage(3);
+      }, 5000);
+      return () => {
+        clearTimeout(t1);
+        clearTimeout(t2);
+      };
+    } else {
+      setGetReadyStage(1);
+    }
+  }, [gameState, questionIndex]);
+
   const countdownTimerRef = useRef<any>(null);
+  const lastTickSecondRef = useRef<number>(-1);
+
+  const startCountdown = (targetEndTime: number) => {
+    clearInterval(countdownTimerRef.current);
+    const initialLeft = Math.max(0, Math.ceil((targetEndTime - Date.now()) / 1000));
+    setRemainingSeconds(initialLeft);
+    lastTickSecondRef.current = initialLeft;
+
+    countdownTimerRef.current = setInterval(() => {
+      const remainingMs = targetEndTime - Date.now();
+      const timeLeft = Math.max(0, Math.ceil(remainingMs / 1000));
+      setRemainingSeconds(timeLeft);
+
+      if (timeLeft !== lastTickSecondRef.current) {
+        lastTickSecondRef.current = timeLeft;
+        if (timeLeft <= 5 && timeLeft > 0) {
+          sound.playCountdownTick(true);
+        } else if (timeLeft > 0) {
+          sound.playCountdownTick(false);
+        }
+      }
+
+      if (timeLeft <= 0) {
+        clearInterval(countdownTimerRef.current);
+        sound.playTimeUp();
+      }
+    }, 250);
+  };
 
   // Join link displayed on projector
   const joinDomain = window.location.host;
@@ -176,18 +222,23 @@ export const Host: React.FC = () => {
   }, [pin]);
 
   useEffect(() => {
+    const joinHostRoom = () => {
+      socket.emit('host_join', { pin, hostSecret: hostSecretRef.current || hostSecret || undefined });
+    };
+
     // Start lobby music
     sound.playLobbyMusic();
 
     // Reconnect / Join host room
-    socket.emit('host_join', { pin, hostSecret: hostSecretRef.current || hostSecret || undefined });
+    joinHostRoom();
+    socket.on('connect', joinHostRoom);
 
     socket.on('host_game_data', (data) => {
       if (!data) return;
       if (data.hostSecret) {
         hostSecretRef.current = data.hostSecret;
         setHostSecret(data.hostSecret);
-        if (pin) sessionStorage.setItem(`kahoot_host_secret_${pin}`, data.hostSecret);
+        if (pin) localStorage.setItem(`kahoot_host_secret_${pin}`, data.hostSecret);
       }
       if (data.qrCodeDataUrl) setQrCodeDataUrl(data.qrCodeDataUrl);
       if (data.settings) setGameSettings(data.settings);
@@ -211,26 +262,8 @@ export const Host: React.FC = () => {
               ? Date.now() - (timeLimitSec * 1000 - data.activeQuestionData.remainingTimeMs)
               : Date.now());
           const targetEndTime = startTime + timeLimitSec * 1000;
-          const rem = Math.max(0, Math.ceil((targetEndTime - Date.now()) / 1000));
-          setRemainingSeconds(rem);
           setAnswersCount(data.answersCount ?? data.activeQuestionData?.answersReceived ?? 0);
-
-          clearInterval(countdownTimerRef.current);
-          countdownTimerRef.current = setInterval(() => {
-            const remainingMs = targetEndTime - Date.now();
-            const timeLeft = Math.max(0, Math.ceil(remainingMs / 1000));
-            setRemainingSeconds(timeLeft);
-            if (timeLeft <= 5 && timeLeft > 0) {
-              sound.playCountdownTick(true);
-            } else if (timeLeft > 0) {
-              sound.playCountdownTick(false);
-            }
-
-            if (timeLeft <= 0) {
-              clearInterval(countdownTimerRef.current);
-              sound.playTimeUp();
-            }
-          }, 250);
+          startCountdown(targetEndTime);
         }
       } else if (data.state === 'QUESTION_REVEAL') {
         if (data.revealQuestion || data.currentQuestion) {
@@ -278,26 +311,7 @@ export const Host: React.FC = () => {
       const timeLimitSec = data.question.timeLimit || 20;
       const startTime = data.questionStartTime || Date.now();
       const targetEndTime = startTime + timeLimitSec * 1000;
-      const initialLeft = Math.max(0, Math.ceil((targetEndTime - Date.now()) / 1000));
-      setRemainingSeconds(initialLeft);
-
-      // Start countdown timer anchored to targetEndTime
-      clearInterval(countdownTimerRef.current);
-      countdownTimerRef.current = setInterval(() => {
-        const remainingMs = targetEndTime - Date.now();
-        const timeLeft = Math.max(0, Math.ceil(remainingMs / 1000));
-        setRemainingSeconds(timeLeft);
-        if (timeLeft <= 5 && timeLeft > 0) {
-          sound.playCountdownTick(true);
-        } else if (timeLeft > 0) {
-          sound.playCountdownTick(false);
-        }
-
-        if (timeLeft <= 0) {
-          clearInterval(countdownTimerRef.current);
-          sound.playTimeUp();
-        }
-      }, 250);
+      startCountdown(targetEndTime);
     });
 
     socket.on('answer_count_updated', (data) => {
@@ -324,6 +338,7 @@ export const Host: React.FC = () => {
     });
 
     socket.on('podium_update', (data) => {
+      clearInterval(countdownTimerRef.current);
       triggerCooldown();
       setGameState('PODIUM');
       setPodiumData(data);
@@ -344,9 +359,15 @@ export const Host: React.FC = () => {
       }, 800);
     });
 
+    socket.on('host_error', (data) => {
+      setHostError(data?.error || 'Host session unauthorized or expired.');
+    });
+
     return () => {
       clearInterval(countdownTimerRef.current);
       sound.stopLobbyMusic();
+      socket.off('connect', joinHostRoom);
+      socket.off('host_error');
       socket.off('players_updated');
       socket.off('game_state_changed');
       socket.off('question_active');
@@ -367,31 +388,32 @@ export const Host: React.FC = () => {
     }
   };
 
+  const emitHost = (event: string, data: any = {}) => {
+    socket.emit(event, { ...data, pin, hostSecret: hostSecretRef.current || hostSecret || undefined });
+  };
+
   const handleStartGame = () => {
-    socket.emit('host_start_game', { pin, hostSecret: hostSecretRef.current || hostSecret || undefined });
+    if (actionLockRef.current) return;
+    triggerCooldown();
+    emitHost('host_start_game');
   };
 
   const handleNext = () => {
     if (actionLockRef.current) return;
     triggerCooldown();
-    socket.emit('host_next', { pin, hostSecret: hostSecretRef.current || hostSecret || undefined });
+    emitHost('host_next');
   };
 
   const handleSkip = () => {
     if (actionLockRef.current) return;
     triggerCooldown();
-    socket.emit('host_skip', { pin, hostSecret: hostSecretRef.current || hostSecret || undefined });
-  };
-
-  const handleSkipToNext = () => {
-    if (actionLockRef.current) return;
-    triggerCooldown();
-    socket.emit('host_skip_to_next', { pin, hostSecret: hostSecretRef.current || hostSecret || undefined });
+    emitHost('host_skip');
   };
 
   // Keyboard controls for host: Space or ArrowRight advances game
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.repeat) return;
       if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) {
         return;
       }
@@ -415,13 +437,13 @@ export const Host: React.FC = () => {
 
   const handleEndGame = () => {
     if (window.confirm('Are you sure you want to end the game now and award the podium?')) {
-      socket.emit('host_end_game', { pin, hostSecret: hostSecretRef.current || hostSecret || undefined });
+      emitHost('host_end_game');
     }
   };
 
   const handleKickPlayer = (userUuid: string) => {
     if (window.confirm('Remove this player from the game?')) {
-      socket.emit('host_kick_player', { pin, userUuid, hostSecret: hostSecretRef.current || hostSecret || undefined });
+      emitHost('host_kick_player', { userUuid });
     }
   };
 
@@ -431,11 +453,7 @@ export const Host: React.FC = () => {
       [key]: !gameSettings[key],
     };
     setGameSettings(updated);
-    socket.emit('host_update_settings', {
-      pin,
-      settings: updated,
-      hostSecret: hostSecretRef.current || hostSecret || undefined,
-    });
+    emitHost('host_update_settings', { settings: updated });
     if (key === 'showQuestionsOnPlayerScreens') {
       localStorage.setItem('kahoot_host_show_questions', String(updated.showQuestionsOnPlayerScreens));
     }
@@ -453,6 +471,26 @@ export const Host: React.FC = () => {
     }
   };
 
+  if (hostError) {
+    return (
+      <div className="h-screen w-screen flex flex-col items-center justify-center cosmic-canvas text-[#FBF6E9] p-6">
+        <div className="max-w-md w-full cosmic-surface rounded-3xl p-8 border border-white/10 shadow-2xl text-center">
+          <div className="w-16 h-16 rounded-full bg-rose-500/20 text-rose-400 mx-auto flex items-center justify-center mb-4">
+            <X className="w-8 h-8" />
+          </div>
+          <h2 className="text-2xl font-black mb-2 text-[#FBF6E9]">Host Session Error</h2>
+          <p className="text-white/60 text-sm mb-6">{hostError}</p>
+          <button
+            onClick={() => navigate('/admin/dashboard')}
+            className="btn-gold w-full py-3.5 text-[#2A1A00] font-black rounded-xl transition shadow-lg cursor-pointer"
+          >
+            Back to Dashboard
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   const themeStyle = getThemeClasses(
     gameState === 'LOBBY'
       ? selectedTheme
@@ -469,8 +507,8 @@ export const Host: React.FC = () => {
       <div className="fixed top-3 sm:top-4 right-3 sm:right-4 z-50 flex items-center gap-2">
         {/* Players counter badge in lobby */}
         {gameState === 'LOBBY' && (
-          <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/60 backdrop-blur border border-white/20 text-white font-black text-sm shadow-lg">
-            <Users className="w-4 h-4 text-emerald-400" />
+          <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-[#0F1433]/80 backdrop-blur-md border border-white/15 text-[#FBF6E9] font-black text-sm shadow-lg">
+            <Users className="w-4 h-4 text-[#5CC7B8]" />
             <span>{players.length}</span>
           </div>
         )}
@@ -480,13 +518,13 @@ export const Host: React.FC = () => {
           <button
             onClick={handleSkip}
             disabled={isActionLocked}
-            className={`flex items-center gap-2 px-6 py-2.5 sm:px-7 sm:py-2.5 rounded-full bg-white text-[#46178F] hover:bg-purple-50 font-black text-sm uppercase tracking-wider shadow-2xl transition-all hover:scale-105 active:scale-95 cursor-pointer border-2 border-purple-200 ${
+            className={`flex items-center gap-2 px-5 py-2 sm:px-6 sm:py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-[#FBF6E9] font-black text-sm uppercase tracking-wider shadow-2xl transition-all hover:scale-105 active:scale-95 cursor-pointer border border-white/15 backdrop-blur-md ${
               isActionLocked ? 'opacity-40 cursor-not-allowed pointer-events-none' : ''
             }`}
             title="Skip Question Timer"
           >
             <span>Skip</span>
-            <SkipForward className="w-4 h-4 fill-current" />
+            <SkipForward className="w-4 h-4 fill-current text-[#FAC747]" />
           </button>
         )}
 
@@ -495,7 +533,7 @@ export const Host: React.FC = () => {
           <button
             onClick={handleNext}
             disabled={isActionLocked}
-            className={`flex items-center gap-2 px-6 py-2.5 sm:px-7 sm:py-2.5 rounded-full bg-[#1368CE] hover:bg-[#0f54a8] text-white font-black text-sm uppercase tracking-wider shadow-2xl transition-all hover:scale-105 active:scale-95 cursor-pointer border-2 border-blue-300/40 ${
+            className={`btn-gold flex items-center gap-2 px-6 py-2.5 sm:px-7 sm:py-2.5 rounded-full text-[#2A1A00] font-black text-sm uppercase tracking-wider shadow-2xl transition-all hover:scale-105 active:scale-95 cursor-pointer ${
               isActionLocked ? 'opacity-40 cursor-not-allowed pointer-events-none' : ''
             }`}
             title="Next"
@@ -509,7 +547,7 @@ export const Host: React.FC = () => {
         {gameState !== 'LOBBY' && gameState !== 'PODIUM' && (
           <button
             onClick={handleEndGame}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-black text-xs uppercase tracking-wider shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer border border-white/20"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 font-black text-xs uppercase tracking-wider shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer border border-rose-500/30 backdrop-blur-md"
             title="End game and award podium immediately"
           >
             <Flag className="w-3.5 h-3.5 fill-current" />
@@ -520,20 +558,20 @@ export const Host: React.FC = () => {
         {/* Audio mute toggle */}
         <button
           onClick={toggleSound}
-          className="p-2.5 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur border border-white/20 text-white shadow-lg transition-transform hover:scale-110 active:scale-95 cursor-pointer"
+          className="p-2.5 rounded-full bg-[#0F1433]/80 hover:bg-[#182046] backdrop-blur-md border border-white/15 text-[#FBF6E9] shadow-lg transition-transform hover:scale-110 active:scale-95 cursor-pointer"
           title={isMuted ? 'Unmute Audio' : 'Mute Audio'}
         >
-          {isMuted ? <VolumeX className="w-5 h-5 text-red-400" /> : <Volume2 className="w-5 h-5" />}
+          {isMuted ? <VolumeX className="w-5 h-5 text-rose-400" /> : <Volume2 className="w-5 h-5 text-[#FAC747]" />}
         </button>
 
         {/* QR Code toggle button in header (Lobby only) */}
         {gameState === 'LOBBY' && (
           <button
             onClick={() => setShowQrModal(true)}
-            className="p-2.5 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur border border-white/20 text-white shadow-lg transition-transform hover:scale-110 active:scale-95 cursor-pointer flex items-center gap-1.5"
+            className="p-2.5 rounded-full bg-[#0F1433]/80 hover:bg-[#182046] backdrop-blur-md border border-white/15 text-[#FBF6E9] shadow-lg transition-transform hover:scale-110 active:scale-95 cursor-pointer flex items-center gap-1.5"
             title="Expand QR Code"
           >
-            <QrCode className="w-5 h-5 text-purple-300" />
+            <QrCode className="w-5 h-5 text-[#5CC7B8]" />
             <span className="text-xs font-bold hidden sm:inline">QR Code</span>
           </button>
         )}
@@ -542,7 +580,7 @@ export const Host: React.FC = () => {
         {gameState === 'LOBBY' && (
           <button
             onClick={() => setIsSettingsOpen(true)}
-            className="p-2.5 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur border border-white/20 text-white shadow-lg transition-transform hover:scale-110 active:scale-95 cursor-pointer"
+            className="p-2.5 rounded-full bg-[#0F1433]/80 hover:bg-[#182046] backdrop-blur-md border border-white/15 text-[#FBF6E9] shadow-lg transition-transform hover:scale-110 active:scale-95 cursor-pointer"
             title="Game Settings"
           >
             <Settings className="w-5 h-5" />
@@ -552,7 +590,7 @@ export const Host: React.FC = () => {
         {/* Fullscreen toggle */}
         <button
           onClick={toggleFullscreen}
-          className="p-2.5 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur border border-white/20 text-white shadow-lg transition-transform hover:scale-110 active:scale-95 cursor-pointer"
+          className="p-2.5 rounded-full bg-[#0F1433]/80 hover:bg-[#182046] backdrop-blur-md border border-white/15 text-[#FBF6E9] shadow-lg transition-transform hover:scale-110 active:scale-95 cursor-pointer"
           title="Toggle Fullscreen"
         >
           <Maximize className="w-5 h-5" />
@@ -563,7 +601,7 @@ export const Host: React.FC = () => {
           <button
             onClick={handleStartGame}
             disabled={players.length === 0}
-            className="px-5 py-2 rounded-xl bg-[#26890C] hover:bg-[#1e6e09] text-white font-black text-sm shadow-xl hover:scale-105 active:scale-95 disabled:opacity-40 disabled:hover:scale-100 disabled:hover:bg-[#26890C] flex items-center gap-2 cursor-pointer transition-all border border-emerald-400/40"
+            className="btn-gold px-5 py-2 rounded-full text-[#2A1A00] font-black text-sm shadow-xl hover:scale-105 active:scale-95 disabled:opacity-40 disabled:hover:scale-100 flex items-center gap-2 cursor-pointer transition-all"
           >
             <Play className="w-4 h-4 fill-current" />
             <span>Start</span>
@@ -582,27 +620,27 @@ export const Host: React.FC = () => {
             aria-modal="true"
             aria-label="QR Code and Join PIN"
             onClick={(e) => e.stopPropagation()}
-            className="bg-white text-slate-900 rounded-3xl p-6 sm:p-10 max-w-3xl sm:max-w-4xl w-[94vw] max-h-[94vh] shadow-2xl flex flex-col items-center relative animate-bounce-in border-4 border-[#33106A] overflow-y-auto"
+            className="bg-[#0F1433]/98 cosmic-surface text-[#FBF6E9] rounded-3xl p-6 sm:p-10 max-w-3xl sm:max-w-4xl w-[94vw] max-h-[94vh] shadow-2xl flex flex-col items-center relative animate-bounce-in border border-white/15 overflow-y-auto"
           >
             <button
               onClick={() => setShowQrModal(false)}
-              className="absolute top-4 right-4 p-3 rounded-full hover:bg-slate-100 text-slate-600 transition-colors cursor-pointer"
+              className="absolute top-4 right-4 p-3 rounded-full hover:bg-white/10 text-white/70 hover:text-white transition-colors cursor-pointer"
             >
               <X className="w-8 h-8" />
             </button>
 
-            <span className="bg-[#46178F] text-white px-6 py-2 rounded-2xl font-black text-2xl sm:text-3xl shadow mb-2 tracking-tight">
+            <span className="btn-gold text-[#2A1A00] px-6 py-2 rounded-2xl font-black text-2xl sm:text-3xl shadow-lg mb-2 tracking-tight">
               BetelQuiz
             </span>
 
-            <p className="text-xs sm:text-sm font-black uppercase tracking-wider text-slate-400 mb-1">
+            <p className="text-xs sm:text-sm font-black uppercase tracking-wider text-white/50 mb-1">
               Join with phone or tablet:
             </p>
-            <p className="text-xl sm:text-3xl font-black text-[#46178F] mb-4">
+            <p className="text-xl sm:text-3xl font-black text-[#5CC7B8] mb-4">
               {joinDomain}/play?game_id={pin}
             </p>
 
-            <div className="p-4 sm:p-6 bg-white rounded-3xl shadow-2xl border-4 border-slate-200 mb-6 flex items-center justify-center w-[300px] h-[300px] sm:w-[460px] sm:h-[460px] md:w-[540px] md:h-[540px]">
+            <div className="p-4 sm:p-6 bg-white rounded-3xl shadow-2xl border-4 border-white/20 mb-6 flex items-center justify-center w-[300px] h-[300px] sm:w-[460px] sm:h-[460px] md:w-[540px] md:h-[540px]">
               {qrSvg ? (
                 <div
                   className="w-full h-full flex items-center justify-center [&>svg]:w-full [&>svg]:h-full [&>svg]:max-w-full [&>svg]:max-h-full"
@@ -615,18 +653,18 @@ export const Host: React.FC = () => {
                   className="w-full h-full object-contain"
                 />
               ) : (
-                <div className="flex flex-col items-center justify-center text-slate-500 py-12">
-                  <QrCode className="w-24 h-24 text-[#46178F] animate-pulse mb-3" />
+                <div className="flex flex-col items-center justify-center text-slate-800 py-12">
+                  <QrCode className="w-24 h-24 text-[#FAC747] animate-pulse mb-3" />
                   <p className="font-bold text-base">Generating 4K QR code...</p>
                 </div>
               )}
             </div>
 
             <div className="text-center">
-              <p className="text-xs sm:text-sm font-bold text-slate-400 uppercase tracking-widest">
+              <p className="text-xs sm:text-sm font-bold text-white/50 uppercase tracking-widest">
                 Game PIN:
               </p>
-              <p className="text-5xl sm:text-6xl font-black tracking-widest text-slate-900 font-mono">
+              <p className="text-5xl sm:text-6xl font-black tracking-widest text-[#FAC747] font-mono drop-shadow-[0_0_20px_rgba(250,199,71,0.5)]">
                 {pin}
               </p>
             </div>
@@ -638,22 +676,22 @@ export const Host: React.FC = () => {
       {isSettingsOpen && (
         <div
           onClick={() => setIsSettingsOpen(false)}
-          className="fixed inset-0 z-50 flex justify-end bg-black/50 backdrop-blur-xs animate-fade-in"
+          className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-xs animate-fade-in"
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-sm h-full bg-slate-950/95 backdrop-blur-xl border-l border-white/20 text-white shadow-2xl flex flex-col justify-between p-6 overflow-y-auto animate-slide-left"
+            className="w-full max-w-sm h-full bg-[#0B0F24]/98 backdrop-blur-xl border-l border-white/10 text-[#FBF6E9] shadow-2xl flex flex-col justify-between p-6 overflow-y-auto animate-slide-left"
           >
             <div>
               {/* Header */}
               <div className="flex items-center justify-between pb-4 border-b border-white/10">
                 <div className="flex items-center gap-2">
-                  <Settings className="w-5 h-5 text-purple-400" />
-                  <h2 className="text-xl font-black">Game Settings</h2>
+                  <Settings className="w-5 h-5 text-[#FAC747]" />
+                  <h2 className="text-xl font-black text-[#FBF6E9]">Game Settings</h2>
                 </div>
                 <button
                   onClick={() => setIsSettingsOpen(false)}
-                  className="p-1.5 rounded-lg hover:bg-white/10 transition-colors"
+                  className="p-1.5 rounded-lg hover:bg-white/10 text-white/70 hover:text-white transition-colors cursor-pointer"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -661,25 +699,25 @@ export const Host: React.FC = () => {
 
               {/* Hosting Controls */}
               <div className="mt-6">
-                <h3 className="text-xs font-black uppercase tracking-widest text-white/50 mb-4">
+                <h3 className="text-xs font-black uppercase tracking-widest text-[#FAC747] mb-4">
                   Hosting Controls
                 </h3>
 
                 {/* Show questions & answers on player screens toggle */}
-                <div className="flex items-center justify-between p-3.5 rounded-2xl bg-white/5 hover:bg-white/10 transition-colors mb-3 border border-white/10">
+                <div className="flex items-center justify-between p-3.5 rounded-2xl bg-[#131938]/80 hover:bg-[#182046] transition-colors mb-3 border border-white/10">
                   <div className="pr-3">
                     <div className="flex items-center gap-2">
-                      <Smartphone className="w-4 h-4 text-emerald-400" />
-                      <span className="font-bold text-sm">Show questions & answers on devices</span>
+                      <Smartphone className="w-4 h-4 text-[#5CC7B8]" />
+                      <span className="font-bold text-sm text-[#FBF6E9]">Show questions on devices</span>
                     </div>
-                    <p className="text-xs text-white/60 mt-1">
+                    <p className="text-xs text-white/50 mt-1">
                       Display question text and answer choices directly on player devices
                     </p>
                   </div>
                   <button
                     onClick={() => handleToggleSetting('showQuestionsOnPlayerScreens')}
-                    className={`w-12 h-6 rounded-full transition-colors p-0.5 relative shrink-0 ${
-                      gameSettings.showQuestionsOnPlayerScreens ? 'bg-[#26890C]' : 'bg-slate-700'
+                    className={`w-12 h-6 rounded-full transition-colors p-0.5 relative shrink-0 cursor-pointer ${
+                      gameSettings.showQuestionsOnPlayerScreens ? 'bg-[#5CC7B8]' : 'bg-white/10'
                     }`}
                   >
                     <div
@@ -691,20 +729,20 @@ export const Host: React.FC = () => {
                 </div>
 
                 {/* Randomize order of answers toggle */}
-                <div className="flex items-center justify-between p-3.5 rounded-2xl bg-white/5 hover:bg-white/10 transition-colors mb-3 border border-white/10">
+                <div className="flex items-center justify-between p-3.5 rounded-2xl bg-[#131938]/80 hover:bg-[#182046] transition-colors mb-3 border border-white/10">
                   <div className="pr-3">
                     <div className="flex items-center gap-2">
-                      <Shuffle className="w-4 h-4 text-purple-400" />
-                      <span className="font-bold text-sm">Randomize order of answers</span>
+                      <Shuffle className="w-4 h-4 text-[#FAC747]" />
+                      <span className="font-bold text-sm text-[#FBF6E9]">Randomize order of answers</span>
                     </div>
-                    <p className="text-xs text-white/60 mt-1">
+                    <p className="text-xs text-white/50 mt-1">
                       Randomize answer choice positions for quiz & puzzle questions
                     </p>
                   </div>
                   <button
                     onClick={() => handleToggleSetting('randomizeAnswers')}
-                    className={`w-12 h-6 rounded-full transition-colors p-0.5 relative shrink-0 ${
-                      gameSettings.randomizeAnswers ? 'bg-[#26890C]' : 'bg-slate-700'
+                    className={`w-12 h-6 rounded-full transition-colors p-0.5 relative shrink-0 cursor-pointer ${
+                      gameSettings.randomizeAnswers ? 'bg-[#FAC747]' : 'bg-white/10'
                     }`}
                   >
                     <div
@@ -716,20 +754,20 @@ export const Host: React.FC = () => {
                 </div>
 
                 {/* Randomize order of questions toggle */}
-                <div className="flex items-center justify-between p-3.5 rounded-2xl bg-white/5 hover:bg-white/10 transition-colors mb-3 border border-white/10">
+                <div className="flex items-center justify-between p-3.5 rounded-2xl bg-[#131938]/80 hover:bg-[#182046] transition-colors mb-3 border border-white/10">
                   <div className="pr-3">
                     <div className="flex items-center gap-2">
                       <Shuffle className="w-4 h-4 text-sky-400" />
-                      <span className="font-bold text-sm">Randomize order of questions</span>
+                      <span className="font-bold text-sm text-[#FBF6E9]">Randomize order of questions</span>
                     </div>
-                    <p className="text-xs text-white/60 mt-1">
+                    <p className="text-xs text-white/50 mt-1">
                       Play questions in a randomized sequence
                     </p>
                   </div>
                   <button
                     onClick={() => handleToggleSetting('randomizeQuestions')}
-                    className={`w-12 h-6 rounded-full transition-colors p-0.5 relative shrink-0 ${
-                      gameSettings.randomizeQuestions ? 'bg-[#26890C]' : 'bg-slate-700'
+                    className={`w-12 h-6 rounded-full transition-colors p-0.5 relative shrink-0 cursor-pointer ${
+                      gameSettings.randomizeQuestions ? 'bg-sky-500' : 'bg-white/10'
                     }`}
                   >
                     <div
@@ -741,24 +779,24 @@ export const Host: React.FC = () => {
                 </div>
 
                 {/* Lock game toggle */}
-                <div className="flex items-center justify-between p-3.5 rounded-2xl bg-white/5 hover:bg-white/10 transition-colors mb-3 border border-white/10">
+                <div className="flex items-center justify-between p-3.5 rounded-2xl bg-[#131938]/80 hover:bg-[#182046] transition-colors mb-3 border border-white/10">
                   <div className="pr-3">
                     <div className="flex items-center gap-2">
                       {gameSettings.lockGame ? (
-                        <Lock className="w-4 h-4 text-amber-400" />
+                        <Lock className="w-4 h-4 text-rose-400" />
                       ) : (
                         <Unlock className="w-4 h-4 text-emerald-400" />
                       )}
-                      <span className="font-bold text-sm">Lock game</span>
+                      <span className="font-bold text-sm text-[#FBF6E9]">Lock game</span>
                     </div>
-                    <p className="text-xs text-white/60 mt-1">
+                    <p className="text-xs text-white/50 mt-1">
                       Prevent new players from joining
                     </p>
                   </div>
                   <button
                     onClick={() => handleToggleSetting('lockGame')}
-                    className={`w-12 h-6 rounded-full transition-colors p-0.5 relative shrink-0 ${
-                      gameSettings.lockGame ? 'bg-[#E21B3C]' : 'bg-slate-700'
+                    className={`w-12 h-6 rounded-full transition-colors p-0.5 relative shrink-0 cursor-pointer ${
+                      gameSettings.lockGame ? 'bg-rose-500' : 'bg-white/10'
                     }`}
                   >
                     <div
@@ -773,28 +811,28 @@ export const Host: React.FC = () => {
               {/* Theme Picker */}
               <div className="mt-6">
                 <div className="flex items-center gap-2 mb-3">
-                  <Palette className="w-4 h-4 text-amber-400" />
-                  <h3 className="text-xs font-black uppercase tracking-widest text-white/50">
+                  <Palette className="w-4 h-4 text-[#FAC747]" />
+                  <h3 className="text-xs font-black uppercase tracking-widest text-[#FAC747]">
                     Lobby Theme
                   </h3>
                 </div>
 
                 <div className="grid grid-cols-2 gap-2">
                   {[
-                    { id: 'standard', name: 'Standard Purple', bg: 'bg-[#46178F]' },
+                    { id: 'standard', name: 'Standard Cosmic', bg: 'bg-[#182046]' },
                     { id: 'spring', name: 'Spring Blossom', bg: 'bg-emerald-600' },
                     { id: 'summer', name: 'Summer Beach', bg: 'bg-sky-500' },
                     { id: 'autumn', name: 'Autumn Foliage', bg: 'bg-amber-600' },
                     { id: 'winter', name: 'Winter Frost', bg: 'bg-indigo-700' },
-                    { id: 'dark', name: 'Dark Mode', bg: 'bg-slate-900' },
+                    { id: 'dark', name: 'Cosmic Dark', bg: 'bg-slate-950' },
                   ].map((t) => (
                     <button
                       key={t.id}
                       onClick={() => handleSelectTheme(t.id)}
-                      className={`p-2.5 rounded-xl border flex items-center gap-2 text-xs font-bold transition-all ${
+                      className={`p-2.5 rounded-xl border flex items-center gap-2 text-xs font-bold transition-all cursor-pointer ${
                         selectedTheme === t.id
-                          ? 'border-white bg-white/20 ring-2 ring-white/50'
-                          : 'border-white/10 bg-white/5 hover:bg-white/10'
+                          ? 'border-[#FAC747] bg-amber-400/10 text-[#FAC747] ring-2 ring-[#FAC747]/40'
+                          : 'border-white/10 bg-white/5 hover:bg-white/10 text-white/70 hover:text-white'
                       }`}
                     >
                       <div className={`w-3.5 h-3.5 rounded-full ${t.bg} shrink-0 shadow`} />
@@ -808,7 +846,7 @@ export const Host: React.FC = () => {
             <div className="pt-4 border-t border-white/10 text-center">
               <button
                 onClick={() => setIsSettingsOpen(false)}
-                className="w-full py-3 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-sm shadow transition-all"
+                className="btn-gold w-full py-3 rounded-xl text-[#2A1A00] font-bold text-sm shadow transition-all cursor-pointer"
               >
                 Done
               </button>
@@ -824,21 +862,21 @@ export const Host: React.FC = () => {
         <div className="flex-1 flex flex-col justify-between p-8 md:p-12">
           {/* Top Banner with Game PIN */}
           <div className="flex flex-col items-center animate-float-up">
-            <div className="bg-white text-slate-900 rounded-3xl px-8 py-5 shadow-2xl flex flex-col md:flex-row items-center gap-6 border-4 border-[#33106A]">
+            <div className="cosmic-hero-card rounded-3xl px-8 py-5 shadow-2xl flex flex-col md:flex-row items-center gap-6 border border-white/15 backdrop-blur-xl bg-[#0F1433]/90 text-[#FBF6E9]">
               <div className="text-center md:text-left">
-                <p className="text-xs font-black uppercase tracking-widest text-slate-400">
+                <p className="text-xs font-black uppercase tracking-widest text-white/50">
                   Join with phone or tablet at:
                 </p>
-                <p className="text-2xl font-black text-[#46178F]">{joinDomain}</p>
+                <p className="text-2xl font-black text-[#5CC7B8]">{joinDomain}</p>
               </div>
 
-              <div className="h-12 w-px bg-slate-200 hidden md:block" />
+              <div className="h-12 w-px bg-white/10 hidden md:block" />
 
               <div className="text-center">
-                <p className="text-xs font-black uppercase tracking-widest text-slate-400">
+                <p className="text-xs font-black uppercase tracking-widest text-white/50">
                   Game PIN:
                 </p>
-                <div className="text-5xl md:text-6xl font-black tracking-widest text-slate-900 font-mono">
+                <div className="text-5xl md:text-6xl font-black tracking-widest text-[#FAC747] font-mono drop-shadow-[0_0_25px_rgba(250,199,71,0.5)]">
                   {pin}
                 </div>
               </div>
@@ -846,7 +884,7 @@ export const Host: React.FC = () => {
               {/* QR Code thumbnail button - Always visible */}
               <div
                 onClick={() => setShowQrModal(true)}
-                className="p-2.5 bg-white rounded-2xl shadow-lg border-2 border-slate-200 hover:border-[#46178F] cursor-pointer hover:scale-105 active:scale-95 transition-all group relative flex flex-col items-center justify-center min-w-[104px] min-h-[104px]"
+                className="p-2.5 bg-white rounded-2xl shadow-xl border-2 border-white/20 hover:border-[#FAC747] cursor-pointer hover:scale-105 active:scale-95 transition-all group relative flex flex-col items-center justify-center min-w-[104px] min-h-[104px]"
                 title="Click to view large 4K QR Code"
               >
                 {qrSvg ? (
@@ -862,12 +900,12 @@ export const Host: React.FC = () => {
                   />
                 ) : (
                   <div className="w-20 h-20 sm:w-24 sm:h-24 flex flex-col items-center justify-center text-slate-800">
-                    <QrCode className="w-10 h-10 text-[#46178F] mb-1 animate-pulse" />
+                    <QrCode className="w-10 h-10 text-[#FAC747] mb-1 animate-pulse" />
                     <span className="text-[10px] font-black uppercase tracking-wider text-slate-600">Scan QR</span>
                   </div>
                 )}
-                <div className="absolute inset-0 bg-[#46178F]/15 rounded-2xl opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                  <Maximize className="w-6 h-6 text-[#46178F] drop-shadow" />
+                <div className="absolute inset-0 bg-[#0F1433]/30 rounded-2xl opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                  <Maximize className="w-6 h-6 text-[#FAC747] drop-shadow" />
                 </div>
               </div>
             </div>
@@ -878,18 +916,18 @@ export const Host: React.FC = () => {
             {players.length === 0 ? (
               <div className="text-center">
                 <div className="inline-block p-4 rounded-full bg-white/10 backdrop-blur animate-pulse mb-3">
-                  <Users className="w-12 h-12 text-white/80" />
+                  <Users className="w-12 h-12 text-[#FAC747]" />
                 </div>
-                <h2 className="text-3xl font-black drop-shadow-md">Waiting for players...</h2>
-                <p className="text-white/70 text-sm mt-1">
-                  Enter PIN <span className="font-bold underline">{pin}</span> on your phone!
+                <h2 className="text-3xl font-black text-[#FBF6E9] drop-shadow-md">Waiting for players...</h2>
+                <p className="text-white/60 text-sm mt-1">
+                  Enter PIN <span className="font-bold text-[#FAC747] underline">{pin}</span> on your phone!
                 </p>
               </div>
             ) : (
               <div className="w-full max-w-5xl">
                 <div className="flex items-center justify-center gap-2 mb-6">
-                  <Users className="w-6 h-6" />
-                  <span className="text-2xl font-black">{players.length} Players</span>
+                  <Users className="w-6 h-6 text-[#5CC7B8]" />
+                  <span className="text-2xl font-black text-[#FBF6E9]">{players.length} Players</span>
                 </div>
 
                 <div className="flex flex-wrap items-center justify-center gap-4 max-h-96 overflow-y-auto p-4">
@@ -897,12 +935,12 @@ export const Host: React.FC = () => {
                     <div
                       key={p.userUuid}
                       onClick={() => handleKickPlayer(p.userUuid)}
-                      className="px-5 py-3 rounded-2xl bg-white text-slate-900 font-black text-xl shadow-xl flex items-center gap-3 animate-bounce-in cursor-pointer hover:bg-red-50 hover:text-red-600 transition-all group"
+                      className="px-5 py-3 rounded-2xl bg-[#131938]/90 border border-white/15 text-[#FBF6E9] font-black text-xl shadow-xl flex items-center gap-3 animate-bounce-in cursor-pointer hover:bg-rose-500/20 hover:border-rose-500/40 hover:text-rose-300 transition-all group backdrop-blur-md"
                       title="Click to remove player"
                     >
                       <span className="text-2xl">{p.avatar}</span>
                       <span>{p.nickname}</span>
-                      <X className="w-4 h-4 opacity-0 group-hover:opacity-100 text-red-500 transition-opacity ml-1" />
+                      <X className="w-4 h-4 opacity-0 group-hover:opacity-100 text-rose-400 transition-opacity ml-1" />
                     </div>
                   ))}
                 </div>
@@ -912,14 +950,14 @@ export const Host: React.FC = () => {
 
           {/* Bottom Bar with Start Button */}
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 bg-black/30 backdrop-blur px-4 py-2 rounded-xl text-sm font-bold">
+            <div className="flex items-center gap-2 bg-[#0F1433]/80 border border-white/10 backdrop-blur px-4 py-2 rounded-xl text-sm font-bold text-white/70">
               <span>Host View</span>
             </div>
 
             <button
               onClick={handleStartGame}
               disabled={players.length === 0}
-              className="px-10 py-4 rounded-2xl bg-[#26890C] hover:bg-[#1e6e09] text-white font-black text-2xl shadow-2xl hover:scale-105 transition-all active:scale-95 disabled:opacity-40 disabled:hover:scale-100 disabled:hover:bg-[#26890C] flex items-center gap-3 cursor-pointer"
+              className="btn-gold px-10 py-4 rounded-2xl text-[#2A1A00] font-black text-2xl shadow-2xl hover:scale-105 transition-all active:scale-95 disabled:opacity-40 disabled:hover:scale-100 flex items-center gap-3 cursor-pointer"
             >
               <Play className="w-7 h-7 fill-current" />
               <span>Start</span>
@@ -933,16 +971,82 @@ export const Host: React.FC = () => {
       {/* ========================================================================= */}
       {gameState === 'GET_READY' && (
         <div className="flex-1 flex flex-col items-center justify-center p-8 text-center animate-bounce-in">
-          <div className="bg-slate-900/85 backdrop-blur-md rounded-3xl p-8 md:p-12 shadow-2xl border-2 border-white/20 max-w-2xl w-full flex flex-col items-center">
+          <div className="cosmic-surface rounded-3xl p-8 md:p-12 shadow-2xl border border-white/15 max-w-2xl w-full flex flex-col items-center text-[#FBF6E9]">
+            {/* Step 1: Animated Question Type */}
             <QuestionTypeAnimation type={currentQuestion?.type || 'quiz'} size={130} />
 
-            <div className="bg-white/20 px-5 py-1.5 rounded-full font-black text-xs uppercase tracking-widest my-4 text-white">
+            <div className="bg-amber-400/10 border border-amber-400/20 text-[#FAC747] px-5 py-1.5 rounded-full font-black text-xs uppercase tracking-widest my-4">
               Question {currentQuestion?.index ?? ((questionIndex ?? 0) + 1)} of {currentQuestion?.total ?? totalQuestions}
             </div>
 
-            <h1 className="text-3xl md:text-5xl font-black text-white drop-shadow-lg leading-tight">
+            <h1 className="text-3xl md:text-5xl font-black text-[#FBF6E9] drop-shadow-lg leading-tight">
               {currentQuestion?.title || 'Get Ready!'}
             </h1>
+
+            {/* Progressive Feature Reveal (Kahoot-style step 2 & step 3) */}
+            <div className="flex flex-wrap items-center justify-center gap-3 mt-6 min-h-[56px]">
+              {/* Step 2: Selection Mode Badge (Stage 2: 4s mark, quiz types only) */}
+              {getReadyStage >= 2 && ['quiz', 'true_false', 'yes_no', 'picture_reveal'].includes(currentQuestion?.type || 'quiz') && (
+                Boolean(currentQuestion?.isMultiSelect) ? (
+                  <div className="animate-pop-badge flex items-center gap-3 px-6 py-2.5 rounded-2xl bg-[#5CC7B8]/20 border-2 border-[#5CC7B8] text-[#5CC7B8] shadow-[0_0_25px_rgba(92,199,184,0.35)] backdrop-blur-md">
+                    <CheckSquare className="w-6 h-6 stroke-[2.5]" />
+                    <div className="text-left">
+                      <div className="font-black text-base sm:text-lg leading-tight uppercase tracking-wider">
+                        Multi-Select
+                      </div>
+                      <div className="text-xs text-[#5CC7B8]/80 font-bold">
+                        Select all correct answers
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="animate-pop-badge flex items-center gap-3 px-6 py-2.5 rounded-2xl bg-sky-500/15 border-2 border-sky-400 text-sky-300 shadow-[0_0_25px_rgba(56,189,248,0.25)] backdrop-blur-md">
+                    <CheckCircle className="w-6 h-6 stroke-[2.5]" />
+                    <div className="text-left">
+                      <div className="font-black text-base sm:text-lg leading-tight uppercase tracking-wider">
+                        Single Select
+                      </div>
+                      <div className="text-xs text-sky-200/80 font-bold">
+                        Choose 1 answer
+                      </div>
+                    </div>
+                  </div>
+                )
+              )}
+
+              {/* Step 3: Points Badge (Stage 3: 5s mark, only if not standard 1000 points) */}
+              {getReadyStage >= 3 && (() => {
+                const pts = currentQuestion?.points ?? 1000;
+                if (pts === 1000) return null;
+                const multiplier = pts / 1000;
+                const isDouble = pts === 2000;
+                const isZero = pts === 0;
+
+                const multiplierStr = isZero
+                  ? '0 Points'
+                  : `x${Number.isInteger(multiplier) ? multiplier : multiplier.toFixed(1)} Points`;
+
+                return (
+                  <div className="animate-pop-badge flex items-center gap-3 px-6 py-2.5 rounded-2xl bg-amber-400/20 border-2 border-[#FAC747] text-[#FAC747] shadow-[0_0_25px_rgba(250,199,71,0.4)] backdrop-blur-md">
+                    {isZero ? (
+                      <ZapOff className="w-6 h-6 stroke-[2.5]" />
+                    ) : (
+                      <Zap className="w-6 h-6 stroke-[2.5] fill-current animate-pulse text-[#FAC747]" />
+                    )}
+                    <div className="text-left">
+                      <div className="font-black text-base sm:text-lg leading-tight uppercase tracking-wider">
+                        {multiplierStr}
+                      </div>
+                      <div className="text-xs text-[#FAC747]/80 font-bold">
+                        {isZero
+                          ? 'No points awarded'
+                          : `${isDouble ? 'Double' : multiplier > 1 ? 'Bonus' : 'Adjusted'} points for this question`}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
+            </div>
           </div>
         </div>
       )}
@@ -954,7 +1058,7 @@ export const Host: React.FC = () => {
         <div className="flex-1 min-h-0 flex flex-col justify-between pt-14 sm:pt-16 pb-2 sm:pb-3 px-3 sm:px-6 md:px-8 w-full max-w-[98vw] mx-auto overflow-hidden">
           {/* Top Banner: Question Title */}
           <div className="w-full shrink-0">
-            <div className="bg-white text-slate-900 rounded-2xl sm:rounded-3xl px-6 sm:px-10 py-2.5 sm:py-3.5 shadow-xl text-center border-2 sm:border-4 border-slate-200 animate-float-up">
+            <div className="cosmic-surface rounded-2xl sm:rounded-3xl px-6 sm:px-10 py-3 sm:py-4 shadow-2xl text-center border border-white/15 animate-float-up text-[#FBF6E9]">
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black leading-tight tracking-tight">
                 {currentQuestion.title}
               </h2>
@@ -963,10 +1067,10 @@ export const Host: React.FC = () => {
 
           {/* Center Area: Left Timer, Center Image, Right Answers Count */}
           <div className="flex-1 min-h-0 flex items-center justify-between w-full my-1 sm:my-2 px-2 sm:px-6 gap-2 sm:gap-6">
-            {/* Left Solid Hard Purple Circle Timer Counter */}
+            {/* Left Solid Gold Circle Timer Counter */}
             <div className="shrink-0 flex flex-col items-center select-none">
-              <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full bg-[#46178F] border-[4px] sm:border-[5px] border-[#33106A] shadow-2xl flex items-center justify-center">
-                <span className="text-white font-black text-3xl sm:text-4xl md:text-5xl tracking-tighter drop-shadow-md">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full bg-gradient-to-tr from-[#131938] to-[#1E2756] border-[4px] border-[#FAC747]/70 shadow-[0_0_25px_rgba(250,199,71,0.3)] flex items-center justify-center">
+                <span className="text-[#FAC747] font-black text-3xl sm:text-4xl md:text-5xl tracking-tighter drop-shadow-md">
                   {remainingSeconds}
                 </span>
               </div>
@@ -983,7 +1087,7 @@ export const Host: React.FC = () => {
                   className="max-h-[28vh] sm:max-h-[34vh]"
                 />
               ) : currentQuestion.image ? (
-                <div className="rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border-2 sm:border-4 border-white bg-black/40 max-h-[28vh] sm:max-h-[34vh] max-w-[60vw] flex items-center justify-center">
+                <div className="rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border-2 sm:border-4 border-white/40 bg-black/40 max-h-[28vh] sm:max-h-[34vh] max-w-[60vw] flex items-center justify-center">
                   <img
                     src={currentQuestion.image}
                     alt="Media"
@@ -991,22 +1095,22 @@ export const Host: React.FC = () => {
                   />
                 </div>
               ) : (
-                <div className="flex flex-col items-center justify-center p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-slate-950/85 backdrop-blur border-2 border-white/20 shadow-xl">
+                <div className="flex flex-col items-center justify-center p-4 sm:p-6 rounded-2xl sm:rounded-3xl cosmic-surface border border-white/15 shadow-xl text-[#FBF6E9]">
                   <QuestionTypeAnimation type={currentQuestion.type || 'quiz'} size={100} showLabel={false} />
-                  <span className="text-white font-black text-sm sm:text-base mt-2">
+                  <span className="text-[#FBF6E9] font-black text-sm sm:text-base mt-2">
                     Question {questionIndex + 1}
                   </span>
                 </div>
               )}
             </div>
 
-            {/* Right Solid Hard Purple Circle Answers Counter & Pill */}
+            {/* Right Solid Teal Circle Answers Counter & Pill */}
             <div className="shrink-0 flex flex-col items-center select-none">
-              <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full bg-[#46178F] border-[4px] sm:border-[5px] border-[#33106A] shadow-2xl flex items-center justify-center relative">
-                <span className="text-white font-black text-3xl sm:text-4xl md:text-5xl tracking-tighter drop-shadow-md">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full bg-gradient-to-tr from-[#131938] to-[#1E2756] border-[4px] border-[#5CC7B8]/70 shadow-[0_0_25px_rgba(92,199,184,0.3)] flex items-center justify-center relative">
+                <span className="text-[#5CC7B8] font-black text-3xl sm:text-4xl md:text-5xl tracking-tighter drop-shadow-md">
                   {answersCount}
                 </span>
-                <div className="absolute -bottom-2 sm:-bottom-2.5 bg-[#46178F] border-2 border-[#33106A] text-white px-3 sm:px-4 py-0.5 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider shadow-lg">
+                <div className="absolute -bottom-2 sm:-bottom-2.5 bg-[#0F1433] border border-[#5CC7B8]/50 text-[#5CC7B8] px-3 sm:px-4 py-0.5 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider shadow-lg">
                   Answers
                 </div>
               </div>
@@ -1023,7 +1127,8 @@ export const Host: React.FC = () => {
               }`}
             >
               {(currentQuestion.options || []).map((opt: any, idx: number) => {
-                const color = KAHOOT_COLORS[idx % KAHOOT_COLORS.length];
+                const itemIdx = opt.colorIndex ?? idx;
+                const color = KAHOOT_COLORS[itemIdx % KAHOOT_COLORS.length];
                 const hasImg = Boolean(currentQuestion.image);
                 return (
                   <div
@@ -1032,9 +1137,9 @@ export const Host: React.FC = () => {
                       hasImg
                         ? 'p-2.5 sm:p-3.5 min-h-[50px] sm:min-h-[62px] md:min-h-[72px]'
                         : 'p-3 sm:p-4 min-h-[55px] sm:min-h-[68px] md:min-h-[78px]'
-                    } shadow-xl flex items-center gap-3 sm:gap-4 text-white animate-bounce-in`}
+                    } shadow-xl border border-white/20 flex items-center gap-3 sm:gap-4 text-white animate-bounce-in`}
                   >
-                    <ShapeIcon index={idx} size={hasImg ? 28 : 32} className="shrink-0 drop-shadow" />
+                    <ShapeIcon index={itemIdx} size={hasImg ? 28 : 32} className="shrink-0 drop-shadow" />
                     <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-black flex-1 line-clamp-2">
                       {opt.text}
                     </span>
@@ -1053,7 +1158,7 @@ export const Host: React.FC = () => {
         <div className="flex-1 min-h-0 flex flex-col justify-between pt-14 sm:pt-16 pb-2 sm:pb-3 px-3 sm:px-6 md:px-8 w-full max-w-[98vw] mx-auto overflow-hidden">
           {/* Top Banner (Positioned comfortably below fixed top bar) */}
           <div className="w-full shrink-0">
-            <div className="bg-white text-slate-900 rounded-2xl sm:rounded-3xl px-6 sm:px-10 py-2.5 sm:py-3.5 shadow-xl text-center border-2 sm:border-4 border-slate-200">
+            <div className="cosmic-surface rounded-2xl sm:rounded-3xl px-6 sm:px-10 py-3 sm:py-4 shadow-2xl text-center border border-white/12 text-[#FBF6E9]">
               <h2 className="text-xl sm:text-2xl md:text-3xl font-black leading-tight">
                 {revealQuestion.title}
               </h2>
@@ -1124,7 +1229,7 @@ export const Host: React.FC = () => {
                   }`}
                 >
                   {displayOptions.map((opt: any, idx: number) => {
-                    const itemIdx = isPuzzle ? (opt.colorIndex ?? opt.originalIndex ?? idx) : idx;
+                    const itemIdx = opt.colorIndex ?? opt.originalIndex ?? idx;
                     const color = KAHOOT_COLORS[itemIdx % KAHOOT_COLORS.length];
                     const isCorrect = isPuzzle ? true : Boolean(opt.isCorrect);
 
@@ -1170,14 +1275,14 @@ export const Host: React.FC = () => {
       {/* 5. SCOREBOARD SCREEN */}
       {/* ========================================================================= */}
       {gameState === 'SCOREBOARD' && (
-        <div className="flex-1 min-h-0 flex flex-col justify-between pt-14 sm:pt-16 pb-4 px-4 sm:px-8 max-w-4xl mx-auto w-full overflow-hidden">
-          {/* Header (No redundant Next button; single top-right button controls advance) */}
+        <div className="flex-1 min-h-0 flex flex-col justify-between pt-14 sm:pt-16 pb-4 px-4 sm:px-8 max-w-4xl mx-auto w-full overflow-hidden text-[#FBF6E9]">
+          {/* Header */}
           <div className="flex items-center justify-center w-full shrink-0">
-            <div className="bg-slate-900/80 backdrop-blur-md px-8 py-2.5 rounded-2xl border border-white/20 text-center">
-              <span className="text-xs font-black uppercase tracking-widest text-white/60 block">
+            <div className="cosmic-surface px-8 py-3 rounded-2xl border border-white/15 text-center text-[#FBF6E9] shadow-xl">
+              <span className="text-xs font-black uppercase tracking-widest text-[#FAC747] block">
                 Scoreboard
               </span>
-              <h1 className="text-2xl sm:text-3xl font-black drop-shadow text-white">
+              <h1 className="text-2xl sm:text-3xl font-black drop-shadow text-[#FBF6E9]">
                 Leaderboard
               </h1>
             </div>
@@ -1188,19 +1293,19 @@ export const Host: React.FC = () => {
             {leaderboard.map((player, idx) => (
               <div
                 key={player.userUuid}
-                className="bg-white text-slate-900 rounded-2xl p-3 sm:p-3.5 shadow-xl flex items-center justify-between animate-float-up"
+                className="cosmic-surface bg-[#131938]/90 text-[#FBF6E9] border border-white/12 rounded-2xl p-3.5 sm:p-4 shadow-xl flex items-center justify-between animate-float-up"
                 style={{ animationDelay: `${idx * 100}ms` }}
               >
                 <div className="flex items-center gap-3 sm:gap-4">
                   <div
-                    className={`w-8 h-8 rounded-xl flex items-center justify-center font-black text-base text-white ${
+                    className={`w-8 h-8 rounded-xl flex items-center justify-center font-black text-base shadow ${
                       idx === 0
-                        ? 'bg-[#D89E00]'
+                        ? 'bg-gradient-to-tr from-[#FAC747] to-[#DB941F] text-[#2A1A00]'
                         : idx === 1
-                        ? 'bg-slate-400'
+                        ? 'bg-slate-300 text-slate-900'
                         : idx === 2
-                        ? 'bg-amber-700'
-                        : 'bg-slate-700'
+                        ? 'bg-amber-600 text-white'
+                        : 'bg-white/10 text-white'
                     }`}
                   >
                     {player.rank}
@@ -1209,21 +1314,21 @@ export const Host: React.FC = () => {
                   <span className="text-lg sm:text-xl font-black">{player.nickname}</span>
 
                   {player.streak >= 2 && (
-                    <div className="flex items-center gap-1 bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full text-xs font-bold">
-                      <Flame className="w-3.5 h-3.5 fill-amber-500" />
+                    <div className="flex items-center gap-1 bg-amber-400/20 text-[#FAC747] border border-amber-400/30 px-2 py-0.5 rounded-full text-xs font-bold">
+                      <Flame className="w-3.5 h-3.5 fill-[#FAC747]" />
                       <span>{player.streak} streak</span>
                     </div>
                   )}
                 </div>
 
-                <div className="text-xl sm:text-2xl font-black text-[#46178F] font-mono">
+                <div className="text-xl sm:text-2xl font-black text-[#FAC747] font-mono">
                   {player.score.toLocaleString()}
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="text-center text-xs text-white/80 bg-black/30 backdrop-blur inline-block px-4 py-1 rounded-full mx-auto">
+          <div className="text-center text-xs text-white/60 bg-[#0F1433]/80 border border-white/10 backdrop-blur inline-block px-4 py-1.5 rounded-full mx-auto">
             Top 5 players displayed
           </div>
         </div>
@@ -1233,15 +1338,15 @@ export const Host: React.FC = () => {
       {/* 6. PODIUM SCREEN (Fixed Sizing & Guaranteed Gold Supremacy!) */}
       {/* ========================================================================= */}
       {gameState === 'PODIUM' && podiumData && (
-        <div className="flex-1 min-h-0 flex flex-col justify-between p-2 sm:p-4 md:p-6 text-center overflow-y-auto">
+        <div className="flex-1 min-h-0 flex flex-col justify-between p-2 sm:p-4 md:p-6 text-center overflow-y-auto text-[#FBF6E9]">
           {/* Header Card with High Contrast */}
           <div className="shrink-0 pt-1 sm:pt-2">
-            <div className="bg-slate-900/80 backdrop-blur-md px-6 sm:px-8 py-2 sm:py-3 rounded-2xl inline-block shadow-2xl border-2 border-white/20 mx-auto">
-              <div className="inline-flex items-center gap-2 bg-white/20 px-3 py-0.5 rounded-full font-black text-xs tracking-wider uppercase mb-1 text-white">
-                <Trophy className="w-4 h-4 text-amber-300" />
+            <div className="cosmic-surface bg-[#0F1433]/90 backdrop-blur-md px-6 sm:px-8 py-2.5 sm:py-3.5 rounded-2xl inline-block shadow-2xl border border-white/15 mx-auto">
+              <div className="inline-flex items-center gap-2 bg-amber-400/15 border border-amber-400/25 px-3 py-0.5 rounded-full font-black text-xs tracking-wider uppercase mb-1 text-[#FAC747]">
+                <Trophy className="w-4 h-4 text-[#FAC747]" />
                 <span>Final Results</span>
               </div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-white drop-shadow-lg">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-[#FBF6E9] drop-shadow-lg">
                 BetelQuiz Champions
               </h1>
             </div>
@@ -1277,12 +1382,12 @@ export const Host: React.FC = () => {
               <div className="min-h-[90px] sm:min-h-[110px] md:min-h-[125px] flex flex-col items-center justify-end pb-1.5">
                 {podiumData.first ? (
                   <div className="flex flex-col items-center animate-bounce-in">
-                    <Trophy className="w-7 h-7 sm:w-9 sm:h-9 md:w-10 md:h-10 text-[#FFD700] mb-0.5 animate-bounce drop-shadow" />
+                    <Trophy className="w-7 h-7 sm:w-9 sm:h-9 md:w-10 md:h-10 text-[#FAC747] mb-0.5 animate-bounce drop-shadow" />
                     <span className="text-3xl sm:text-4xl md:text-5xl">{podiumData.first.avatar}</span>
-                    <span className="font-black text-base sm:text-lg md:text-xl text-white drop-shadow mt-0.5 line-clamp-1">
+                    <span className="font-black text-base sm:text-lg md:text-xl text-[#FBF6E9] drop-shadow mt-0.5 line-clamp-1">
                       {podiumData.first.nickname}
                     </span>
-                    <span className="text-xs sm:text-sm font-bold text-amber-200 bg-black/50 px-2.5 py-0.5 rounded-full mt-0.5">
+                    <span className="text-xs sm:text-sm font-bold text-[#FAC747] bg-black/50 px-2.5 py-0.5 rounded-full mt-0.5 border border-amber-400/30">
                       {podiumData.first.score.toLocaleString()} pts
                     </span>
                   </div>
@@ -1290,9 +1395,9 @@ export const Host: React.FC = () => {
                   <div className="text-white/40 font-bold text-xs bg-black/20 px-2.5 py-0.5 rounded-full">-</div>
                 )}
               </div>
-              <div className="w-full bg-gradient-to-b from-[#FFD700] via-[#FDB813] to-[#E5A800] text-amber-950 rounded-t-3xl h-32 sm:h-40 md:h-48 lg:h-56 shadow-2xl flex flex-col items-center justify-center font-black border-t-4 border-yellow-100 ring-4 ring-yellow-400/40 shrink-0">
+              <div className="w-full bg-gradient-to-b from-[#FAC747] via-[#DB941F] to-[#996000] text-[#2A1A00] rounded-t-3xl h-32 sm:h-40 md:h-48 lg:h-56 shadow-2xl flex flex-col items-center justify-center font-black border-t-4 border-yellow-200 ring-4 ring-[#FAC747]/40 shrink-0">
                 <span className="text-4xl sm:text-5xl md:text-6xl font-black">1</span>
-                <span className="text-xs sm:text-sm uppercase tracking-widest text-amber-900 font-black mt-0.5">Champion</span>
+                <span className="text-xs sm:text-sm uppercase tracking-widest text-[#2A1A00] font-black mt-0.5">Champion</span>
               </div>
             </div>
 
@@ -1324,7 +1429,7 @@ export const Host: React.FC = () => {
           <div className="flex items-center justify-center gap-4 pb-2 shrink-0">
             <button
               onClick={() => navigate('/admin/dashboard')}
-              className="px-6 py-2 sm:px-8 sm:py-2.5 rounded-2xl bg-white text-[#46178F] font-black text-sm sm:text-base shadow-xl hover:bg-slate-100 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+              className="btn-gold px-8 py-3 rounded-2xl text-[#2A1A00] font-black text-sm sm:text-base shadow-xl hover:scale-105 active:scale-95 cursor-pointer"
             >
               Exit to Dashboard
             </button>

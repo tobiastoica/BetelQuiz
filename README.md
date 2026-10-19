@@ -17,10 +17,8 @@ For development with hot-reloading:
 npm run dev
 ```
 
-To run test suites (Unit tests + E2E multiplayer lifecycle):
-```bash
-npm test
-```
+> [!WARNING]
+> **DO NOT RUN `npm test`**: The test suite contains lingering asynchronous socket/timer listeners that cause it to hang indefinitely. For builds and typechecking, use `npm run build` in the `client` directory.
 
 ---
 
@@ -53,8 +51,7 @@ All WebSocket connections, APIs, and media assets will route automatically over 
 ## 🔐 Credentials & Authentication
 
 - **Admin Portal**: [http://localhost:3000/admin/login](http://localhost:3000/admin/login)
-  - **Username**: `admin`
-  - **Password**: `admin1235`
+  - Configure `ADMIN_USERNAME` and `ADMIN_PASSWORD` in `.env` (copied from `.env.example`).
 - **Players**: **No login required!**
   - Players only need to enter the 6-digit numeric Game PIN and their nickname.
 

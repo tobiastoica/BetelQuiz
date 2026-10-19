@@ -115,9 +115,9 @@ async function runLoadTest() {
   await questionActivePromise;
   console.log(`State transitioned to GET_READY successfully.`);
 
-  // Wait 4 seconds for GET_READY to transition to QUESTION_ACTIVE
+  // Wait 6 seconds for GET_READY to transition to QUESTION_ACTIVE
   console.log(`Waiting for QUESTION_ACTIVE countdown...`);
-  await new Promise((resolve) => setTimeout(resolve, 5500));
+  await new Promise((resolve) => setTimeout(resolve, 6500));
 
   // 4. All 100 players submit answers concurrently!
   console.log(`\n4. Simulating ${successfulJoins} players submitting answers simultaneously...`);
