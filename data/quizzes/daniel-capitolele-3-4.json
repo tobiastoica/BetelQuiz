@@ -1,0 +1,571 @@
+{
+  "id": "daniel-capitolele-3-4",
+  "title": "Cartea Daniel - Partea 3 (Capitolele 3–4)",
+  "description": "Întrebările 24–41: Chipul de aur din Valea Dura, cuptorul încins de 7 ori, al patrulea om umblând în foc, visul copacului cel mare și smerirea împăratului.",
+  "coverImage": "",
+  "theme": "summer",
+  "defaultTimeLimit": 30,
+  "defaultPoints": 1000,
+  "createdAt": "2026-10-17T12:06:21.660Z",
+  "updatedAt": "2026-10-17T13:33:36.918Z",
+  "questions": [
+    {
+      "id": "d3_q24",
+      "type": "quiz",
+      "title": "Unde a ridicat Nebucadnețar chipul de aur pe care l-a făcut în cinstea sa?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d3_q24_opt1",
+          "text": "la Susa",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q24_opt2",
+          "text": "în Valea Sorec",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q24_opt3",
+          "text": "în Valea Dura",
+          "isCorrect": true
+        },
+        {
+          "id": "d3_q24_opt4",
+          "text": "pe muntele Carmel",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d3_q25",
+      "type": "quiz",
+      "title": "Cine i-a pârât pe iudei lui Nebucadnețar, spunându-i că aceștia nu se închină statuii de aur?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d3_q25_opt1",
+          "text": "niște haldei",
+          "isCorrect": true
+        },
+        {
+          "id": "d3_q25_opt2",
+          "text": "căpetenia famenilor",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q25_opt3",
+          "text": "oștenii împăratului",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q25_opt4",
+          "text": "mai-marii satrapilor din Persia",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d3_q26",
+      "type": "quiz",
+      "title": "Cu ce cuvinte și-au început cei trei tineri răspunsul pe care i l-au dat împăratului, atunci când au fost acuzați că nu se închină chipului de aur?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d3_q26_opt1",
+          "text": "„Să trăiești veșnic, împărate!”",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q26_opt2",
+          "text": "„Să privească domnul nostru cu îndurare, pentru că porunca a fost prea aspră!”",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q26_opt3",
+          "text": "„Noi n-avem nevoie să-ți răspundem la cele de mai sus.”",
+          "isCorrect": true
+        },
+        {
+          "id": "d3_q26_opt4",
+          "text": "„Ferește-te, împărate, căci mânia Domnului va cădea peste tine!”",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d3_q27",
+      "type": "quiz",
+      "title": "Ce poruncă a dat împăratul, înainte ca cei trei tineri să fie aruncați în cuptorul de foc?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": true,
+      "options": [
+        {
+          "id": "d3_q27_opt1",
+          "text": "cuptorul să fie încălzit de șapte ori mai tare decât de obicei",
+          "isCorrect": true
+        },
+        {
+          "id": "d3_q27_opt2",
+          "text": "cei trei tineri să fie legați și aruncați în cuptor",
+          "isCorrect": true
+        },
+        {
+          "id": "d3_q27_opt3",
+          "text": "să fie dezbrăcați de hainele lor de sărbătoare",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q27_opt4",
+          "text": "să fie lăsați fără hrană timp de o săptămână",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d3_q28",
+      "type": "quiz",
+      "title": "Ce a spus împăratul că vede în mijlocul cuptorului?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d3_q28_opt1",
+          "text": "trei oameni umblând slobozi",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q28_opt2",
+          "text": "patru oameni umblând slobozi",
+          "isCorrect": true
+        },
+        {
+          "id": "d3_q28_opt3",
+          "text": "o minune cum nu a mai văzut nimeni până atunci",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q28_opt4",
+          "text": "o lumină cerească ce a stins flăcările focului",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d3_q29",
+      "type": "quiz",
+      "title": "Cum i-a numit Nebucadnețar pe cei trei tineri atunci când i-a chemat afară din cuptorul de foc?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d3_q29_opt1",
+          "text": "slujitorii Dumnezeului celui Preaînalt",
+          "isCorrect": true
+        },
+        {
+          "id": "d3_q29_opt2",
+          "text": "copiii lui",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q29_opt3",
+          "text": "învingătorii văpăii",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q29_opt4",
+          "text": "înțelepții cei mai mari ai Babilonului",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d3_q30",
+      "type": "quiz",
+      "title": "Despre cine ni se spune că L-a binecuvântat pe Dumnezeu când a văzut că cei trei tineri au ieșit nevătămați din cuptor?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d3_q30_opt1",
+          "text": "despre Nebucadnețar",
+          "isCorrect": true
+        },
+        {
+          "id": "d3_q30_opt2",
+          "text": "despre cei trei tineri",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q30_opt3",
+          "text": "despre tot poporul adunat în Valea Dura",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q30_opt4",
+          "text": "despre căpetenia oștirii babiloniene",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d3_q31",
+      "type": "quiz",
+      "title": "Cu ce cuvinte Îl mărește Nebucadnețar pe Dumnezeu când începe să vorbească despre semnele și minunile pe care le-a făcut față de el?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": true,
+      "options": [
+        {
+          "id": "d3_q31_opt1",
+          "text": "Cât de mari sunt semnele Lui și cât de puternice sunt minunile Lui!",
+          "isCorrect": true
+        },
+        {
+          "id": "d3_q31_opt2",
+          "text": "Stăpânirea Lui dăinuiește din neam în neam!",
+          "isCorrect": true
+        },
+        {
+          "id": "d3_q31_opt3",
+          "text": "Niciun zeu din cer sau de pe pământ nu se compară cu zeii Babilonului!",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q31_opt4",
+          "text": "Toate popoarele pământului să aducă jertfe chipului meu de aur!",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d3_q32",
+      "type": "quiz",
+      "title": "Cum l-a numit Nebucadnețar pe Daniel, atunci când i-a cerut să-i tâlcuiască visul cu copacul cel mare?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d3_q32_opt1",
+          "text": "căpetenia vrăjitorilor",
+          "isCorrect": true
+        },
+        {
+          "id": "d3_q32_opt2",
+          "text": "fiu de Dumnezeu",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q32_opt3",
+          "text": "descoperitor de taine",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q32_opt4",
+          "text": "proorocul cel fără de cusur",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d3_q33",
+      "type": "quiz",
+      "title": "Ce a spus, printre altele, împăratul legat de copacul cel mare?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": true,
+      "options": [
+        {
+          "id": "d3_q33_opt1",
+          "text": "că fiarele câmpului se adăposteau sub umbra lui și păsările cerului își făceau cuibul în ramurile lui",
+          "isCorrect": true
+        },
+        {
+          "id": "d3_q33_opt2",
+          "text": "că orice făptură vie se hrănea din el",
+          "isCorrect": true
+        },
+        {
+          "id": "d3_q33_opt3",
+          "text": "că frunzele lui nu se veștejeau niciodată și erau din aur curat",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q33_opt4",
+          "text": "că rădăcinile lui ajungeau până la adâncurile mărilor",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d3_q34",
+      "type": "quiz",
+      "title": "Cine a fost cel care, în visul lui Nebucadnețar, a poruncit ca copacul să fie tăiat?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d3_q34_opt1",
+          "text": "un străjer sfânt care s-a coborât din cer",
+          "isCorrect": true
+        },
+        {
+          "id": "d3_q34_opt2",
+          "text": "împăratul Nebucadnețar",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q34_opt3",
+          "text": "Dumnezeul oștirilor",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q34_opt4",
+          "text": "un arhanghel cu o sabie de foc",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d3_q35",
+      "type": "quiz",
+      "title": "Care au fost cuvintele pe care le-a spus împăratul spre finalul descrierii visului său?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d3_q35_opt1",
+          "text": "că Cel Preaînalt stăpânește peste împărăția oamenilor",
+          "isCorrect": true
+        },
+        {
+          "id": "d3_q35_opt2",
+          "text": "că nimeni nu este ca Daniel, care poate tâlcui orice vis",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q35_opt3",
+          "text": "că îi va da cinste lui Daniel, dacă îi va tâlcui visul",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q35_opt4",
+          "text": "că gloria Babilonului va rămâne neclintită în veac",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d3_q36",
+      "type": "quiz",
+      "title": "Ce reprezenta copacul cel mare, potrivit tâlcuirilor lui Daniel?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d3_q36_opt1",
+          "text": "pe Nebucadnețar și împărăția lui",
+          "isCorrect": true
+        },
+        {
+          "id": "d3_q36_opt2",
+          "text": "împărăția lui Dumnezeu",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q36_opt3",
+          "text": "cele cinci împărății care aveau să vină",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q36_opt4",
+          "text": "poporul Israel împrăștiat printre neamuri",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d3_q37",
+      "type": "quiz",
+      "title": "Ce perioadă de timp avea să treacă până când împăratul avea să recunoască faptul că Dumnezeu stăpânește peste împărăția oamenilor și i-o dă cui vrea?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d3_q37_opt1",
+          "text": "două vremi și jumătate",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q37_opt2",
+          "text": "șapte săptămâni de ani",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q37_opt3",
+          "text": "șapte vremi",
+          "isCorrect": true
+        },
+        {
+          "id": "d3_q37_opt4",
+          "text": "zece ani de pribegie",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d3_q38",
+      "type": "quiz",
+      "title": "Ce sfat i-a dat Daniel împăratului, în speranța că i se va prelungi fericirea?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": true,
+      "options": [
+        {
+          "id": "d3_q38_opt1",
+          "text": "să pună capăt păcatelor sale și să trăiască în neprihănire",
+          "isCorrect": true
+        },
+        {
+          "id": "d3_q38_opt2",
+          "text": "s-o rupă cu nelegiuirile și să aibă milă de cei nenorociți",
+          "isCorrect": true
+        },
+        {
+          "id": "d3_q38_opt3",
+          "text": "să zidească un templu pentru Domnul la Ierusalim",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q38_opt4",
+          "text": "să postească și să se îmbrace în sac și cenușă",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d3_q39",
+      "type": "quiz",
+      "title": "Cât timp a trecut de la tălmăcirea lui Daniel până când mândria împăratului a ajuns să-i aducă pedeapsa lui Dumnezeu și împlinirea tâlcuirii visului?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d3_q39_opt1",
+          "text": "șapte vremi",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q39_opt2",
+          "text": "douăsprezece săptămâni de zile",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q39_opt3",
+          "text": "douăsprezece luni",
+          "isCorrect": true
+        },
+        {
+          "id": "d3_q39_opt4",
+          "text": "trei ani și jumătate",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d3_q40",
+      "type": "quiz",
+      "title": "Ce ni se spune că a pățit împăratul pentru îngâmfarea lui?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": true,
+      "options": [
+        {
+          "id": "d3_q40_opt1",
+          "text": "a fost izgonit din mijlocul oamenilor",
+          "isCorrect": true
+        },
+        {
+          "id": "d3_q40_opt2",
+          "text": "a mâncat iarbă ca boii",
+          "isCorrect": true
+        },
+        {
+          "id": "d3_q40_opt3",
+          "text": "și-a pierdut vederea și auzul timp de șapte ani",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q40_opt4",
+          "text": "a fost închis în temnița palatului său",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d3_q41",
+      "type": "quiz",
+      "title": "Cine a spus: „Laud, înalț și slăvesc pe Împăratul cerurilor, căci toate lucrările Lui sunt adevărate.”?",
+      "timeLimit": 30,
+      "points": 2000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d3_q41_opt1",
+          "text": "Daniel",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q41_opt2",
+          "text": "cei trei tineri",
+          "isCorrect": false
+        },
+        {
+          "id": "d3_q41_opt3",
+          "text": "Nebucadnețar",
+          "isCorrect": true
+        },
+        {
+          "id": "d3_q41_opt4",
+          "text": "Belșațar",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    }
+  ]
+}

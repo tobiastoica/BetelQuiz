@@ -1,0 +1,350 @@
+{
+  "id": "daniel-capitolul-1",
+  "title": "Cartea Daniel - Partea 1 (Capitolul 1)",
+  "description": "Întrebările 1–12: Robia babiloniană, tinerii credincioși la curtea împărătească, testul de 10 zile cu legume și apă și înțelepciunea de zece ori mai mare.",
+  "coverImage": "",
+  "theme": "summer",
+  "createdAt": "2026-10-17T12:06:21.659Z",
+  "updatedAt": "2026-10-17T12:55:18.738Z",
+  "questions": [
+    {
+      "id": "d1_q1",
+      "type": "puzzle",
+      "title": "Așază în ordinea canonică din Vechiul Testament aceste cărți biblice:",
+      "timeLimit": 60,
+      "points": 1000,
+      "options": [
+        {
+          "id": "d1_q1_opt1",
+          "text": "Ezechiel",
+          "isCorrect": true,
+          "order": 0
+        },
+        {
+          "id": "d1_q1_opt2",
+          "text": "Daniel",
+          "isCorrect": true,
+          "order": 1
+        },
+        {
+          "id": "d1_q1_opt3",
+          "text": "Osea",
+          "isCorrect": true,
+          "order": 2
+        },
+        {
+          "id": "d1_q1_opt4",
+          "text": "Ioel",
+          "isCorrect": true,
+          "order": 3
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d1_q2",
+      "type": "quiz",
+      "title": "Cine a fost împăratul Babilonului care a împresurat Ierusalimul și l-a cucerit?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d1_q2_opt1",
+          "text": "Nebucadnețar",
+          "isCorrect": true
+        },
+        {
+          "id": "d1_q2_opt2",
+          "text": "Dariu",
+          "isCorrect": false
+        },
+        {
+          "id": "d1_q2_opt3",
+          "text": "Cir",
+          "isCorrect": false
+        },
+        {
+          "id": "d1_q2_opt4",
+          "text": "Ahașveroș",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d1_q3",
+      "type": "quiz",
+      "title": "În al treilea an al domniei cărui împărat a fost împresurat Ierusalimul?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d1_q3_opt1",
+          "text": "al lui Ioahaz",
+          "isCorrect": false
+        },
+        {
+          "id": "d1_q3_opt2",
+          "text": "al lui Ioiachim",
+          "isCorrect": true
+        },
+        {
+          "id": "d1_q3_opt3",
+          "text": "al lui Zedechia",
+          "isCorrect": false
+        },
+        {
+          "id": "d1_q3_opt4",
+          "text": "al lui Iosia",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d1_q4",
+      "type": "quiz",
+      "title": "Unde a dus Nebucadnețar o parte dintre vasele Casei lui Dumnezeu?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d1_q4_opt1",
+          "text": "în capitala Susa",
+          "isCorrect": false
+        },
+        {
+          "id": "d1_q4_opt2",
+          "text": "în țara Șinear",
+          "isCorrect": true
+        },
+        {
+          "id": "d1_q4_opt3",
+          "text": "în Ramses",
+          "isCorrect": false
+        },
+        {
+          "id": "d1_q4_opt4",
+          "text": "în Samaria",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d1_q5",
+      "type": "quiz",
+      "title": "Cui i-a poruncit împăratul Nebucadnețar să-i aducă vreo câțiva dintre copiii lui Israel?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d1_q5_opt1",
+          "text": "lui Așpenaz",
+          "isCorrect": true
+        },
+        {
+          "id": "d1_q5_opt2",
+          "text": "lui Memucan",
+          "isCorrect": false
+        },
+        {
+          "id": "d1_q5_opt3",
+          "text": "lui Ahașveroș",
+          "isCorrect": false
+        },
+        {
+          "id": "d1_q5_opt4",
+          "text": "lui Haman",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d1_q6",
+      "type": "quiz",
+      "title": "Care au fost cei patru tineri din poporul evreu aleși alături de alții pentru a trăi la palat?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d1_q6_opt1",
+          "text": "Daniel, Beltșațar, Șadrac și Meșac",
+          "isCorrect": false
+        },
+        {
+          "id": "d1_q6_opt2",
+          "text": "Daniel, Hanania, Șadrac și Meșac",
+          "isCorrect": false
+        },
+        {
+          "id": "d1_q6_opt3",
+          "text": "Daniel, Hanania, Mișael și Azaria",
+          "isCorrect": true
+        },
+        {
+          "id": "d1_q6_opt4",
+          "text": "Daniel, Mișael, Meșac și Abed-Nego",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d1_q7",
+      "type": "quiz",
+      "title": "Despre cine ni se spune că a hotărât să nu se spurce cu bucatele alese ale împăratului?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d1_q7_opt1",
+          "text": "despre Daniel",
+          "isCorrect": false
+        },
+        {
+          "id": "d1_q7_opt2",
+          "text": "despre Daniel și cei trei prieteni ai lui",
+          "isCorrect": true
+        },
+        {
+          "id": "d1_q7_opt3",
+          "text": "despre Daniel și toți tinerii evrei aduși la palat",
+          "isCorrect": false
+        },
+        {
+          "id": "d1_q7_opt4",
+          "text": "despre prietenii lui Daniel",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d1_q8",
+      "type": "quiz",
+      "title": "Ce s-a temut Așpenaz că ar fi putut să se întâmple?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "d1_q8_opt1",
+          "text": "că împăratul va vedea fața tristă a celor patru tineri, și astfel viața lui ar fi în primejdie",
+          "isCorrect": true
+        },
+        {
+          "id": "d1_q8_opt2",
+          "text": "că cei patru tineri vor fi puși în primejdie de moarte",
+          "isCorrect": false
+        },
+        {
+          "id": "d1_q8_opt3",
+          "text": "că se va găsi cineva care să-i spună împăratului planul celor patru tineri",
+          "isCorrect": false
+        },
+        {
+          "id": "d1_q8_opt4",
+          "text": "că tinerii se vor îmbolnăvi și nu vor putea învăța limba haldeilor",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d1_q9",
+      "type": "number_guess",
+      "title": "Timp de câte zile i-a spus Daniel famenului împăratului să-i încerce cu zarzavaturi și apă?",
+      "timeLimit": 60,
+      "points": 1000,
+      "numberTarget": 10,
+      "numberMin": 1,
+      "numberMax": 30,
+      "options": [],
+      "theme": "summer"
+    },
+    {
+      "id": "d1_q10",
+      "type": "quiz",
+      "title": "Ce ni se spune că le-a dat Dumnezeu celor patru tineri credincioși?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": true,
+      "options": [
+        {
+          "id": "d1_q10_opt1",
+          "text": "știință",
+          "isCorrect": true
+        },
+        {
+          "id": "d1_q10_opt2",
+          "text": "pricepere",
+          "isCorrect": true
+        },
+        {
+          "id": "d1_q10_opt3",
+          "text": "bogății mari și palate",
+          "isCorrect": false
+        },
+        {
+          "id": "d1_q10_opt4",
+          "text": "putere de a conduce oștirea",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d1_q11",
+      "type": "quiz",
+      "title": "Ce i-a dat în plus Dumnezeu lui Daniel?",
+      "timeLimit": 30,
+      "points": 1000,
+      "isMultiSelect": true,
+      "options": [
+        {
+          "id": "d1_q11_opt1",
+          "text": "pricepere în toate vedeniile",
+          "isCorrect": true
+        },
+        {
+          "id": "d1_q11_opt2",
+          "text": "pricepere în toate visele",
+          "isCorrect": true
+        },
+        {
+          "id": "d1_q11_opt3",
+          "text": "darul de a tămădui bolnavii",
+          "isCorrect": false
+        },
+        {
+          "id": "d1_q11_opt4",
+          "text": "stăpânire peste duhurile rele",
+          "isCorrect": false
+        }
+      ],
+      "theme": "summer"
+    },
+    {
+      "id": "d1_q12",
+      "type": "number_guess",
+      "title": "De câte ori erau cei patru tineri mai destoinici decât vrăjitorii și cititorii în stele?",
+      "timeLimit": 60,
+      "points": 2000,
+      "numberTarget": 10,
+      "numberMin": 1,
+      "numberMax": 20,
+      "options": [],
+      "theme": "summer"
+    }
+  ],
+  "defaultTimeLimit": 30,
+  "defaultPoints": 1000
+}

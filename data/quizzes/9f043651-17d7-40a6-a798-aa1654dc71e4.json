@@ -1,0 +1,46 @@
+{
+  "id": "9f043651-17d7-40a6-a798-aa1654dc71e4",
+  "title": "Verify player P4 game2",
+  "description": "",
+  "coverImage": "",
+  "theme": "spring",
+  "createdAt": "2026-10-19T17:02:00.940Z",
+  "updatedAt": "2026-10-19T17:02:00.941Z",
+  "questions": [
+    {
+      "id": "qb",
+      "type": "puzzle",
+      "title": "Order these",
+      "timeLimit": 90,
+      "points": 1000,
+      "options": [
+        {
+          "id": "pz0",
+          "text": "Alpha",
+          "isCorrect": true,
+          "order": 0
+        },
+        {
+          "id": "pz1",
+          "text": "Bravo",
+          "isCorrect": true,
+          "order": 1
+        },
+        {
+          "id": "pz2",
+          "text": "Charlie",
+          "isCorrect": true,
+          "order": 2
+        },
+        {
+          "id": "pz3",
+          "text": "Delta",
+          "isCorrect": true,
+          "order": 3
+        }
+      ]
+    }
+  ],
+  "defaultTimeLimit": 20,
+  "defaultPoints": 1000
+}

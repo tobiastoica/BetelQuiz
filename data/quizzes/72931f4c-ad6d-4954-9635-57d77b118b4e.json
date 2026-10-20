@@ -1,0 +1,51 @@
+{
+  "id": "72931f4c-ad6d-4954-9635-57d77b118b4e",
+  "title": "Verify concurrency2 grace",
+  "description": "",
+  "coverImage": "",
+  "theme": "spring",
+  "createdAt": "2026-10-19T16:48:02.581Z",
+  "updatedAt": "2026-10-19T16:48:02.581Z",
+  "questions": [
+    {
+      "id": "q0",
+      "type": "quiz",
+      "title": "Pick 0",
+      "timeLimit": 20,
+      "points": 1000,
+      "options": [
+        {
+          "id": "a0",
+          "text": "One",
+          "isCorrect": true
+        },
+        {
+          "id": "b0",
+          "text": "Two",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "id": "q1",
+      "type": "quiz",
+      "title": "Pick 1",
+      "timeLimit": 20,
+      "points": 1000,
+      "options": [
+        {
+          "id": "a1",
+          "text": "One",
+          "isCorrect": true
+        },
+        {
+          "id": "b1",
+          "text": "Two",
+          "isCorrect": false
+        }
+      ]
+    }
+  ],
+  "defaultTimeLimit": 20,
+  "defaultPoints": 1000
+}

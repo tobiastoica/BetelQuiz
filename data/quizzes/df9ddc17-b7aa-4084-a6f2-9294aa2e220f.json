@@ -1,0 +1,51 @@
+{
+  "id": "df9ddc17-b7aa-4084-a6f2-9294aa2e220f",
+  "title": "Verify player lens",
+  "description": "",
+  "coverImage": "",
+  "theme": "spring",
+  "createdAt": "2026-10-19T16:59:38.858Z",
+  "updatedAt": "2026-10-19T16:59:38.858Z",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "quiz",
+      "title": "Pick",
+      "timeLimit": 15,
+      "points": 1000,
+      "options": [
+        {
+          "id": "o1",
+          "text": "One",
+          "isCorrect": true
+        },
+        {
+          "id": "o2",
+          "text": "Two",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "quiz",
+      "title": "Pick 2",
+      "timeLimit": 15,
+      "points": 1000,
+      "options": [
+        {
+          "id": "x1",
+          "text": "One",
+          "isCorrect": true
+        },
+        {
+          "id": "x2",
+          "text": "Two",
+          "isCorrect": false
+        }
+      ]
+    }
+  ],
+  "defaultTimeLimit": 20,
+  "defaultPoints": 1000
+}

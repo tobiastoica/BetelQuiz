@@ -1,0 +1,400 @@
+{
+  "id": "quiz-tineret",
+  "title": "Quiz Tineret 13.06",
+  "description": "Quiz interactiv de tineret cu întrebări biblice, cultură generală, Formula 1 și logică.",
+  "coverImage": "",
+  "theme": "spring",
+  "createdAt": "2026-10-13T13:15:00.000Z",
+  "updatedAt": "2026-10-13T15:18:40.260Z",
+  "questions": [
+    {
+      "id": "q6",
+      "type": "quiz",
+      "title": "Despre ce personaj am vorbit data trecută la tineret?",
+      "timeLimit": 20,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "q6_opt1",
+          "text": "Saul",
+          "isCorrect": true
+        },
+        {
+          "id": "q6_opt2",
+          "text": "David",
+          "isCorrect": false
+        },
+        {
+          "id": "q6_opt3",
+          "text": "Samuel",
+          "isCorrect": false
+        },
+        {
+          "id": "q6_opt4",
+          "text": "Ionatan",
+          "isCorrect": false
+        }
+      ],
+      "image": "/uploads/Gemini_Generated_Image_ik357ei_1791898387904_748583.jpg",
+      "theme": "spring",
+      "backgroundImage": "/uploads/Gemini_Generated_Image_qnxpbeq_1791900239536_953108.jpg"
+    },
+    {
+      "id": "q5",
+      "type": "quiz",
+      "title": "Ce obiect \"antic\" a fost menționat ultima dată pentru a ilustra ideea de restart?",
+      "timeLimit": 20,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "q5_opt1",
+          "text": "floppy disk-ul",
+          "isCorrect": true
+        },
+        {
+          "id": "q5_opt2",
+          "text": "reportofonul",
+          "isCorrect": false
+        },
+        {
+          "id": "q5_opt3",
+          "text": "telegraful",
+          "isCorrect": false
+        },
+        {
+          "id": "q5_opt4",
+          "text": "motorul cu aburi",
+          "isCorrect": false
+        }
+      ],
+      "image": "/uploads/Gemini_Generated_Image_4ctzrl4_1791898376987_66522.jpg",
+      "theme": "spring",
+      "backgroundImage": "/uploads/Gemini_Generated_Image_qnxpbeq_1791900239536_953108.jpg"
+    },
+    {
+      "id": "q9",
+      "type": "quiz",
+      "title": "Care echipă de Formula 1 domină clasamentul global, având piloții pe locurile 1 și 2?",
+      "timeLimit": 20,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "q9_opt1",
+          "text": "Mercedes",
+          "isCorrect": true
+        },
+        {
+          "id": "q9_opt2",
+          "text": "Ferrari",
+          "isCorrect": false
+        },
+        {
+          "id": "q9_opt3",
+          "text": "Red Bull",
+          "isCorrect": false
+        },
+        {
+          "id": "q9_opt4",
+          "text": "Audi",
+          "isCorrect": false
+        }
+      ],
+      "image": "/uploads/Gemini_Generated_Image_menk5lm_1791899313552_604692.jpg",
+      "theme": "spring",
+      "backgroundImage": "/uploads/Gemini_Generated_Image_qnxpbeq_1791900239536_953108.jpg"
+    },
+    {
+      "id": "q1",
+      "type": "quiz",
+      "title": "Ce înălțime a atins cel mai mare elefant?",
+      "timeLimit": 20,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "q1_opt1",
+          "text": "3.7 m",
+          "isCorrect": true
+        },
+        {
+          "id": "q1_opt2",
+          "text": "3 m",
+          "isCorrect": false
+        },
+        {
+          "id": "q1_opt3",
+          "text": "2 m",
+          "isCorrect": false
+        },
+        {
+          "id": "q1_opt4",
+          "text": "2.5 m",
+          "isCorrect": false
+        }
+      ],
+      "image": "/uploads/elephant_1791898919989_273804.png",
+      "backgroundImage": "/uploads/Gemini_Generated_Image_qnxpbeq_1791900239536_953108.jpg",
+      "theme": "spring"
+    },
+    {
+      "id": "q4",
+      "type": "number_guess",
+      "title": "Câți frați a avut Iuda, fiul lui Iacov?",
+      "timeLimit": 30,
+      "points": 1000,
+      "numberTarget": 11,
+      "numberMin": 0,
+      "numberMax": 20,
+      "options": [],
+      "theme": "spring",
+      "backgroundImage": "/uploads/Gemini_Generated_Image_qnxpbeq_1791900239536_953108.jpg",
+      "image": "/uploads/lion-close-up_1791904718300_676212.jpg"
+    },
+    {
+      "id": "q2",
+      "type": "quiz",
+      "title": "Pe vremea cui ni se spune că Soarele s-a oprit în loc?",
+      "timeLimit": 20,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "q2_opt1",
+          "text": "Iosua",
+          "isCorrect": true
+        },
+        {
+          "id": "q2_opt2",
+          "text": "Isaia",
+          "isCorrect": false
+        },
+        {
+          "id": "q2_opt3",
+          "text": "Ioas",
+          "isCorrect": false
+        },
+        {
+          "id": "q2_opt4",
+          "text": "Moise",
+          "isCorrect": false
+        }
+      ],
+      "image": "/uploads/Gemini_Generated_Image_kp377yk_1791898312227_786513.jpg",
+      "theme": "spring",
+      "backgroundImage": "/uploads/Gemini_Generated_Image_qnxpbeq_1791900239536_953108.jpg"
+    },
+    {
+      "id": "q3",
+      "type": "quiz",
+      "title": "Pe vremea cui ni se spune că umbra Soarelui a mers înapoi pe cadranul solar?",
+      "timeLimit": 20,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "q3_opt1",
+          "text": "Ezechia",
+          "isCorrect": true
+        },
+        {
+          "id": "q3_opt2",
+          "text": "Ahaz",
+          "isCorrect": false
+        },
+        {
+          "id": "q3_opt3",
+          "text": "Solomon",
+          "isCorrect": false
+        },
+        {
+          "id": "q3_opt4",
+          "text": "Ahab",
+          "isCorrect": false
+        }
+      ],
+      "image": "/uploads/Gemini_Generated_Image_mvj4aom_1791898369081_839705.jpg",
+      "theme": "spring",
+      "backgroundImage": "/uploads/Gemini_Generated_Image_qnxpbeq_1791900239536_953108.jpg"
+    },
+    {
+      "id": "q7",
+      "type": "yes_no",
+      "title": "Apare în Biblie numele Milca?",
+      "timeLimit": 20,
+      "points": 1000,
+      "options": [
+        {
+          "id": "q7_opt1",
+          "text": "Da",
+          "isCorrect": true
+        },
+        {
+          "id": "q7_opt2",
+          "text": "Nu",
+          "isCorrect": false
+        }
+      ],
+      "image": "/uploads/Gemini_Generated_Image_fgr982f_1791899145799_45196.jpg",
+      "theme": "spring",
+      "backgroundImage": "/uploads/Gemini_Generated_Image_qnxpbeq_1791900239536_953108.jpg"
+    },
+    {
+      "id": "q8",
+      "type": "yes_no",
+      "title": "Dar Mical?",
+      "timeLimit": 20,
+      "points": 1000,
+      "options": [
+        {
+          "id": "q8_opt1",
+          "text": "Da",
+          "isCorrect": true
+        },
+        {
+          "id": "q8_opt2",
+          "text": "Nu",
+          "isCorrect": false
+        }
+      ],
+      "image": "/uploads/Gemini_Generated_Image_gf432gf_1791899137314_39295.jpg",
+      "theme": "spring",
+      "backgroundImage": "/uploads/Gemini_Generated_Image_qnxpbeq_1791900239536_953108.jpg"
+    },
+    {
+      "id": "q10",
+      "type": "number_guess",
+      "title": "Câți oameni au supraviețuit Potopului?",
+      "timeLimit": 30,
+      "points": 1000,
+      "numberTarget": 8,
+      "numberMin": 1,
+      "numberMax": 20,
+      "options": [],
+      "image": "/uploads/Gemini_Generated_Image_jgp61nj_1791900034492_344128.jpg",
+      "theme": "spring",
+      "backgroundImage": "/uploads/Gemini_Generated_Image_qnxpbeq_1791900239536_953108.jpg"
+    },
+    {
+      "id": "q11",
+      "type": "puzzle",
+      "title": "Care este ordinea următoarelor cărți în Biblie?",
+      "timeLimit": 90,
+      "points": 1500,
+      "options": [
+        {
+          "id": "q11_opt1",
+          "text": "Iov",
+          "isCorrect": true,
+          "order": 0
+        },
+        {
+          "id": "q11_opt2",
+          "text": "Daniel",
+          "isCorrect": true,
+          "order": 1
+        },
+        {
+          "id": "q11_opt3",
+          "text": "Romani",
+          "isCorrect": true,
+          "order": 2
+        },
+        {
+          "id": "q11_opt4",
+          "text": "Iuda",
+          "isCorrect": true,
+          "order": 3
+        }
+      ],
+      "theme": "spring",
+      "backgroundImage": "/uploads/Gemini_Generated_Image_qnxpbeq_1791900239536_953108.jpg"
+    },
+    {
+      "id": "q13",
+      "type": "quiz",
+      "title": "Care filozof a susținut ideea: \"Scopul scuză mijloacele\"?",
+      "timeLimit": 20,
+      "points": 1000,
+      "isMultiSelect": false,
+      "options": [
+        {
+          "id": "q13_opt1",
+          "text": "Machiavelli",
+          "isCorrect": true
+        },
+        {
+          "id": "q13_opt2",
+          "text": "Kant",
+          "isCorrect": false
+        },
+        {
+          "id": "q13_opt3",
+          "text": "Socrate",
+          "isCorrect": false
+        },
+        {
+          "id": "q13_opt4",
+          "text": "Nietzsche",
+          "isCorrect": false
+        }
+      ],
+      "image": "/uploads/Gemini_Generated_Image_ahacnfa_1791899496645_886467.jpg",
+      "theme": "spring",
+      "backgroundImage": "/uploads/Gemini_Generated_Image_qnxpbeq_1791900239536_953108.jpg"
+    },
+    {
+      "id": "738f11dd-194f-4f0e-b541-e2c9bc1b9fe5",
+      "type": "number_guess",
+      "title": "În ce an a avut loc Marea Unire?",
+      "timeLimit": 30,
+      "points": 1000,
+      "theme": "spring",
+      "backgroundImage": "/uploads/Gemini_Generated_Image_qnxpbeq_1791900239536_953108.jpg",
+      "isMultiSelect": false,
+      "options": [],
+      "numberTarget": 1918,
+      "numberMin": 1600,
+      "numberMax": 2026,
+      "image": "/uploads/images_1791902298739_254836.jpg"
+    },
+    {
+      "id": "q12",
+      "type": "quiz",
+      "title": "Care dintre următoarele personaje au fost contemporane cu Avraam?",
+      "timeLimit": 20,
+      "points": 2000,
+      "isMultiSelect": true,
+      "options": [
+        {
+          "id": "q12_opt1",
+          "text": "Melhisedec",
+          "isCorrect": true
+        },
+        {
+          "id": "q12_opt2",
+          "text": "Lot",
+          "isCorrect": true
+        },
+        {
+          "id": "q12_opt3",
+          "text": "Agar",
+          "isCorrect": true
+        },
+        {
+          "id": "q12_opt4",
+          "text": "Moab",
+          "isCorrect": true
+        }
+      ],
+      "image": "/uploads/Gemini_Generated_Image_nf7a11n_1791899501705_508034.jpg",
+      "theme": "spring",
+      "backgroundImage": "/uploads/Gemini_Generated_Image_qnxpbeq_1791900239536_953108.jpg"
+    }
+  ],
+  "backgroundImage": "/uploads/Gemini_Generated_Image_qnxpbeq_1791900239536_953108.jpg",
+  "defaultPoints": 1000,
+  "defaultTimeLimit": 20
+}

@@ -1,0 +1,7012 @@
+[
+  {
+    "id": "e16/1 Cronici:text:1",
+    "book": "1 Cronici",
+    "section": "text",
+    "number": 1,
+    "prompt": "Care este primul nume biblic menționat în cartea 1 Cronici?",
+    "options": [
+      "Adam",
+      "Noe",
+      "Avraam"
+    ],
+    "answer": "a",
+    "verseRef": "1.1",
+    "open": null
+  },
+  {
+    "id": "e16/1 Cronici:text:2",
+    "book": "1 Cronici",
+    "section": "text",
+    "number": 2,
+    "prompt": "Cum l-a chemat pe cel mai mare fiu al lui Iacov?",
+    "options": [
+      "Ruben",
+      "Simeon",
+      "Levi"
+    ],
+    "answer": "a",
+    "verseRef": "2.1",
+    "open": null
+  },
+  {
+    "id": "e16/1 Cronici:text:3",
+    "book": "1 Cronici",
+    "section": "text",
+    "number": 3,
+    "prompt": "Câți fii i s-au născut lui David la Hebron? Dar la Ierusalim?",
+    "options": [
+      "6; 9",
+      "7; 9",
+      "6; 6"
+    ],
+    "answer": "a",
+    "verseRef": "3.1-9",
+    "open": null
+  },
+  {
+    "id": "e16/1 Cronici:text:4",
+    "book": "1 Cronici",
+    "section": "text",
+    "number": 4,
+    "prompt": "Câți ani a domnit David la Hebron? Dar la Ierusalim?",
+    "options": [
+      "7; 33",
+      "7 și jumătate; 33",
+      "10; 30"
+    ],
+    "answer": "b",
+    "verseRef": "3.4",
+    "open": null
+  },
+  {
+    "id": "e16/1 Cronici:text:5",
+    "book": "1 Cronici",
+    "section": "text",
+    "number": 5,
+    "prompt": "Cum a chemat-o pe sora fiilor lui David?",
+    "options": [
+      "Dina",
+      "Șifra",
+      "Tamar"
+    ],
+    "answer": "c",
+    "verseRef": "3.9",
+    "open": null
+  },
+  {
+    "id": "e16/1 Cronici:text:6",
+    "book": "1 Cronici",
+    "section": "text",
+    "number": 6,
+    "prompt": "Cum l-a chemat pe fiul lui Solomon prezentat în pasajul intitulat «Urmașii lui Solomon»?",
+    "options": [
+      "Roboam",
+      "Ieroboam",
+      "Ioram"
+    ],
+    "answer": "a",
+    "verseRef": "3.10",
+    "open": null
+  },
+  {
+    "id": "e16/1 Cronici:text:7",
+    "book": "1 Cronici",
+    "section": "text",
+    "number": 7,
+    "prompt": "Despre cine ni se spune că au murit în aceeași zi?",
+    "options": [
+      "despre Saul și Ionatan",
+      "despre Saul și cei trei fii ai lui",
+      "despre Saul, cei trei fii ai lui și toată casa lui"
+    ],
+    "answer": "c",
+    "verseRef": "10.6",
+    "open": null
+  },
+  {
+    "id": "e16/1 Cronici:text:8",
+    "book": "1 Cronici",
+    "section": "text",
+    "number": 8,
+    "prompt": "Ce păcat a făcut Saul, păcat pentru care Domnul l-a pedepsit?",
+    "options": [
+      "a cerut sfatul celor care cheamă morții",
+      "nu a păzit cuvântul Domnului",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "10.13",
+    "open": null
+  },
+  {
+    "id": "e16/1 Cronici:text:9",
+    "book": "1 Cronici",
+    "section": "text",
+    "number": 9,
+    "prompt": "Unde a fost David uns împărat?",
+    "options": [
+      "la Ierusalim",
+      "la Hebron",
+      "la Ghilgal"
+    ],
+    "answer": "b",
+    "verseRef": "11.3",
+    "open": null
+  },
+  {
+    "id": "e16/1 Cronici:text:10",
+    "book": "1 Cronici",
+    "section": "text",
+    "number": 10,
+    "prompt": "Ce viteji mai sunt prezentați în capitolul 11 al cărții, în afară de vitejii lui David?",
+    "options": [
+      "vitejii din cetate",
+      "vitejii lui Saul",
+      "vitejii oștirii"
+    ],
+    "answer": "c",
+    "verseRef": "11.26",
+    "open": null
+  },
+  {
+    "id": "e16/1 Cronici:text:11",
+    "book": "1 Cronici",
+    "section": "text",
+    "number": 11,
+    "prompt": "Cum l-a chemat pe cel care a întins mâna spre chivot, pentru a-l împiedica să cadă?",
+    "options": [
+      "Ahio",
+      "Pereț",
+      "Uza"
+    ],
+    "answer": "c",
+    "verseRef": "13.10",
+    "open": null
+  },
+  {
+    "id": "e16/1 Cronici:text:12",
+    "book": "1 Cronici",
+    "section": "text",
+    "number": 12,
+    "prompt": "În casa cui a dus David chivotul, nemaiîndrăznind să îl ducă în casa sa, după ce Uza a fost lovit de Domnul?",
+    "options": [
+      "a lui Obed-Edom, din Gat",
+      "a lui Nahor, din Izreel",
+      "a lui Ahio, din Gad"
+    ],
+    "answer": "a",
+    "verseRef": "13.13",
+    "open": null
+  },
+  {
+    "id": "e16/1 Cronici:text:13",
+    "book": "1 Cronici",
+    "section": "text",
+    "number": 13,
+    "prompt": "Cum l-a chemat pe împăratul Tirului care i-a trimis lui David lemn de cedru ca să-și zidească o casă?",
+    "options": [
+      "Hiram",
+      "Haran",
+      "Iotam"
+    ],
+    "answer": "a",
+    "verseRef": "14.1",
+    "open": null
+  },
+  {
+    "id": "e16/1 Cronici:text:14",
+    "book": "1 Cronici",
+    "section": "text",
+    "number": 14,
+    "prompt": "Cum a chemat-o pe fiica lui Saul care l-a disprețuit pe David în inima ei, pe când acesta juca de bucurie când a adus chivotul Domnului în Ierusalim?",
+    "options": [
+      "Mical",
+      "Itiel",
+      "Itamar"
+    ],
+    "answer": "a",
+    "verseRef": "15.29",
+    "open": null
+  },
+  {
+    "id": "e16/1 Cronici:text:15",
+    "book": "1 Cronici",
+    "section": "text",
+    "number": 15,
+    "prompt": "Prin cine i-a vestit Domnul lui David că nu el, ci Solomon Îi va zidi o casă?",
+    "options": [
+      "prin prorocul Gad",
+      "prin prorocul Natan",
+      "prin Iedutun"
+    ],
+    "answer": "b",
+    "verseRef": "17.3-4",
+    "open": null
+  },
+  {
+    "id": "e16/1 Cronici:text:16",
+    "book": "1 Cronici",
+    "section": "text",
+    "number": 16,
+    "prompt": "Cu ce cuvinte se încheie rugăciunea lui David prin care cerea binecuvântarea Domnului peste casa lui?",
+    "options": [
+      "„Căci ce binecuvântezi Tu, Doamne, este binecuvântat pentru veșnicie!”",
+      "„Căci în veac ține îndurarea Lui!”",
+      "„De aceea a îndrăznit robul Tău să se roage înaintea Ta.”"
+    ],
+    "answer": "a",
+    "verseRef": "17.27",
+    "open": null
+  },
+  {
+    "id": "e16/1 Cronici:text:17",
+    "book": "1 Cronici",
+    "section": "text",
+    "number": 17,
+    "prompt": "Cum sunt denumiți Ioab, Iosafat, Țadoc, Abimelec, Șavșa și Benaia?",
+    "options": [
+      "vitejii lui David",
+      "curtenii lui David",
+      "înalții-slujbași ai lui David"
+    ],
+    "answer": "c",
+    "verseRef": "18.14-17",
+    "open": null
+  },
+  {
+    "id": "e16/1 Cronici:text:18",
+    "book": "1 Cronici",
+    "section": "text",
+    "number": 18,
+    "prompt": "Care au fost cele trei urgii dintre care a trebuit David să aleagă una, atunci când a făcut numărătoarea poporului, lucru care L-a mâniat pe Dumnezeu?",
+    "options": [
+      "trei ani de foamete, trei luni în care să fie nimicit de dușmanii lui sau trei zile de sabie și ciumă din partea Domnului",
+      "trei luni de foamete, trei ani în care să fie nimicit de dușmanii lui sau trei zile de sabie și ciumă din partea Domnului",
+      "șapte ani de foamete, șapte luni în care să fie nimicit de dușmanii lui sau șapte zile de sabie și ciumă din partea Domnului"
+    ],
+    "answer": "a",
+    "verseRef": "21.11-12",
+    "open": null
+  },
+  {
+    "id": "e16/1 Cronici:text:19",
+    "book": "1 Cronici",
+    "section": "text",
+    "number": 19,
+    "prompt": "Cu ce cuvinte a ales David una dintre cele trei urgii?",
+    "options": [
+      "„Să cad în mâinile Domnului.”",
+      "„Îndurările Lui sunt nemărginite.”",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "21.13",
+    "open": null
+  },
+  {
+    "id": "e16/1 Cronici:text:20",
+    "book": "1 Cronici",
+    "section": "text",
+    "number": 20,
+    "prompt": "Cum l-a chemat pe cel care a vrut să-i dăruiască lui David aria lui, ca să aducă o jertfă Domnului?",
+    "options": [
+      "Ornan",
+      "Amram",
+      "Ocran"
+    ],
+    "answer": "a",
+    "verseRef": "21.23",
+    "open": null
+  },
+  {
+    "id": "e16/1 Cronici:text:21",
+    "book": "1 Cronici",
+    "section": "text",
+    "number": 21,
+    "prompt": "Ce cuvinte a rostit David când i s-a oferit ca dar locul ariei respective?",
+    "options": [
+      "„Vreau să-l cumpăr pe prețul lui în argint!”",
+      "„Nu voi aduce o ardere-de-tot care să nu mă coste nimic.”",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "21.24",
+    "open": null
+  },
+  {
+    "id": "e16/1 Cronici:text:22",
+    "book": "1 Cronici",
+    "section": "text",
+    "number": 22,
+    "prompt": "Ce a spus David despre fiul său Solomon, ca justificare a faptului că a început el însuși pregătirile pentru zidirea Templului?",
+    "options": [
+      "că este tânăr",
+      "că este plăpând",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "22.5",
+    "open": null
+  },
+  {
+    "id": "e16/1 Cronici:text:23",
+    "book": "1 Cronici",
+    "section": "text",
+    "number": 23,
+    "prompt": "Care a fost motivul pentru care Domnul nu l-a lăsat pe David să-I zidească o casă, potrivit cuvintelor spuse de David lui Solomon?",
+    "options": [
+      "că a vărsat mult sânge",
+      "că a făcut mari războaie",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "22.8",
+    "open": null
+  },
+  {
+    "id": "e16/1 Cronici:text:24",
+    "book": "1 Cronici",
+    "section": "text",
+    "number": 24,
+    "prompt": "Care este referința versetului care începe cu cuvintele: „A Ta este, Doamne, mărirea, puterea și măreția...”?",
+    "options": [
+      "29.10",
+      "29.11",
+      "29.12"
+    ],
+    "answer": "b",
+    "verseRef": null,
+    "open": null
+  },
+  {
+    "id": "e16/1 Cronici:text:25",
+    "book": "1 Cronici",
+    "section": "text",
+    "number": 25,
+    "prompt": "Unde ni se spune că sunt scrise faptele împăratului David?",
+    "options": [
+      "în cartea lui Samuel, văzătorul",
+      "în cartea prorocului Natan și în cartea prorocului Gad",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "29.29",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:1",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 1,
+    "prompt": "Unde a adus Solomon o mie de arderi-de-tot, pe altarul de aramă?",
+    "options": [
+      "la Gabaon",
+      "la Ghilgal",
+      "la Gad"
+    ],
+    "answer": "a",
+    "verseRef": "1.3,6",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:2",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 2,
+    "prompt": "Cine a construit altarul de aramă?",
+    "options": [
+      "Beeliada",
+      "Baracheel",
+      "Bețaleel"
+    ],
+    "answer": "c",
+    "verseRef": "1.5",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:3",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 3,
+    "prompt": "Ce i-a spus Domnul lui Solomon, când i S-a arătat într-un vis?",
+    "options": [
+      "„Cere ce vrei să-ți dau.”",
+      "„Să umbli pe căile tatălui tău, David.”",
+      "„Să-Mi urmezi Mie și numai Mie, în totul totului tot.”"
+    ],
+    "answer": "a",
+    "verseRef": "1.7",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:4",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 4,
+    "prompt": "Ce I-a cerut Solomon lui Dumnezeu?",
+    "options": [
+      "înțelepciune și pricepere",
+      "o viață lungă",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "1.10",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:5",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 5,
+    "prompt": "Despre ce ni se spune că a fost făcut de Solomon la fel de obișnuit ca pietrele?",
+    "options": [
+      "despre aur",
+      "despre argint",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "1.15",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:6",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 6,
+    "prompt": "Ce i-a cerut Hiram lui Solomon în schimbul lemnului de care acesta avea nevoie pentru construirea unei case pentru Dumnezeu?",
+    "options": [
+      "grâu, orz, untdelemn și vin",
+      "oi și miei",
+      "niciuna dintre variantele de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "2.15",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:7",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 7,
+    "prompt": "Pe ce munte a poruncit Solomon să fie construit Templul Domnului?",
+    "options": [
+      "pe Horeb",
+      "pe Moria",
+      "pe Hermon"
+    ],
+    "answer": "b",
+    "verseRef": "3.1",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:8",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 8,
+    "prompt": "Ce lucruri dintre cele primite de Solomon de la tatăl său, David, le-a adus în Templu?",
+    "options": [
+      "argintul și aurul",
+      "uneltele închinate Domnului",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "5.1",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:9",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 9,
+    "prompt": "Unde i-a strâns Solomon pe bărbații lui Israel, ca să mute chivotul legământului Domnului?",
+    "options": [
+      "la Ierusalim",
+      "la Sion",
+      "la Gabaon"
+    ],
+    "answer": "a",
+    "verseRef": "5.2",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:10",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 10,
+    "prompt": "Ce se afla în chivot, când acesta a fost mutat?",
+    "options": [
+      "cele două table ale Legii",
+      "toiagul lui Aaron și mana din pustiu",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "5.10",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:11",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 11,
+    "prompt": "De ce nu au mai putut preoții să stea în Casa Domnului?",
+    "options": [
+      "pentru că slava Domnului umpluse Casa",
+      "pentru că sunetul instrumentelor muzicale era prea tare pentru urechile lor",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "5.14",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:12",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 12,
+    "prompt": "Sub ce formă ni se spune că a fost Casa Domnului umplută de slava Domnului?",
+    "options": [
+      "sub forma unui sunet venit de sus",
+      "sub forma unui vâjâit de vânt puternic",
+      "sub forma unui nor"
+    ],
+    "answer": "c",
+    "verseRef": "5.13-14",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:13",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 13,
+    "prompt": "Unde s-a așezat Solomon în genunchi când a rostit rugăciunea prin care a chemat prezența Domnului în Casa Sa?",
+    "options": [
+      "înaintea altarului",
+      "pe o treaptă de aramă",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "6.12-13",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:14",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 14,
+    "prompt": "Care este una dintre promisiunile lui Dumnezeu pe care Solomon o amintește în rugăciunea sa?",
+    "options": [
+      "că scaunul de domnie al lui Israel nu va fi lipsit niciodată de urmași",
+      "că în timpul domniei sale nu va avea parte de vrăjmași",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "6.16",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:15",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 15,
+    "prompt": "Ce condiții trebuia să îndeplinească poporul în situația în care ar fi urmat să fie bătut de vrăjmași, din cauza păcatului lor, pentru ca Dumnezeu să-i asculte?",
+    "options": [
+      "să se întoarcă la Domnul și să dea slavă Numelui Lui",
+      "să facă rugăciuni și cereri în Casa Domnului",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "6.24",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:16",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 16,
+    "prompt": "Care este cererea cel mai des rostită (de șapte ori) de către Solomon în cadrul rugăciunii lui?",
+    "options": [
+      "„Ia aminte la rugăciunea aceasta...”",
+      "„Privește cu îndurare la robii Tăi...”",
+      "„Ascultă-l din ceruri...”"
+    ],
+    "answer": "c",
+    "verseRef": "6.23-39",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:17",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 17,
+    "prompt": "Ce s-a întâmplat când Solomon și-a isprăvit rugăciunea?",
+    "options": [
+      "s-a pogorât un foc din cer și a mistuit arderea-de-tot și jertfele",
+      "slava Domnului a umplut casa",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "7.1",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:18",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 18,
+    "prompt": "Care au fost cuvintele de laudă la adresa lui Dumnezeu cu care David i-a însărcinat pe leviți să Îl cinstească pe Dumnezeu?",
+    "options": [
+      "„Căci îndurarea Lui ține în veac!”",
+      "„Căci numai Tu, Doamne, ești un Dumnezeu adevărat!”",
+      "„Și toată casa lui Israel să-L laude pe Domnul!”"
+    ],
+    "answer": "a",
+    "verseRef": "7.6",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:19",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 19,
+    "prompt": "Care au fost condițiile pe care le-a pus Domnul, atunci când i S-a arătat lui Solomon, ca să asculte poporul care păcătuise?",
+    "options": [
+      "să se roage și să se abată de la căile lui rele",
+      "să se smerească, să se roage și să se abată de la căile lui rele",
+      "să se smerească, să se roage, să caute Fața Lui și să se abată de la căile lui rele"
+    ],
+    "answer": "c",
+    "verseRef": "7.14",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:20",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 20,
+    "prompt": "Cât timp a durat zidirea Casei Domnului și a casei lui Solomon?",
+    "options": [
+      "12 ani",
+      "15 ani",
+      "20 de ani"
+    ],
+    "answer": "c",
+    "verseRef": "8.1",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:21",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 21,
+    "prompt": "De unde i-a adus Hiram lui Solomon cei 450 de talanți de aur?",
+    "options": [
+      "din Ofir",
+      "din Ofra",
+      "din Ono"
+    ],
+    "answer": "a",
+    "verseRef": "8.18",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:22",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 22,
+    "prompt": "De unde era împărăteasa care a venit la Ierusalim să-l încerce pe Solomon cu întrebări grele?",
+    "options": [
+      "din Seba",
+      "din Saba",
+      "din Șave"
+    ],
+    "answer": "a",
+    "verseRef": "9.1",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:23",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 23,
+    "prompt": "Care a fost singura întrebare la care Solomon nu i-a putut răspunde împărătesei?",
+    "options": [
+      "„Unde merge omul după ce pleacă de pe pământul celor vii?”",
+      "nu se menționează care a fost acea întrebare rămasă fără răspuns",
+      "nu a fost nicio întrebare la care Solomon să nu-i fi răspuns împărătesei"
+    ],
+    "answer": "c",
+    "verseRef": "9.2",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:24",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 24,
+    "prompt": "Ce i-a dăruit împărăteasa din Seba lui Solomon, cu prilejul vizitei sale la Ierusalim?",
+    "options": [
+      "120 de talanți de aur",
+      "foarte multe mirodenii și pietre scumpe",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "9.9",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:25",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 25,
+    "prompt": "Ce a făcut Solomon cu lemnul mirositor primit de la Hiram?",
+    "options": [
+      "scări pentru Casa Domnului și casa împăratului",
+      "harpe și alăute pentru cântăreți",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "9.10-11",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:26",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 26,
+    "prompt": "Care era, în talanți, greutatea aurului pe care îl primea Solomon în fiecare an?",
+    "options": [
+      "333",
+      "666",
+      "777"
+    ],
+    "answer": "b",
+    "verseRef": "9.13",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:27",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 27,
+    "prompt": "Ce animale aducea Solomon cu corăbiile, din Tarsis?",
+    "options": [
+      "maimuțe și păuni",
+      "elefanți, maimuțe și păuni",
+      "lei, maimuțe și păuni"
+    ],
+    "answer": "a",
+    "verseRef": "9.21",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:28",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 28,
+    "prompt": "În ce carte ni se spune că sunt scrise faptele împăratului Solomon?",
+    "options": [
+      "în cartea prorocului Natan",
+      "în cartea prorocului Samuel",
+      "în niciuna dintre cele de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "9.29",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:29",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 29,
+    "prompt": "Câți ani a domnit Solomon?",
+    "options": [
+      "33",
+      "37",
+      "40"
+    ],
+    "answer": "c",
+    "verseRef": "9.30",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:30",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 30,
+    "prompt": "Cine a preluat domnia de la Solomon?",
+    "options": [
+      "Roboam",
+      "Ieroboam",
+      "Nebat"
+    ],
+    "answer": "a",
+    "verseRef": "9.31",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:31",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 31,
+    "prompt": "Unde s-a dus Roboam să fie făcut împărat?",
+    "options": [
+      "la Sihem",
+      "la Silo",
+      "la Ierusalim"
+    ],
+    "answer": "a",
+    "verseRef": "10.1",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:32",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 32,
+    "prompt": "Unde se afla Ieroboam, fiul lui Nebat, când a aflat că Roboam avea să fie uns împărat?",
+    "options": [
+      "în Ierusalim",
+      "la Silo",
+      "în Egipt"
+    ],
+    "answer": "c",
+    "verseRef": "10.2",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:33",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 33,
+    "prompt": "Ce i-a cerut Ieroboam lui Roboam, atunci când a venit la el „cu tot Israelul”?",
+    "options": [
+      "să le lase trei zile în care poporul să aleagă între el și Roboam",
+      "să le ușureze jugul pus de tatăl său, Solomon",
+      "ambele variante de mai sus"
+    ],
+    "answer": "b",
+    "verseRef": "10.4",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:34",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 34,
+    "prompt": "Pe cine a întrebat Roboam ce să facă cu privire la cererea făcută de Ieroboam?",
+    "options": [
+      "pe bătrânii care fuseseră cu tatăl său",
+      "pe tinerii cu care crescuse",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "10.6-9",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:35",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 35,
+    "prompt": "Ce părți ale corpului uman sunt prezente în sfatul pe care tinerii i l-au dat lui Roboam?",
+    "options": [
+      "deget; coapse",
+      "deget; pumn",
+      "mână; coapse"
+    ],
+    "answer": "a",
+    "verseRef": "10.10",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:36",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 36,
+    "prompt": "Cu ce spunea Roboam că va pedepsi poporul?",
+    "options": [
+      "cu bice",
+      "cu scorpioane",
+      "ambele variante de mai sus"
+    ],
+    "answer": "b",
+    "verseRef": "10.14",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:37",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 37,
+    "prompt": "Cu ce cuvinte a răspuns poporul amenințărilor lui Roboam, expresie rămasă celebră?",
+    "options": [
+      "„La corturile tale, Israele!”",
+      "„Acum vezi-ți de casă, Davide!”",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "10.16",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:38",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 38,
+    "prompt": "Care au fost singurii peste care Roboam a domnit?",
+    "options": [
+      "copiii lui Israel care locuiau în cetățile lui Iuda",
+      "cei din Silo",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "10.17",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:39",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 39,
+    "prompt": "Ce a făcut Roboam, văzând că trimisul lui, Hadoram, a fost ucis cu pietre?",
+    "options": [
+      "s-a suit în car, ca să fugă la Ierusalim",
+      "s-a ascuns în Casa Domnului",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "10.18",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:40",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 40,
+    "prompt": "Din ce seminții i-a strâns Roboam pe cei 180.000 de oameni buni pentru război?",
+    "options": [
+      "Iuda și Manase",
+      "Iuda și Efraim",
+      "Iuda și Beniamin"
+    ],
+    "answer": "c",
+    "verseRef": "11.1",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:41",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 41,
+    "prompt": "Despre cine ni se spune că a pus preoți pentru înălțimile, țapii și vițeii pe care îi făcuse?",
+    "options": [
+      "despre Roboam",
+      "despre Ieroboam",
+      "ambele variante de mai sus"
+    ],
+    "answer": "b",
+    "verseRef": "11.15",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:42",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 42,
+    "prompt": "Ce a făcut Roboam, lucru pentru care ni se spune că „a lucrat cu minte”?",
+    "options": [
+      "și-a împrăștiat fiii în toate ținuturile lui Iuda și Beniamin",
+      "a dărâmat stâlpii idolești zidiți de Ieroboam",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "11.23",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:43",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 43,
+    "prompt": "Ce s-a întâmplat când Roboam s-a întărit în puterea domniei lui?",
+    "options": [
+      "Roboam a părăsit Legea Domnului",
+      "tot Israelul a părăsit Legea Domnului",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "12.1",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:44",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 44,
+    "prompt": "Cum l-a chemat pe împăratul Egiptului care s-a suit împotriva lui Roboam și a luat cetățile întărite ale lui Iuda?",
+    "options": [
+      "Șișac",
+      "Șobab",
+      "Șemaia"
+    ],
+    "answer": "a",
+    "verseRef": "12.2",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:45",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 45,
+    "prompt": "Câți ani a domnit Roboam la Ierusalim?",
+    "options": [
+      "13",
+      "17",
+      "30"
+    ],
+    "answer": "b",
+    "verseRef": "12.13",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:46",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 46,
+    "prompt": "Cum l-a chemat pe fiul lui Roboam care l-a urmat la tron?",
+    "options": [
+      "Abia",
+      "Ahia",
+      "Amația"
+    ],
+    "answer": "a",
+    "verseRef": "13.1",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:47",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 47,
+    "prompt": "Din ce cauză au avut oamenii lui Roboam biruință asupra celor lui Ieroboam, care i-au atacat și pe dinainte și pe dinapoi?",
+    "options": [
+      "pentru că s-au sprijinit pe Domnul",
+      "pentru că au lucrat cu înțelepciune",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "13.18",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:48",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 48,
+    "prompt": "Cum l-a chemat pe fiul lui Abia care a domnit în locul lui, pe tronul lui Iuda?",
+    "options": [
+      "Asa",
+      "Ahia",
+      "Amația"
+    ],
+    "answer": "a",
+    "verseRef": "14.1",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:49",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 49,
+    "prompt": "Cum de a reușit Asa să fie biruitor în fața lui Zerah, etiopianul, deși acesta venise împotriva lui cu o armată de un milion de oameni?",
+    "options": [
+      "pentru că L-a chemat pe Domnul în ajutor",
+      "pentru că s-a unit cu oștirea lui Israel",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "14.11",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:50",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 50,
+    "prompt": "Ce a făcut Asa în timpul domniei lui, primind astfel ocrotirea Domnului?",
+    "options": [
+      "a făcut, împreună cu poporul, legământ să-L caute pe Domnul din toată inima și din tot sufletul lor",
+      "a dărâmat idolul făcut de mama lui, Maaca, și l-a ars lângă pârâul Chedron",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "15.12,16",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:51",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 51,
+    "prompt": "Cum l-a chemat pe văzătorul prin care Domnul l-a mustrat pe Asa pentru că a făcut legământ cu Ben-Hadad, împăratul Siriei?",
+    "options": [
+      "Anania",
+      "Hanani",
+      "Hanania"
+    ],
+    "answer": "b",
+    "verseRef": "16.7",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:52",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 52,
+    "prompt": "Care sunt cuvintele binecunoscute pe care le-a spus prorocului în mustrarea împăratului Asa?",
+    "options": [
+      "„Căci Domnul Își întinde privirile peste tot pământul ca să sprijine pe aceia a căror inimă este întreagă a Lui.”",
+      "„Domnul nu Se uită la ce se uită omul; omul se uită la ce izbește ochii, dar Domnul Se uită la inimă.”",
+      "„Căci Domnul nu leapădă pentru totdeauna.”"
+    ],
+    "answer": "a",
+    "verseRef": "16.9",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:53",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 53,
+    "prompt": "Cum l-a chemat pe fiul lui Asa care a ajuns împărat al lui Iuda și care a trimis leviți să învețe poporul Legea Domnului?",
+    "options": [
+      "Ioas",
+      "Iosia",
+      "Iosafat"
+    ],
+    "answer": "c",
+    "verseRef": "17.1,8-9",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:54",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 54,
+    "prompt": "Cu cine ni se spune că s-a încuscrit Iosafat?",
+    "options": [
+      "cu Ahab",
+      "cu împăratul Egiptului",
+      "cu împăratul Siriei"
+    ],
+    "answer": "a",
+    "verseRef": "18.1",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:55",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 55,
+    "prompt": "Cum l-a chemat pe prorocul despre care Ahab a spus că îl urăște, căci nu prorocește nimic bun?",
+    "options": [
+      "Mica",
+      "Ieremia",
+      "Isaia"
+    ],
+    "answer": "a",
+    "verseRef": "18.7",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:56",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 56,
+    "prompt": "Cum l-a chemat pe cel care și-a făcut niște coarne de fier și care a spus că cu aceste coarne de fier îi va bate poporul pe sirieni?",
+    "options": [
+      "Ezechia",
+      "Zedechia",
+      "Ezechiel"
+    ],
+    "answer": "b",
+    "verseRef": "18.10",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:57",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 57,
+    "prompt": "Cu ce cuvinte a descris prorocul Mica vedenia lui?",
+    "options": [
+      "„Văd tot Israelul risipit pe munți, ca niște oi care n-au păstor...”",
+      "„Îl văd, dar nu acum, Îl privesc, dar nu de aproape...”",
+      "„Căci ochii Domnului sunt peste cei neprihăniți...”"
+    ],
+    "answer": "a",
+    "verseRef": "18.16",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:58",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 58,
+    "prompt": "Cine l-a lovit pe prorocul Mica peste obraz?",
+    "options": [
+      "Iosafat",
+      "Ahab",
+      "Zedechia"
+    ],
+    "answer": "c",
+    "verseRef": "18.23",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:59",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 59,
+    "prompt": "Cu ce a poruncit Ahab să fie hrănit prorocul Mica, despre care a poruncit să fie aruncat în temniță?",
+    "options": [
+      "cu pâinea și cu apa întristării",
+      "să nu i se dea decât o pâine pe zi",
+      "niciuna dintre variantele de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "18.26",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:60",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 60,
+    "prompt": "Care dintre împărați a murit, după ce și-a schimbat hainele, și mai târziu a fost lovit de o săgeată aruncată la întâmplare?",
+    "options": [
+      "Iosafat",
+      "Ahab",
+      "niciuna dintre variantele de mai sus"
+    ],
+    "answer": "b",
+    "verseRef": "18.29,33",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:61",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 61,
+    "prompt": "Pe cine a pus Iosafat peste popor, pentru a fi judecați pentru neînțelegerile dintre ei?",
+    "options": [
+      "judecători",
+      "leviți, preoți și căpetenii",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "19.5-11",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:62",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 62,
+    "prompt": "Ce a făcut Iosafat când a aflat că moabiții, fiii lui Amon și niște maoniți se ridică împotriva lui?",
+    "options": [
+      "și-a îndreptat fața să-L caute pe Domnul",
+      "a făcut legământ cu împăratul Siriei",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "20.1-3",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:63",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 63,
+    "prompt": "Care a fost „arma secretă” pe care le-a dat-o Domnul iudeilor pentru a-i înfrânge pe dușmani?",
+    "options": [
+      "cântările și laudele",
+      "niște urcioare cu flăcări în ele",
+      "strategia de învăluire a dușmanului"
+    ],
+    "answer": "a",
+    "verseRef": "20.22",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:64",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 64,
+    "prompt": "De la cine a primit Ioram, urmașul la tron al lui Iosafat, o scrisoare?",
+    "options": [
+      "de la prorocul Ilie",
+      "de la prorocul Elisei",
+      "niciuna dintre variantele de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "21.12",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:65",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 65,
+    "prompt": "Ce scria în scrisoarea primită de împăratul Ioram?",
+    "options": [
+      "că Domnul va lovi cu o mare urgie poporul",
+      "că Ioram va fi lovit cu o boală grea",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "21.12-15",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:66",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 66,
+    "prompt": "Cu ce fel de boală ni se spune că a fost lovit Ioram?",
+    "options": [
+      "cu o boală de măruntaie",
+      "se spune doar că a fost o boală fără leac",
+      "nu a fost lovit cu nicio boală"
+    ],
+    "answer": "a",
+    "verseRef": "21.18",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:67",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 67,
+    "prompt": "Cine a fost fiul Ataliei, cel care a luat împărăția după ce Ioram a murit?",
+    "options": [
+      "Ahazia",
+      "Ahaz",
+      "Amația"
+    ],
+    "answer": "a",
+    "verseRef": "22.1-2",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:68",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 68,
+    "prompt": "Cum l-a chemat pe fiul lui Ahazia salvat de mâna ucigașă a Ataliei, care pentru a ajunge la tron a omorât tot neamul împărătesc?",
+    "options": [
+      "Iotam",
+      "Iosia",
+      "Ioas"
+    ],
+    "answer": "c",
+    "verseRef": "22.11",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:69",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 69,
+    "prompt": "Cum l-a chemat pe preotul care l-a ținut ascuns pe Ioas vreme de șase ani, după care a organizat moartea Ataliei și ungerea lui Ioas ca împărat?",
+    "options": [
+      "Iehoiada",
+      "Țadoc",
+      "Hilchia"
+    ],
+    "answer": "a",
+    "verseRef": "23.1",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:70",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 70,
+    "prompt": "Câți ani avea Ioas când a ajuns împărat?",
+    "options": [
+      "7",
+      "8",
+      "21"
+    ],
+    "answer": "a",
+    "verseRef": "24.1",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:71",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 71,
+    "prompt": "Ce și-a pus pe inimă Ioas, imediat după ce Iehoiada a aranjat să fie căsătorit?",
+    "options": [
+      "să adâncească și să împlinească Legea Domnului",
+      "să dreagă Casa Domnului",
+      "ambele variante de mai sus"
+    ],
+    "answer": "b",
+    "verseRef": "24.3-4",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:72",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 72,
+    "prompt": "Ce poruncă a dat Ioas în vederea dregerii Casei Domnului?",
+    "options": [
+      "să se facă o ladă și să se pună la poarta Casei Domnului, pentru darea pusă de Moise",
+      "toți bărbații în stare să lucreze la dregerea Casei Domnului să se strângă și să dea o mână de ajutor",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "24.8-9",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:73",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 73,
+    "prompt": "Cum l-a chemat pe împăratul lui Iuda care a tocmit 100.000 de viteji cu 100 de talanți de argint și căruia omul lui Dumnezeu i-a spus că Domnul poate să-i dea mult mai mult decât atât, în cazul în care avea să renunțe la ei și să se încreadă în Dumnezeu?",
+    "options": [
+      "Ioas",
+      "Amația",
+      "Iotam"
+    ],
+    "answer": "b",
+    "verseRef": "25.6-9",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:74",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 74,
+    "prompt": "Cum l-a chemat pe împăratul care a ajuns foarte puternic, pentru că zidise turnuri și avea o oaste mare, dar care s-a semețit și căruia i s-a înălțat inima, lucru care i-a adus pieirea?",
+    "options": [
+      "Amația",
+      "Ioas",
+      "Ozia"
+    ],
+    "answer": "c",
+    "verseRef": "26.9-16",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:75",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 75,
+    "prompt": "Ce a făcut acest împărat, lucru pentru care preotul Azaria l-a mustrat, spunând că „lucrul acesta nu-i va face cinste înaintea Domnului Dumnezeu”?",
+    "options": [
+      "a adus jertfă un vițel",
+      "a vrut să ardă tămâie pe altar",
+      "ambele variante de mai sus"
+    ],
+    "answer": "b",
+    "verseRef": "26.18",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:76",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 76,
+    "prompt": "Ce a pățit Ozia, pentru că în loc să se smerească pentru păcatul lui, s-a mâniat pe omul lui Dumnezeu?",
+    "options": [
+      "a murit în clipa în care s-a mâniat pe omul lui Dumnezeu",
+      "mâna cu care ținea cădelnița i s-a uscat pe loc",
+      "i-a izbucnit lepra pe frunte"
+    ],
+    "answer": "c",
+    "verseRef": "26.19",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:77",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 77,
+    "prompt": "Cum l-a chemat pe fiul lui Ozia care a ajuns împărat și despre care citim că a făcut ce este bine înaintea Domnului și a zidit cetăți și turnuri (mama sa se chema Ierușa, fata lui Țadoc)?",
+    "options": [
+      "Iotam",
+      "Ioram",
+      "Ioahaz"
+    ],
+    "answer": "a",
+    "verseRef": "27.1",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:78",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 78,
+    "prompt": "Ce fapte rele ni se spune că a făcut Ahaz, împăratul lui Iuda care a domnit după Iotam?",
+    "options": [
+      "a făcut chipuri turnate pentru baali și alte urâciuni ale neamurilor pe care Domnul le izgonise",
+      "a făcut bucăți uneltele din Casa Domnului",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "28.1-4,24",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:79",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 79,
+    "prompt": "Cum l-a chemat pe împăratul care a domnit după Ahaz și care a făcut legământ cu Domnul și a restaurat slujba preoților și chiar a prăznuit Paștele?",
+    "options": [
+      "Ezechia",
+      "Zedechia",
+      "Ioahaz"
+    ],
+    "answer": "a",
+    "verseRef": "29.1-30.1",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:80",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 80,
+    "prompt": "Cum l-a chemat pe împăratul Asiriei care s-a ridicat împotriva lui Ezechia și a trimis soli să înmoaie inima poporului?",
+    "options": [
+      "Tiglat-Pileser",
+      "Ben-Hadad",
+      "Sanherib"
+    ],
+    "answer": "c",
+    "verseRef": "32.1,18",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:81",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 81,
+    "prompt": "Cum i-a scăpat Domnul pe Ezechia și pe popor când aceștia erau în pericol, dar s-au rugat cu încredere și au cerut ajutorul Domnului?",
+    "options": [
+      "Domnul a trimis un înger care a nimicit toți vitejii din tabăra lui Sanherib",
+      "Domnul a pus o pândă împotriva oștirii lui Sanherib",
+      "Domnul a pus învălmășeală în tabăra sirienilor, așa încât s-au măcelărit unii pe alții"
+    ],
+    "answer": "a",
+    "verseRef": "32.20-21",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:82",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 82,
+    "prompt": "Cum l-a chemat pe împăratul lui Iuda care a ajuns împărat la vârsta de doisprezece ani și care a făcut ce este rău înaintea Domnului, dar care, după ce s-a smerit, a cunoscut îndurarea Domnului (el a zidit un zid foarte lung, care se întinde până la Poarta Peștilor)?",
+    "options": [
+      "Manase",
+      "Amon",
+      "Ieconia"
+    ],
+    "answer": "a",
+    "verseRef": "33.1-2,14",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:83",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 83,
+    "prompt": "Cum l-a chemat pe fiul lui Manase care, la doi ani după ce a ajuns împărat, a fost ucis de către slujitorii lui?",
+    "options": [
+      "Amon",
+      "Ieconia",
+      "Zedechia"
+    ],
+    "answer": "a",
+    "verseRef": "33.21,24",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:84",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 84,
+    "prompt": "Câți ani a avut Iosia când a ajuns împărat și câți ani a domnit el la Ierusalim?",
+    "options": [
+      "7; 31",
+      "7; 37",
+      "8; 31"
+    ],
+    "answer": "c",
+    "verseRef": "34.1",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:85",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 85,
+    "prompt": "Cine a găsit cartea Legii Domnului?",
+    "options": [
+      "preotul Hilchia",
+      "logofătul Șafan",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "34.14",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:86",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 86,
+    "prompt": "Ce a făcut împăratul Iosia când a auzit cuvintele Legii?",
+    "options": [
+      "a adus jertfe Domnului vreme de trei zile",
+      "și-a sfâșiat hainele",
+      "niciuna dintre variantele de mai sus"
+    ],
+    "answer": "b",
+    "verseRef": "34.19",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:87",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 87,
+    "prompt": "Ce sărbătoare a reinstaurat Iosia, cercetat fiind de Cuvântul Domnului?",
+    "options": [
+      "Sărbătoarea Corturilor",
+      "Sărbătoarea Cincizecimii",
+      "Paștele"
+    ],
+    "answer": "c",
+    "verseRef": "35.1",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:88",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 88,
+    "prompt": "Cine a fost cel care a compus un cântec de jale la moartea împăratului Iosia?",
+    "options": [
+      "prorocul Ieremia",
+      "preotul Hilchia",
+      "unul dintre leviți, dar nu i se menționează numele"
+    ],
+    "answer": "a",
+    "verseRef": "35.25",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:89",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 89,
+    "prompt": "Care este ordinea corectă a ultimilor trei împărați a căror istorie este prezentată în finalul cărții 2 Cronici?",
+    "options": [
+      "Ioiachim, Ioiachin, Zedechia",
+      "Ioahaz, Zedechia, Ioiachim",
+      "Ioiachim, Ioahaz, Zedechia"
+    ],
+    "answer": "a",
+    "verseRef": "36.1-23",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:text:90",
+    "book": "2 Cronici",
+    "section": "text",
+    "number": 90,
+    "prompt": "Care a fost împăratul păgân al cărui duh a fost trezit de Domnul și a dat o poruncă în favoarea evreilor?",
+    "options": [
+      "Nebucadnețar",
+      "Dariu",
+      "Cir"
+    ],
+    "answer": "c",
+    "verseRef": "36.22",
+    "open": null
+  },
+  {
+    "id": "e16/2 Cronici:interp:1",
+    "book": "2 Cronici",
+    "section": "interp",
+    "number": 1,
+    "prompt": "Solomon a avut un început bun în umblarea lui cu Domnul. Am văzut că nu I-a cerut Domnului nici slavă, nici bogăție, ci înțelepciune și pricepere, pentru a putea judeca poporul. Însă, cu toate că Domnul i-a împlinit rugăciunea, ba chiar i-a dat mai mult decât I-a cerut, Solomon nu a avut un final al vieții plăcut înaintea lui Dumnezeu. Care au fost lucrurile care l-au depărtat pe Solomon de Domnul și ce în ce fel viața lui Solomon ne poate fi un avertisment în umblarea noastră cu Dumnezeu?",
+    "options": null,
+    "answer": null,
+    "verseRef": null,
+    "open": true
+  },
+  {
+    "id": "e16/2 Cronici:interp:2",
+    "book": "2 Cronici",
+    "section": "interp",
+    "number": 2,
+    "prompt": "Rugăciunea lui Solomon prin care cerea binecuvântarea și ocrotirea poporului pune câteva condiții pe care poporul trebuia să le împlinească în cazul în care avea să păcătuiască înaintea Domnului. Printre acestea a fost și faptul că poporul trebuia, atunci când ar fi păcătuit, să se întoarcă la Domnul. Ai avut experiența ca, după ce ai făcut un păcat sau ai trăit o perioadă mai lungă în păcat, să te întorci la Domnul și să vezi că El te iartă și îți dă mai departe binecuvântările Lui?",
+    "options": null,
+    "answer": null,
+    "verseRef": null,
+    "open": true
+  },
+  {
+    "id": "e16/2 Cronici:interp:3",
+    "book": "2 Cronici",
+    "section": "interp",
+    "number": 3,
+    "prompt": "Împărăteasa din Seba a venit la Solomon, pentru că auzise despre înțelepciunea lui. Este bine și de dorit să ajungem să fim cunoscuți ca oameni înțelepți. Cum a ajuns Solomon să fie înțelept? Cum putem să ne înțelepțim?",
+    "options": null,
+    "answer": null,
+    "verseRef": null,
+    "open": true
+  },
+  {
+    "id": "e16/2 Cronici:interp:4",
+    "book": "2 Cronici",
+    "section": "interp",
+    "number": 4,
+    "prompt": "Citim în versetul 13 din capitolul 9 că Solomon primea în fiecare an cantități mari de aur de la supușii lui. Într-un fel sau altul, bogăția și faima pe care le avea Solomon, ca să nu mai vorbim despre relațiile lui cu femeile păgâne, l-au tras în jos în relația lui cu Domnul. Poate că niciunul dintre noi nu suntem bogați. Dar o oarecare bunăstare poate totuși avem. În ce fel ne pot bunurile materiale ține departe de Dumnezeu?",
+    "options": null,
+    "answer": null,
+    "verseRef": null,
+    "open": true
+  },
+  {
+    "id": "e16/2 Cronici:interp:5",
+    "book": "2 Cronici",
+    "section": "interp",
+    "number": 5,
+    "prompt": "Roboam este un exemplu negativ al felului în care trebuie să ne alegem sfătuitorii. Tu la cine cauți sfat atunci când ești într-o situație mai dificilă? De ce oare de cele mai multe ori cei mai în vârstă pot să dea sfaturi mai bune decât cei tineri?",
+    "options": null,
+    "answer": null,
+    "verseRef": null,
+    "open": true
+  },
+  {
+    "id": "e16/2 Cronici:interp:6",
+    "book": "2 Cronici",
+    "section": "interp",
+    "number": 6,
+    "prompt": "Am văzut că armata de un milion de oameni a etiopianului Zerah nu a fost în stare să stea împotriva oștirii neînsemnate a lui Israel. Dar nu puterea armatei împăratului Asa și nici strategiile lui de război i-au adus victoria, ci totul s-a datorat îndurării lui Dumnezeu. De ce a ales Domnul să le dea israeliților acea biruință imposibilă din punct de vedere omenesc?",
+    "options": null,
+    "answer": null,
+    "verseRef": null,
+    "open": true
+  },
+  {
+    "id": "e16/2 Cronici:interp:7",
+    "book": "2 Cronici",
+    "section": "interp",
+    "number": 7,
+    "prompt": "Hanani, văzătorul, i-a spus împăratului Asa niște cuvinte care ne descoperă un adevăr deosebit în privința lui Dumnezeu: „Căci Domnul Își întinde privirile peste tot pământul ca să sprijine pe aceia a căror inimă este întreagă a Lui.” Ai experimentat binecuvântarea de care ți-a făcut Dumnezeu parte atunci când inima ta a fost întru totul predată Domnului?",
+    "options": null,
+    "answer": null,
+    "verseRef": null,
+    "open": true
+  },
+  {
+    "id": "e16/2 Cronici:interp:8",
+    "book": "2 Cronici",
+    "section": "interp",
+    "number": 8,
+    "prompt": "Noi nu luptăm nici cu moabiții, nici cu alți dușmani fizici. Războaiele noastre sunt mai degrabă pe planul spiritual. Iosafat a repurtat o victorie într-un război fizic. „Arma” lui secretă a fost faptul că I-a adus laudă lui Dumnezeu. În ce fel ne ajută o atitudine de laudă la adresa lui Dumnezeu să fim biruitori în încercările noastre (spirituale, legate de boală, în nevoi materiale sau de orice fel)?",
+    "options": null,
+    "answer": null,
+    "verseRef": null,
+    "open": true
+  },
+  {
+    "id": "e16/2 Cronici:interp:9",
+    "book": "2 Cronici",
+    "section": "interp",
+    "number": 9,
+    "prompt": "În mai multe locuri din Scriptură citim că mândria nu este bună și ne poate aduce mari pagube. Pedeapsa pe care i-a aplicat-o Domnul lui Ozia a fost foarte dură, ca exemplu pentru tot poporul. Este oare ea și pentru tine un avertisment care să te ajute să nu te mândrești, atunci când, poate, socotești că ești mai presus decât alții într-un fel sau într-altul?",
+    "options": null,
+    "answer": null,
+    "verseRef": null,
+    "open": true
+  },
+  {
+    "id": "e16/2 Cronici:interp:10",
+    "book": "2 Cronici",
+    "section": "interp",
+    "number": 10,
+    "prompt": "Citim spre finalul cărții 2 Cronici că Dumnezeu a trezit duhul împăratului păgân Cir. Nu de puține ori Dumnezeu a mișcat inima oamenilor care nu-L cunoșteau, pentru a-i ajuta într-un fel sau altul pe copiii Săi. Ai auzit asemenea exemple? Ai experimentat tu însuți această binecuvântare?",
+    "options": null,
+    "answer": null,
+    "verseRef": null,
+    "open": true
+  },
+  {
+    "id": "e16/Daniel:text:1",
+    "book": "Daniel",
+    "section": "text",
+    "number": 1,
+    "prompt": "Între ce cărți ale Vechiului Testament se găsește cartea prorocului Daniel?",
+    "options": [
+      "între Ezechiel și Osea",
+      "între Plângerile lui Ieremia și Iona",
+      "între Isaia și Amos"
+    ],
+    "answer": "a",
+    "verseRef": null,
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:2",
+    "book": "Daniel",
+    "section": "text",
+    "number": 2,
+    "prompt": "Cine a fost împăratul Babilonului care a împresurat Ierusalimul și l-a cucerit?",
+    "options": [
+      "Nebucadnețar",
+      "Dariu",
+      "Cir"
+    ],
+    "answer": "a",
+    "verseRef": "1.1",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:3",
+    "book": "Daniel",
+    "section": "text",
+    "number": 3,
+    "prompt": "În al treilea an al domniei cărui împărat a fost împresurat Ierusalimul?",
+    "options": [
+      "al lui Ioahaz",
+      "al lui Ioiachim",
+      "al lui Zedechia"
+    ],
+    "answer": "b",
+    "verseRef": "1.1",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:4",
+    "book": "Daniel",
+    "section": "text",
+    "number": 4,
+    "prompt": "Unde a dus Nebucadnețar o parte dintre vasele Casei lui Dumnezeu?",
+    "options": [
+      "în capitala Susa",
+      "în țara Șinear",
+      "în Ramses"
+    ],
+    "answer": "b",
+    "verseRef": "1.2",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:5",
+    "book": "Daniel",
+    "section": "text",
+    "number": 5,
+    "prompt": "Cui i-a poruncit împăratul Nebucadnețar să-i aducă vreo câțiva dintre copiii lui Israel?",
+    "options": [
+      "lui Așpenaz",
+      "lui Memucan",
+      "lui Ahașveroș"
+    ],
+    "answer": "a",
+    "verseRef": "1.3",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:6",
+    "book": "Daniel",
+    "section": "text",
+    "number": 6,
+    "prompt": "Care au fost cei patru tineri din poporul evreu aleși alături de alții pentru a trăi la palat?",
+    "options": [
+      "Daniel, Beltșațar, Șadrac și Meșac",
+      "Daniel, Hanania, Șadrac și Meșac",
+      "Daniel, Hanania, Mișael și Azaria"
+    ],
+    "answer": "c",
+    "verseRef": "1.6",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:7",
+    "book": "Daniel",
+    "section": "text",
+    "number": 7,
+    "prompt": "Despre cine ni se spune că a hotărât să nu se spurce cu bucatele alese ale împăratului?",
+    "options": [
+      "despre Daniel",
+      "despre Daniel și cei trei prieteni ai lui",
+      "despre Daniel și toți tinerii evrei aduși la palat"
+    ],
+    "answer": "b",
+    "verseRef": "1.8",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:8",
+    "book": "Daniel",
+    "section": "text",
+    "number": 8,
+    "prompt": "Ce s-a temut Așpenaz că ar fi putut să se întâmple?",
+    "options": [
+      "că împăratul va vedea fața tristă a celor patru tineri, și astfel viața lui ar fi în primejdie",
+      "că cei patru tineri vor fi puși în primejdie de moarte",
+      "că se va găsi cineva care să-i spună împăratului planul celor patru tineri"
+    ],
+    "answer": "a",
+    "verseRef": "1.10",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:9",
+    "book": "Daniel",
+    "section": "text",
+    "number": 9,
+    "prompt": "Timp de câte zile i-a spus Daniel famenului împăratului să-i încerce cu zarzavaturi și apă?",
+    "options": [
+      "7",
+      "10",
+      "12"
+    ],
+    "answer": "b",
+    "verseRef": "1.12",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:10",
+    "book": "Daniel",
+    "section": "text",
+    "number": 10,
+    "prompt": "Ce ni se spune că le-a dat Dumnezeu celor patru tineri credincioși?",
+    "options": [
+      "știință",
+      "pricepere",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "1.17",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:11",
+    "book": "Daniel",
+    "section": "text",
+    "number": 11,
+    "prompt": "Ce i-a dat în plus Dumnezeu lui Daniel?",
+    "options": [
+      "pricepere în toate vedeniile",
+      "pricepere în toate visele",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "1.17",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:12",
+    "book": "Daniel",
+    "section": "text",
+    "number": 12,
+    "prompt": "De câte ori erau cei patru tineri mai destoinici decât vrăjitorii și cititorii în stele?",
+    "options": [
+      "de trei ori",
+      "de șapte ori",
+      "de zece ori"
+    ],
+    "answer": "c",
+    "verseRef": "1.20",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:13",
+    "book": "Daniel",
+    "section": "text",
+    "number": 13,
+    "prompt": "Cine a spus că nu este nimeni care să poată împlini ceea ce cere împăratul?",
+    "options": [
+      "haldeii",
+      "Daniel",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "2.10,27",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:14",
+    "book": "Daniel",
+    "section": "text",
+    "number": 14,
+    "prompt": "Ce a poruncit împăratul Nebucadnețar, văzând că înțelepții Babilonului nu sunt în stare să-i spună ce a visat?",
+    "options": [
+      "să-i ucidă pe toți înțelepții Babilonului",
+      "să caute pe cineva vrednic să-i tălmăcească visul",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "2.12",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:15",
+    "book": "Daniel",
+    "section": "text",
+    "number": 15,
+    "prompt": "La cine s-a dus Daniel să-i spună să nu-i omoare pe înțelepți și să-l ducă la împărat?",
+    "options": [
+      "la Așpenaz",
+      "la Arioc",
+      "nu este menționat cu numele famenul la care s-a dus Daniel"
+    ],
+    "answer": "b",
+    "verseRef": "2.24",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:16",
+    "book": "Daniel",
+    "section": "text",
+    "number": 16,
+    "prompt": "Care era numele pe care l-a primit Daniel în Babilon?",
+    "options": [
+      "Belșațar",
+      "Beltșațar",
+      "oricare dintre variantele de mai sus"
+    ],
+    "answer": "b",
+    "verseRef": "2.26",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:17",
+    "book": "Daniel",
+    "section": "text",
+    "number": 17,
+    "prompt": "Care au fost metalele din care era făcută statuia visată de împărat, pe lângă care ni se spune că mai era și lutul?",
+    "options": [
+      "aur și argint",
+      "aur, argint și aramă",
+      "aur, argint, aramă și fier"
+    ],
+    "answer": "c",
+    "verseRef": "2.32-33",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:18",
+    "book": "Daniel",
+    "section": "text",
+    "number": 18,
+    "prompt": "Ce ni se spune legat de piatra care a lovit statuia?",
+    "options": [
+      "că s-a făcut un munte mare",
+      "că a umplut tot pământul",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "2.35",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:19",
+    "book": "Daniel",
+    "section": "text",
+    "number": 19,
+    "prompt": "Cum l-a numit Daniel pe Nebucadnețar?",
+    "options": [
+      "împăratul împăraților",
+      "domnul domnilor",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "2.37",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:20",
+    "book": "Daniel",
+    "section": "text",
+    "number": 20,
+    "prompt": "Câte împărății a spus Daniel că se vor ridica după împărăția lui Nebucadnețar?",
+    "options": [
+      "3",
+      "4",
+      "5"
+    ],
+    "answer": "c",
+    "verseRef": "2.39-45",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:21",
+    "book": "Daniel",
+    "section": "text",
+    "number": 21,
+    "prompt": "Ce a făcut împăratul Nebucadnețar după ce a auzit tâlcuirea visului său?",
+    "options": [
+      "a căzut cu fața la pământ și s-a închinat înaintea lui Daniel",
+      "a poruncit să i se aducă lui Daniel jertfe de mâncare și miresme",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "2.46",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:22",
+    "book": "Daniel",
+    "section": "text",
+    "number": 22,
+    "prompt": "Ce a mai făcut Nebucadnețar după ce a auzit cuvintele lui Daniel?",
+    "options": [
+      "l-a înălțat pe Daniel și i-a dat daruri multe și bogate",
+      "i-a dat stăpânire peste tot ținutul Babilonului",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "2.48",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:23",
+    "book": "Daniel",
+    "section": "text",
+    "number": 23,
+    "prompt": "Care au fost numele pe care le-au primit Hanania, Mișael și Azaria în Babilon?",
+    "options": [
+      "Șadrac, Meșac și Abed-Nego",
+      "Meșac, Șadrac și Abed-Nego",
+      "Șadrac, Abed-Nego și Meșac"
+    ],
+    "answer": "a",
+    "verseRef": "2.49",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:24",
+    "book": "Daniel",
+    "section": "text",
+    "number": 24,
+    "prompt": "Unde a ridicat Nebucadnețar chipul de aur pe care l-a făcut în cinstea sa?",
+    "options": [
+      "la Susa",
+      "în Valea Sorec",
+      "în Valea Dura"
+    ],
+    "answer": "c",
+    "verseRef": "3.1",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:25",
+    "book": "Daniel",
+    "section": "text",
+    "number": 25,
+    "prompt": "Cine i-a pârât pe iudei lui Nebucadnețar, spunându-i că aceștia nu se închină statuii de aur?",
+    "options": [
+      "niște haldei",
+      "căpetenia famenilor",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "3.8-12",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:26",
+    "book": "Daniel",
+    "section": "text",
+    "number": 26,
+    "prompt": "Cu ce cuvinte și-au început cei trei tineri răspunsul pe care i l-au dat împăratului, atunci când au fost acuzați că nu se închină chipului de aur?",
+    "options": [
+      "„Să trăiești veșnic, împărate!”",
+      "„Să privească domnul nostru cu îndurare, pentru că porunca a fost prea aspră!”",
+      "„Noi n-avem nevoie să-ți răspundem la cele de mai sus.”"
+    ],
+    "answer": "c",
+    "verseRef": "3.16",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:27",
+    "book": "Daniel",
+    "section": "text",
+    "number": 27,
+    "prompt": "Ce poruncă a dat împăratul, înainte ca cei trei tineri să fie aruncați în cuptorul de foc?",
+    "options": [
+      "cuptorul să fie încălzit de șapte ori mai tare decât de obicei",
+      "cei trei tineri să fie legați și aruncați în cuptor",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "3.19-20",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:28",
+    "book": "Daniel",
+    "section": "text",
+    "number": 28,
+    "prompt": "Ce a spus împăratul că vede în mijlocul cuptorului?",
+    "options": [
+      "trei oameni umblând slobozi",
+      "patru oameni umblând slobozi",
+      "o minune cum nu a mai văzut nimeni până atunci"
+    ],
+    "answer": "b",
+    "verseRef": "3.25",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:29",
+    "book": "Daniel",
+    "section": "text",
+    "number": 29,
+    "prompt": "Cum i-a numit Nebucadnețar pe cei trei tineri atunci când i-a chemat afară din cuptorul de foc?",
+    "options": [
+      "slujitorii Dumnezeului celui Preaînalt",
+      "copiii lui",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "3.26",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:30",
+    "book": "Daniel",
+    "section": "text",
+    "number": 30,
+    "prompt": "Despre cine ni se spune că L-a binecuvântat pe Dumnezeu când a văzut că cei trei tineri au ieșit nevătămați din cuptor?",
+    "options": [
+      "despre Nebucadnețar",
+      "despre cei trei tineri",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "3.28",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:31",
+    "book": "Daniel",
+    "section": "text",
+    "number": 31,
+    "prompt": "Cu ce cuvinte Îl mărește Nebucadnețar pe Dumnezeu când începe să vorbească despre semnele și minunile pe care le-a făcut față de el?",
+    "options": [
+      "Cât de mari sunt semnele Lui și cât de puternice sunt minunile Lui!",
+      "Stăpânirea Lui dăinuiește din neam în neam!",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "4.2-3",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:32",
+    "book": "Daniel",
+    "section": "text",
+    "number": 32,
+    "prompt": "Cum l-a numit Nebucadnețar pe Daniel, atunci când i-a cerut să-i tâlcuiască visul cu copacul cel mare?",
+    "options": [
+      "căpetenia vrăjitorilor",
+      "fiu de Dumnezeu",
+      "descoperitor de taine"
+    ],
+    "answer": "a",
+    "verseRef": "4.9",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:33",
+    "book": "Daniel",
+    "section": "text",
+    "number": 33,
+    "prompt": "Ce a spus, printre altele, împăratul legat de copacul cel mare?",
+    "options": [
+      "că fiarele câmpului se adăposteau sub umbra lui și păsările cerului își făceau cuibul în ramurile lui",
+      "că orice făptură vie se hrănea din el",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "4.12",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:34",
+    "book": "Daniel",
+    "section": "text",
+    "number": 34,
+    "prompt": "Cine a fost cel care, în visul lui Nebucadnețar, a poruncit ca copacul să fie tăiat?",
+    "options": [
+      "un străjer sfânt care s-a coborât din cer",
+      "împăratul Nebucadnețar",
+      "Dumnezeul oștirilor"
+    ],
+    "answer": "a",
+    "verseRef": "4.13",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:35",
+    "book": "Daniel",
+    "section": "text",
+    "number": 35,
+    "prompt": "Care au fost cuvintele pe care le-a spus împăratul spre finalul descrierii visului său?",
+    "options": [
+      "că Cel Preaînalt stăpânește peste împărăția oamenilor",
+      "că nimeni nu este ca Daniel, care poate tâlcui orice vis",
+      "că îi va da cinste lui Daniel, dacă îi va tâlcui visul"
+    ],
+    "answer": "a",
+    "verseRef": "4.17",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:36",
+    "book": "Daniel",
+    "section": "text",
+    "number": 36,
+    "prompt": "Ce reprezenta copacul cel mare, potrivit tâlcuirilor lui Daniel?",
+    "options": [
+      "pe Nebucadnețar și împărăția lui",
+      "împărăția lui Dumnezeu",
+      "cele cinci împărății care aveau să vină"
+    ],
+    "answer": "a",
+    "verseRef": "4.21-22",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:37",
+    "book": "Daniel",
+    "section": "text",
+    "number": 37,
+    "prompt": "Ce perioadă de timp avea să treacă până când împăratul avea să recunoască faptul că Dumnezeu stăpânește peste împărăția oamenilor și i-o dă cui vrea?",
+    "options": [
+      "două vremi și jumătate",
+      "șapte săptămâni de ani",
+      "șapte vremi"
+    ],
+    "answer": "c",
+    "verseRef": "4.25",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:38",
+    "book": "Daniel",
+    "section": "text",
+    "number": 38,
+    "prompt": "Ce sfat i-a dat Daniel împăratului, în speranța că i se va prelungi fericirea?",
+    "options": [
+      "să pună capăt păcatelor sale și să trăiască în neprihănire",
+      "s-o rupă cu nelegiuirile și să aibă milă de cei nenorociți",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "4.27",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:39",
+    "book": "Daniel",
+    "section": "text",
+    "number": 39,
+    "prompt": "Cât timp a trecut de la tălmăcirea lui Daniel până când mândria împăratului a ajuns să-i aducă pedeapsa lui Dumnezeu și împlinirea tâlcuirii visului?",
+    "options": [
+      "șapte vremi",
+      "douăsprezece săptămâni de zile",
+      "douăsprezece luni"
+    ],
+    "answer": "c",
+    "verseRef": "4.29-31",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:40",
+    "book": "Daniel",
+    "section": "text",
+    "number": 40,
+    "prompt": "Ce ni se spune că a pățit împăratul pentru îngâmfarea lui?",
+    "options": [
+      "a fost izgonit din mijlocul oamenilor",
+      "a mâncat iarbă ca boii",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "4.33",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:41",
+    "book": "Daniel",
+    "section": "text",
+    "number": 41,
+    "prompt": "Cine a spus: „Laud, înalț și slăvesc pe Împăratul cerurilor, căci toate lucrările Lui sunt adevărate.”?",
+    "options": [
+      "Daniel",
+      "cei trei tineri",
+      "Nebucadnețar"
+    ],
+    "answer": "c",
+    "verseRef": "4.37",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:42",
+    "book": "Daniel",
+    "section": "text",
+    "number": 42,
+    "prompt": "Al cui fiu a fost împăratul Belșațar?",
+    "options": [
+      "al împăratului Dariu",
+      "al împăratului Cir",
+      "al împăratului Nebucadnețar"
+    ],
+    "answer": "c",
+    "verseRef": "5.2",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:43",
+    "book": "Daniel",
+    "section": "text",
+    "number": 43,
+    "prompt": "Ce a poruncit împăratul Belșațar în timpul ospățului dat celor o mie de mai-mari ai lui?",
+    "options": [
+      "să aducă vasele de aur și de argint pe care le luase tatăl său din Templul din Ierusalim",
+      "să vină împărăteasa, pentru a o prezenta celor o mie de mai-mari ai lui",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "5.2",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:44",
+    "book": "Daniel",
+    "section": "text",
+    "number": 44,
+    "prompt": "Unde a scris mâna care a apărut, atunci când împăratul și invitații lui își lăudau dumnezeii, mână care a scris pe tencuiala zidului palatului?",
+    "options": [
+      "în fața altarului unde aceștia își lăudau zeii",
+      "în fața sfeșnicului",
+      "în fața scaunului de domnie"
+    ],
+    "answer": "b",
+    "verseRef": "5.5",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:45",
+    "book": "Daniel",
+    "section": "text",
+    "number": 45,
+    "prompt": "Care dintre lucrurile de mai jos NU se spune că le-a pățit împăratul la vederea mâinii care scria pe zid?",
+    "options": [
+      "a îngălbenit",
+      "gândurile l-au tulburat și genunchii i s-au izbit unul de altul",
+      "a căzut cu fața la pământ"
+    ],
+    "answer": "c",
+    "verseRef": "5.6",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:46",
+    "book": "Daniel",
+    "section": "text",
+    "number": 46,
+    "prompt": "Cine i-a spus împăratului Belșațar că este în împărăție un om care va putea tâlcui scrisul de pe zid?",
+    "options": [
+      "vrăjitorii și cititorii în stele",
+      "famenii împăratului",
+      "împărăteasa"
+    ],
+    "answer": "c",
+    "verseRef": "5.10",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:47",
+    "book": "Daniel",
+    "section": "text",
+    "number": 47,
+    "prompt": "Cui i-a promis împăratul că, dacă îi va tâlcui scrierea de pe zid, va fi îmbrăcat în purpură, va primi un lănțișor de aur la gât și va fi pus al treilea în împărăție?",
+    "options": [
+      "lui Daniel",
+      "aceluia dintre vrăjitori și cititori în stele care va fi în stare să facă acest lucru",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "5.7,16",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:48",
+    "book": "Daniel",
+    "section": "text",
+    "number": 48,
+    "prompt": "Ce i-a spus Daniel împăratului, când acesta i-a promis mari răsplătiri?",
+    "options": [
+      "„Ține-ți darurile și dă-i altuia răsplătirile tale!”",
+      "„Împăratul nu trebuie să poarte de grija răsplătirii mele.”",
+      "„Să mă ferească Dumnezeu să primesc ceva din mâna ta, împărate!”"
+    ],
+    "answer": "a",
+    "verseRef": "5.17",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:49",
+    "book": "Daniel",
+    "section": "text",
+    "number": 49,
+    "prompt": "Care este acuza pe care i-a adus-o Daniel lui Belșațar, după ce i-a spus ce a pățit tatăl lui, împăratul Nebucadnețar?",
+    "options": [
+      "că nu și-a smerit inima",
+      "că s-a înălțat împotriva Domnului cerurilor",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "5.22-23",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:50",
+    "book": "Daniel",
+    "section": "text",
+    "number": 50,
+    "prompt": "Ce cuvinte au fost scrise pe zid, cuvinte care în evreiește au sunat astfel: „Mene mene techel upfarsin”?",
+    "options": [
+      "numărat, numărat, cântărit și împărțit",
+      "cântărit, cântărit, numărat și împărțit",
+      "împărțit, împărțit, numărat și cântărit"
+    ],
+    "answer": "a",
+    "verseRef": "5.25",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:51",
+    "book": "Daniel",
+    "section": "text",
+    "number": 51,
+    "prompt": "Cui urma să fie dată împărăția lui Belșațar?",
+    "options": [
+      "sirienilor",
+      "asirienilor",
+      "mezilor și perșilor"
+    ],
+    "answer": "c",
+    "verseRef": "5.28",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:52",
+    "book": "Daniel",
+    "section": "text",
+    "number": 52,
+    "prompt": "Ce a poruncit Belșațar să se facă, după ce Daniel i-a dat tâlcuirea scrierii de pe zid?",
+    "options": [
+      "Daniel să fie răsplătit potrivit cu promisiunea făcută",
+      "să fie omorâți toți cititorii în stele și vrăjitorii",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "5.29",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:53",
+    "book": "Daniel",
+    "section": "text",
+    "number": 53,
+    "prompt": "În ce fel a murit împăratul Belșațar, chiar în noaptea care a urmat acelei zile?",
+    "options": [
+      "a fost omorât",
+      "a suferit ceea ce în zilele noastre se numește atac de cord",
+      "a adormit în patul lui și a fost găsit mort"
+    ],
+    "answer": "a",
+    "verseRef": "5.30",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:54",
+    "book": "Daniel",
+    "section": "text",
+    "number": 54,
+    "prompt": "Câți ani avea Dariu Medul, cel care a pus mâna pe împărăția Babilonului?",
+    "options": [
+      "26",
+      "36",
+      "62"
+    ],
+    "answer": "c",
+    "verseRef": "5.31",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:55",
+    "book": "Daniel",
+    "section": "text",
+    "number": 55,
+    "prompt": "Câți dregători a pus Dariu peste împărăție?",
+    "options": [
+      "100",
+      "120",
+      "127"
+    ],
+    "answer": "b",
+    "verseRef": "6.1",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:56",
+    "book": "Daniel",
+    "section": "text",
+    "number": 56,
+    "prompt": "Care au fost cele trei căpetenii care au fost puse peste dregători?",
+    "options": [
+      "cei trei tineri, Șadrac, Meșac și Abed-Nego",
+      "Daniel și alți doi, cărora nu li se menționează numele",
+      "nu se menționează numele celor trei"
+    ],
+    "answer": "b",
+    "verseRef": "6.2",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:57",
+    "book": "Daniel",
+    "section": "text",
+    "number": 57,
+    "prompt": "De ce îi întrecea Daniel pe toți dregătorii și pe celelalte căpetenii?",
+    "options": [
+      "pentru că în el era un duh înalt",
+      "pentru că și-a smerit inima înaintea lui Dumnezeu",
+      "pentru că L-a rugat pe Dumnezeu pentru înțelepciune și puterea de a descoperi tainele"
+    ],
+    "answer": "a",
+    "verseRef": "6.3",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:58",
+    "book": "Daniel",
+    "section": "text",
+    "number": 58,
+    "prompt": "De ce nu au avut căpeteniile și dregătorii niciun motiv să-l pârască pe Daniel înaintea împăratului?",
+    "options": [
+      "pentru că Daniel era credincios",
+      "pentru că la el nu se găsea nicio greșeală și niciun lucru rău",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "6.4",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:59",
+    "book": "Daniel",
+    "section": "text",
+    "number": 59,
+    "prompt": "Ce propunere de poruncă a primit împăratul de la căpeteniile și dregătorii săi?",
+    "options": [
+      "să ridice o statuie de aur și toți să i se închine numai ei",
+      "să nu se înalțe nicio rugăciune decât împăratului, timp de 30 de zile",
+      "ambele variante de mai sus"
+    ],
+    "answer": "b",
+    "verseRef": "6.7",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:60",
+    "book": "Daniel",
+    "section": "text",
+    "number": 60,
+    "prompt": "Ce pedeapsă avea să suporte cel care ar fi încălcat această poruncă?",
+    "options": [
+      "urma să fie spânzurat pe o spânzurătoare înaltă de 50 de coți",
+      "urma să fie aruncat în cuptorul de foc",
+      "urma să fie aruncat în groapa cu lei"
+    ],
+    "answer": "c",
+    "verseRef": "6.7",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:61",
+    "book": "Daniel",
+    "section": "text",
+    "number": 61,
+    "prompt": "Ce a făcut Daniel când a aflat despre porunca dată de împărat?",
+    "options": [
+      "a continuat să se roage, dar a închis ferestrele de la casa lui, ca să nu fie văzut de dușmanii lui",
+      "a continuat să se roage, de trei ori pe zi, cu ferestrele deschise spre Ierusalim",
+      "a continuat să se roage, cerându-le și celor trei tineri să i se alăture în rugăciunile lui"
+    ],
+    "answer": "b",
+    "verseRef": "6.10",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:62",
+    "book": "Daniel",
+    "section": "text",
+    "number": 62,
+    "prompt": "Ce ni se spune că au făcut dușmanii lui Daniel, în încercarea lor de a-l vedea pe Daniel pedepsit?",
+    "options": [
+      "au plătit niște martori mincinoși, care i-au spus împăratului că l-au văzut rugându-se",
+      "au trimis niște iscoade, care le-au spus că Daniel continua să se roage",
+      "au dat năvală în casa lui Daniel și l-au găsit rugându-se"
+    ],
+    "answer": "c",
+    "verseRef": "6.11",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:63",
+    "book": "Daniel",
+    "section": "text",
+    "number": 63,
+    "prompt": "Ce i-a spus împăratul Dariu lui Daniel, când a dat porunca să fie aruncat în groapa cu lei?",
+    "options": [
+      "„Sunt mâhnit în inima mea.”",
+      "„Legea mezilor și a perșilor nu poate fi schimbată!”",
+      "„Dumnezeul tău, căruia necurmat Îi slujești, să te scape!”"
+    ],
+    "answer": "c",
+    "verseRef": "6.16",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:64",
+    "book": "Daniel",
+    "section": "text",
+    "number": 64,
+    "prompt": "Ce a pățit împăratul în noaptea în care Daniel era în groapa cu lei?",
+    "options": [
+      "nu a putut dormi și nu a mâncat nimic",
+      "a murit chiar în noaptea aceea",
+      "a visat un vis pe care mai târziu Daniel i l-a tâlcuit"
+    ],
+    "answer": "a",
+    "verseRef": "6.18",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:65",
+    "book": "Daniel",
+    "section": "text",
+    "number": 65,
+    "prompt": "Ce a spus Daniel, de ce nu i-au făcut leii niciun rău?",
+    "options": [
+      "pentru că a fost nevinovat înaintea lui Dumnezeu",
+      "pentru că n-a făcut niciun rău înaintea împăratului",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "6.22",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:66",
+    "book": "Daniel",
+    "section": "text",
+    "number": 66,
+    "prompt": "De ce a scăpat Daniel fără nicio rană și leii nu i-au făcut niciun rău?",
+    "options": [
+      "pentru că a avut încredere în Dumnezeul său",
+      "pentru că L-a lăudat neîncetat pe Dumnezeu cât timp a fost în groapă",
+      "nu ni se spune de ce Daniel nu a pățit nimic"
+    ],
+    "answer": "a",
+    "verseRef": "6.23",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:67",
+    "book": "Daniel",
+    "section": "text",
+    "number": 67,
+    "prompt": "Ce a poruncit împăratul, după ce Daniel a fost scos din groapa cu lei?",
+    "options": [
+      "Daniel să fie îmbrăcat cu o haină de purpură și să fie pus primul în împărăție",
+      "cei care l-au pârât să fie aruncați în groapa cu lei",
+      "ambele variante de mai sus"
+    ],
+    "answer": "b",
+    "verseRef": "6.24",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:68",
+    "book": "Daniel",
+    "section": "text",
+    "number": 68,
+    "prompt": "Cu ce cuvinte începea scrisoarea pe care a trimis-o împăratul Dariu tuturor popoarelor care locuiau în împărăție?",
+    "options": [
+      "„Eu, împăratul Dariu, după ce am văzut puterea lui Dumnezeu arătată asupra robului Său Daniel...”",
+      "„Vreau să știe orice om din orice popor că nu este alt Dumnezeu decât Dumnezeu lui Daniel...”",
+      "„Pacea să vă fie dată din belșug!”"
+    ],
+    "answer": "c",
+    "verseRef": "6.25",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:69",
+    "book": "Daniel",
+    "section": "text",
+    "number": 69,
+    "prompt": "Pe vremea cărui împărat a avut Daniel vedenii, printre care și vedenia cu cele patru fiare care au ieșit din mare?",
+    "options": [
+      "a lui Nebucadnețar",
+      "a lui Belșațar",
+      "a lui Dariu"
+    ],
+    "answer": "b",
+    "verseRef": "7.1",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:70",
+    "book": "Daniel",
+    "section": "text",
+    "number": 70,
+    "prompt": "Cu ce semănau, în ordine, cele patru fiare care au ieșit din mare?",
+    "options": [
+      "cu leu, urs, pardos, o fiară cu dinți mari de fier și zece coarne",
+      "cu leviatan, urs, leu, pardos",
+      "cu leu, urs, leviatan, pardos"
+    ],
+    "answer": "a",
+    "verseRef": "7.4-7",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:71",
+    "book": "Daniel",
+    "section": "text",
+    "number": 71,
+    "prompt": "Cum Îl prezintă Daniel pe Cel care S-a așezat pe scaunul de domnie?",
+    "options": [
+      "un Îmbătrânit de zile",
+      "Cel care ședea pe scaunul de domnie",
+      "Cel care era vrednic să rupă pecețile"
+    ],
+    "answer": "a",
+    "verseRef": "7.9",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:72",
+    "book": "Daniel",
+    "section": "text",
+    "number": 72,
+    "prompt": "Ce s-a întâmplat atunci când a început judecata?",
+    "options": [
+      "s-au deschis cărțile",
+      "s-au cutremurat ușorii Templului",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "7.10",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:73",
+    "book": "Daniel",
+    "section": "text",
+    "number": 73,
+    "prompt": "Cine i-a tâlcuit lui Daniel cine erau cele patru fiare din vedenia lui?",
+    "options": [
+      "unul dintre cei care erau în preajma lui",
+      "Cel care semăna cu un fiu al omului",
+      "Cel Îmbătrânit de zile"
+    ],
+    "answer": "a",
+    "verseRef": "7.16",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:74",
+    "book": "Daniel",
+    "section": "text",
+    "number": 74,
+    "prompt": "Despre cine se spunea în tâlcuirea vedeniei că le făcea război sfinților?",
+    "options": [
+      "despre cornul cel mic al fiarei a patra",
+      "despre fiara a patra, căreia i s-a dat putere peste tot pământul",
+      "despre cel care rostea vorbe de hulă împotriva lui Dumnezeu"
+    ],
+    "answer": "a",
+    "verseRef": "7.19-21",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:75",
+    "book": "Daniel",
+    "section": "text",
+    "number": 75,
+    "prompt": "Ce ni se spune că a făcut Daniel la sfârșitul vedeniei cu cele patru fiare?",
+    "options": [
+      "a pecetluit într-o carte tot ce a văzut în vedenia sa",
+      "a păstrat în inima lui cuvintele tâlcuirii vedeniei",
+      "s-a aruncat cu fața la pământ înaintea Celui Îmbătrânit de zile"
+    ],
+    "answer": "b",
+    "verseRef": "7.28",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:76",
+    "book": "Daniel",
+    "section": "text",
+    "number": 76,
+    "prompt": "Unde i s-a părut lui Daniel că este, în timpul vedeniei sale în care printre altele a văzut un berbec?",
+    "options": [
+      "în capitala Susa",
+      "în Valea Dura",
+      "în Ierusalim"
+    ],
+    "answer": "a",
+    "verseRef": "8.2",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:77",
+    "book": "Daniel",
+    "section": "text",
+    "number": 77,
+    "prompt": "Cum se numea râul lângă care se afla Daniel, în vedenia lui?",
+    "options": [
+      "Eufrat",
+      "Chebar",
+      "Ulai"
+    ],
+    "answer": "c",
+    "verseRef": "8.2",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:78",
+    "book": "Daniel",
+    "section": "text",
+    "number": 78,
+    "prompt": "Ce animal a apărut în vedenia lui Daniel, după berbec?",
+    "options": [
+      "un țap",
+      "un urs",
+      "un pardos"
+    ],
+    "answer": "a",
+    "verseRef": "8.5",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:79",
+    "book": "Daniel",
+    "section": "text",
+    "number": 79,
+    "prompt": "Cât timp avea să treacă până când Sfântul Locaș avea să fie curățit, potrivit cuvintelor unuia dintre sfinți?",
+    "options": [
+      "două vremi și o jumătate de vreme",
+      "70 de vremi",
+      "2.300 de seri și dimineți"
+    ],
+    "answer": "c",
+    "verseRef": "8.14",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:80",
+    "book": "Daniel",
+    "section": "text",
+    "number": 80,
+    "prompt": "Cum l-a chemat pe cel căruia i s-a poruncit să-i tâlcuiască lui Daniel vedenia de la râul Ulai?",
+    "options": [
+      "Gavril",
+      "Mihail",
+      "nu i se menționează numele"
+    ],
+    "answer": "a",
+    "verseRef": "8.16",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:81",
+    "book": "Daniel",
+    "section": "text",
+    "number": 81,
+    "prompt": "Ce reprezentau berbecul, respectiv țapul pe care l-a văzut Daniel în vedenia sa?",
+    "options": [
+      "împărații mezilor și perșilor; împărăția Greciei",
+      "împăratul Babilonului; împărăția Greciei",
+      "împăratul Babilonului; împărații mezilor și perșilor"
+    ],
+    "answer": "a",
+    "verseRef": "8.20-21",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:82",
+    "book": "Daniel",
+    "section": "text",
+    "number": 82,
+    "prompt": "Al cui fiu era Dariu, împăratul?",
+    "options": [
+      "al lui Cir",
+      "al lui Nebucadnețar",
+      "al lui Ahașveroș"
+    ],
+    "answer": "c",
+    "verseRef": "9.1",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:83",
+    "book": "Daniel",
+    "section": "text",
+    "number": 83,
+    "prompt": "Cât timp a văzut Daniel în cărți că trebuia să treacă de la dărâmarea Ierusalimului?",
+    "options": [
+      "490 de zile",
+      "70 de ani",
+      "2.360 de seri și dimineți"
+    ],
+    "answer": "b",
+    "verseRef": "9.2",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:84",
+    "book": "Daniel",
+    "section": "text",
+    "number": 84,
+    "prompt": "Ce a spus Daniel în rugăciunea lui că este la Domnul, în vreme ce el și poporul lui s-au răzvrătit?",
+    "options": [
+      "îndurarea",
+      "iertarea",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "9.9",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:85",
+    "book": "Daniel",
+    "section": "text",
+    "number": 85,
+    "prompt": "Cine i s-a arătat lui Daniel, în timp ce se ruga pentru îndurarea lui Dumnezeu?",
+    "options": [
+      "un sfânt (dar nu i se menționează numele)",
+      "îngerul Mihail",
+      "omul Gavril"
+    ],
+    "answer": "c",
+    "verseRef": "9.21",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:86",
+    "book": "Daniel",
+    "section": "text",
+    "number": 86,
+    "prompt": "De ce a venit Gavril la Daniel când acesta se ruga mărturisindu-și păcatul lui și al poporului și aducând cereri pentru muntele cel sfânt?",
+    "options": [
+      "să-i lumineze mintea",
+      "să-i facă cunoscut ce scrie în cartea adevărului",
+      "să-l întărească"
+    ],
+    "answer": "a",
+    "verseRef": "9.21-23",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:87",
+    "book": "Daniel",
+    "section": "text",
+    "number": 87,
+    "prompt": "Unde se afla Daniel când a avut vedenia cea de după trei săptămâni de post și jale?",
+    "options": [
+      "la râul Hidechel (Tigru)",
+      "la râul Ulai",
+      "la râurile Babilonului"
+    ],
+    "answer": "a",
+    "verseRef": "10.2-4",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:88",
+    "book": "Daniel",
+    "section": "text",
+    "number": 88,
+    "prompt": "Din ce era brâul cu care era încins Cel pe care l-a văzut Daniel îmbrăcat în haine de in?",
+    "options": [
+      "din aur din Susa",
+      "din aur din Ofir",
+      "din aur din Ufaz"
+    ],
+    "answer": "c",
+    "verseRef": "10.5",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:89",
+    "book": "Daniel",
+    "section": "text",
+    "number": 89,
+    "prompt": "Cum l-a numit Cel îmbrăcat în haine de in pe Daniel?",
+    "options": [
+      "preaiubit",
+      "scump",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "10.11",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:90",
+    "book": "Daniel",
+    "section": "text",
+    "number": 90,
+    "prompt": "Cine i-a stat împotrivă celui care a venit la Daniel și cine l-a ajutat?",
+    "options": [
+      "împăratul Persiei; Gavril",
+      "căpetenia împărăției Persiei; Gavril",
+      "căpetenia împărăției Persiei; Mihail"
+    ],
+    "answer": "c",
+    "verseRef": "10.13",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:91",
+    "book": "Daniel",
+    "section": "text",
+    "number": 91,
+    "prompt": "Ce ni se spune în legătură cu aceia din popor care Îl vor cunoaște pe Dumnezeul lor (în pasajul care descrie ultima vedenie a lui Daniel)?",
+    "options": [
+      "că vor rămâne tari",
+      "că vor face mari isprăvi",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "11.32",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:92",
+    "book": "Daniel",
+    "section": "text",
+    "number": 92,
+    "prompt": "Despre cine i s-a spus lui Daniel că este ocrotitorul copiilor poporului lui?",
+    "options": [
+      "despre omul Gavril",
+      "despre voievodul Mihail",
+      "despre Cel îmbrăcat în haine de in"
+    ],
+    "answer": "b",
+    "verseRef": "12.1",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:93",
+    "book": "Daniel",
+    "section": "text",
+    "number": 93,
+    "prompt": "Ce condiție trebuiau să împlinească cei din poporul lui Daniel pentru a fi mântuiți?",
+    "options": [
+      "să fie sfinți",
+      "să rabde până la sfârșit",
+      "să fie scriși în carte"
+    ],
+    "answer": "c",
+    "verseRef": "12.1",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:94",
+    "book": "Daniel",
+    "section": "text",
+    "number": 94,
+    "prompt": "Pentru ce se vor scula mulți dintre cei care dorm în țărâna pământului?",
+    "options": [
+      "unii pentru viața veșnică",
+      "unii pentru ocară și rușine veșnică",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "12.2",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:95",
+    "book": "Daniel",
+    "section": "text",
+    "number": 95,
+    "prompt": "Despre cine se spune că vor străluci ca strălucirea cerului?",
+    "options": [
+      "despre cei sfinți și preacurați",
+      "despre cei înțelepți",
+      "despre cei care vor fi găsiți scriși în carte"
+    ],
+    "answer": "b",
+    "verseRef": "12.3",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:96",
+    "book": "Daniel",
+    "section": "text",
+    "number": 96,
+    "prompt": "Despre cine ni se spune că vor străluci ca stelele în veac și în veci de veci?",
+    "options": [
+      "despre cei care îi vor învăța pe mulți să umble în neprihănire",
+      "despre cei sfinți și preacurați",
+      "despre cei care vor fi găsiți scriși în carte"
+    ],
+    "answer": "a",
+    "verseRef": "12.3",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:97",
+    "book": "Daniel",
+    "section": "text",
+    "number": 97,
+    "prompt": "Ce va trebui să facă Daniel cu privire la cuvintele pe care le-a auzit?",
+    "options": [
+      "să le țină ascunse",
+      "să pecetluiască cartea",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "12.4",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:98",
+    "book": "Daniel",
+    "section": "text",
+    "number": 98,
+    "prompt": "Ce răspuns a primit omul care a întrebat cât timp va mai fi până la sfârșitul acelor minuni?",
+    "options": [
+      "o vreme",
+      "o vreme și două vremi",
+      "o vreme, două vremi și o jumătate de vreme"
+    ],
+    "answer": "c",
+    "verseRef": "12.6-7",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:99",
+    "book": "Daniel",
+    "section": "text",
+    "number": 99,
+    "prompt": "Câte zile aveau să treacă de la vremea când urma să înceteze jertfa necurmată și până când urma să se așeze urâciunea pustiitorului?",
+    "options": [
+      "două vremi și jumătate",
+      "două săptămâni de ani",
+      "1.290 de zile"
+    ],
+    "answer": "c",
+    "verseRef": "12.11",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:text:100",
+    "book": "Daniel",
+    "section": "text",
+    "number": 100,
+    "prompt": "De cine i s-a spus lui Daniel că va fi ferice?",
+    "options": [
+      "de cei care vor primi cununa",
+      "de cei care vor răbda până la sfârșit",
+      "de cei care vor aștepta și vor ajunge până la 1.335 de zile"
+    ],
+    "answer": "c",
+    "verseRef": "12.12",
+    "open": null
+  },
+  {
+    "id": "e16/Daniel:interp:1",
+    "book": "Daniel",
+    "section": "interp",
+    "number": 1,
+    "prompt": "Daniel și prietenii lui au hotărât să nu se spurce cu bucatele alese de la masa împăratului. Au luat această decizie din cauza faptului că bucatele alese erau aduse ca jertfă idolilor, și ei nu voiau să aibă de-a face cu practicile păgâne ale babilonienilor. Dumnezeu i-a binecuvântat pentru ascultarea lor. Ai avut și tu parte de binecuvântări atunci când ai ales să nu te „spurci” cu lucrurile lumii acesteia?",
+    "options": null,
+    "answer": null,
+    "verseRef": null,
+    "open": true
+  },
+  {
+    "id": "e16/Daniel:interp:2",
+    "book": "Daniel",
+    "section": "interp",
+    "number": 2,
+    "prompt": "Dumnezeu le-a dat lui Daniel și tovarășilor lui știință și pricepere. De ce oare i-a ales Dumnezeu pe acești patru tineri, și nu pe alții (deși poate au mai fost și alți evrei binecuvântați în acest fel în Babilon în vremea aceea, dar numai despre aceștia citim în cartea lui Daniel), să îi binecuvânteze cu știință și pricepere?",
+    "options": null,
+    "answer": null,
+    "verseRef": null,
+    "open": true
+  },
+  {
+    "id": "e16/Daniel:interp:3",
+    "book": "Daniel",
+    "section": "interp",
+    "number": 3,
+    "prompt": "Atunci când s-a mâniat că cititorii în stele nu au reușit să-i tălmăcească visul, împăratul Nebucadnețar a poruncit ca aceștia să fie omorâți. Dar au scăpat cu viață, în urma intervenției lui Daniel. De ce nu a lăsat Daniel ca aceștia să fie omorâți? Avea toate motivele: erau dușmanii poporului lui, îi făceau „concurență” înaintea împăratului, erau păgâni și urmau practici păgâne. Cu toate acestea, el nu le-a dorit moartea.",
+    "options": null,
+    "answer": null,
+    "verseRef": null,
+    "open": true
+  },
+  {
+    "id": "e16/Daniel:interp:4",
+    "book": "Daniel",
+    "section": "interp",
+    "number": 4,
+    "prompt": "Dumnezeu a răsplătit credincioșia și credința celor trei tineri care au ajuns să fie aruncați în cuptorul cu foc din cauza faptului că nu și-au plecat genunchiul înaintea împăratului păgân Nebucadnețar. Ai fost și tu măcar o dată binecuvântat datorită credincioșiei tale față de Dumnezeu și a refuzului tău de a „merge cu turma”?",
+    "options": null,
+    "answer": null,
+    "verseRef": null,
+    "open": true
+  },
+  {
+    "id": "e16/Daniel:interp:5",
+    "book": "Daniel",
+    "section": "interp",
+    "number": 5,
+    "prompt": "Deși a primit un avertisment foarte dur din partea lui Daniel și semnele acestui avertisment au fost foarte evidente (vezi mâna care a scris pe zid), împăratul Belșațar nu s-a pocăit de faptele sale. Au fost momente când nu ai ascultat de îndemnul Duhului sau de sfaturile celor mari și ai gustat pedeapsa Domnului pentru neascultarea ta? Dă un asemenea exemplu.",
+    "options": null,
+    "answer": null,
+    "verseRef": null,
+    "open": true
+  },
+  {
+    "id": "e16/Daniel:interp:6",
+    "book": "Daniel",
+    "section": "interp",
+    "number": 6,
+    "prompt": "În dorința lor de a-l pierde pe Daniel, dușmanii lui au căutat ceva cu care să-l pârască înaintea împăratului. Dar nu i-au putut băga nimic de vină. Cum a reușit Daniel să trăiască o viață fără reproș înaintea oamenilor și, înțelegem, și înaintea lui Dumnezeu?",
+    "options": null,
+    "answer": null,
+    "verseRef": null,
+    "open": true
+  },
+  {
+    "id": "e16/Daniel:interp:7",
+    "book": "Daniel",
+    "section": "interp",
+    "number": 7,
+    "prompt": "Ne confruntăm mereu cu provocarea de a face lucruri pe care suntem obligați de societate și de mediu să le facem. Poate a trebuit să faci la școală ceva care era oarecum împotriva convingerilor tale legate de credința ta. Daniel nu a făcut compromis atunci când legea îi interzicea să se roage, și Dumnezeu l-a binecuvântat. Tu ai făcut vreodată vreun compromis în această direcție?",
+    "options": null,
+    "answer": null,
+    "verseRef": null,
+    "open": true
+  },
+  {
+    "id": "e16/Daniel:interp:8",
+    "book": "Daniel",
+    "section": "interp",
+    "number": 8,
+    "prompt": "Dumnezeu i-a mișcat inima împăratului Dariu, așa cum a făcut și în cazul lui Cir (vezi 2 Cronici 36.22-23), și acesta a ajuns să fie îngrijorat din pricina lui Daniel, care fusese aruncat, tocmai la porunca lui, în groapa cu lei. Cum este posibil ca un păgân de nivelul împăratului Dariu să fie îngrijorat de un credincios, urât de toți necredincioșii din preajma lui?",
+    "options": null,
+    "answer": null,
+    "verseRef": null,
+    "open": true
+  },
+  {
+    "id": "e16/Daniel:interp:9",
+    "book": "Daniel",
+    "section": "interp",
+    "number": 9,
+    "prompt": "Am citit (în capitolul 10) că rugăciunile lui Daniel au fost ascultate „din cea dintâi zi”. Cu toate acestea, răspunsul a întârziat să vină. Nu de puține ori am experimentat cu toții asemenea situații, când cerul parcă părea mut la cererile noastre. Am văzut citind acest pasaj care a fost motivul întârzierii răspunsului, dar am văzut și că Daniel nu a deznădăjduit, ci a continuat să se roage. Ai trecut prin situații în care, datorită faptului că Dumnezeu a hotărât să amâne răspunsul la rugăciunea ta, ai deznădăjduit și ai încetat să te mai rogi? Au fost situații în care însă ai continuat să te rogi, și Domnul ți-a răspuns la vremea socotită de El potrivită pentru a-ți da un răspuns?",
+    "options": null,
+    "answer": null,
+    "verseRef": null,
+    "open": true
+  },
+  {
+    "id": "e16/Daniel:interp:10",
+    "book": "Daniel",
+    "section": "interp",
+    "number": 10,
+    "prompt": "Spre finalul cărții prorocului Daniel, ni se spune că „cei înțelepți vor străluci ca strălucirea cerului”. Ți-ar plăcea să răspândești în jurul tău lumina așa cum stelele luminează cerul întunecat al nopții? Ce ar trebui să faci pentru aceasta? Ce ai învățat din cartea Daniel că ar trebui să faci?",
+    "options": null,
+    "answer": null,
+    "verseRef": null,
+    "open": true
+  },
+  {
+    "id": "e16/Amos:text:1",
+    "book": "Amos",
+    "section": "text",
+    "number": 1,
+    "prompt": "Ce meserie avea prorocul Amos?",
+    "options": [
+      "culegător de smochine",
+      "păstor",
+      "olar"
+    ],
+    "answer": "b",
+    "verseRef": "1.1",
+    "open": null
+  },
+  {
+    "id": "e16/Amos:text:2",
+    "book": "Amos",
+    "section": "text",
+    "number": 2,
+    "prompt": "De unde era Amos?",
+    "options": [
+      "din Tecoa",
+      "din Elcoș",
+      "din Moreșet"
+    ],
+    "answer": "a",
+    "verseRef": "1.1",
+    "open": null
+  },
+  {
+    "id": "e16/Amos:text:3",
+    "book": "Amos",
+    "section": "text",
+    "number": 3,
+    "prompt": "Care au fost cei doi împărați pe vremea cărora a prorocit Amos?",
+    "options": [
+      "Ozia și Ieroboam",
+      "Ioas și Ieroboam",
+      "Ioas și Roboam"
+    ],
+    "answer": "a",
+    "verseRef": "1.1",
+    "open": null
+  },
+  {
+    "id": "e16/Amos:text:4",
+    "book": "Amos",
+    "section": "text",
+    "number": 4,
+    "prompt": "La câte nelegiuiri ale cetăților și ale celor împotriva cărora a rostit Amos prorociile se referă Cuvântul Domnului?",
+    "options": [
+      "la trei",
+      "la patru",
+      "la trei, ba chiar patru"
+    ],
+    "answer": "c",
+    "verseRef": "1.3,6,9,11,13,2.1,4,6",
+    "open": null
+  },
+  {
+    "id": "e16/Amos:text:5",
+    "book": "Amos",
+    "section": "text",
+    "number": 5,
+    "prompt": "Care au fost cetățile și popoarele împotriva cărora a rostit prorocul prorociile Domnului (în afară de Iuda și Israel)?",
+    "options": [
+      "Damasc, Gaza, Ierihon, Edom, Amon, Moab",
+      "Damasc, Ierihon, Tir, Edom, Amon, Moab",
+      "Damasc, Gaza, Tir, Edom, Amon, Moab"
+    ],
+    "answer": "c",
+    "verseRef": "1.3-2.3",
+    "open": null
+  },
+  {
+    "id": "e16/Amos:text:6",
+    "book": "Amos",
+    "section": "text",
+    "number": 6,
+    "prompt": "Ce animal este amintit în locul în care ni se spune că dacă Domnul vorbește, cine nu va proroci?",
+    "options": [
+      "leul",
+      "mielul",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "3.8",
+    "open": null
+  },
+  {
+    "id": "e16/Amos:text:7",
+    "book": "Amos",
+    "section": "text",
+    "number": 7,
+    "prompt": "Cu ce spunea Domnul că vor fi prinși cei care îi asupresc pe sărmani și îi zdrobesc pe cei lipsiți?",
+    "options": [
+      "cu cârlige",
+      "cu undițe de pescari",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "4.1-2",
+    "open": null
+  },
+  {
+    "id": "e16/Amos:text:8",
+    "book": "Amos",
+    "section": "text",
+    "number": 8,
+    "prompt": "Ca pe cine i-a nimicit Domnul pe cei care nu au ascultat de El?",
+    "options": [
+      "ca pe Sodoma și Gomora",
+      "ca pe Tir și Sidon",
+      "ca pe Ierihon și Ai"
+    ],
+    "answer": "a",
+    "verseRef": "4.11",
+    "open": null
+  },
+  {
+    "id": "e16/Amos:text:9",
+    "book": "Amos",
+    "section": "text",
+    "number": 9,
+    "prompt": "Despre ce constelație ni se spune că a fost făcută de Dumnezeu?",
+    "options": [
+      "despre Cloșca cu pui",
+      "despre Orion",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "5.8",
+    "open": null
+  },
+  {
+    "id": "e16/Amos:text:10",
+    "book": "Amos",
+    "section": "text",
+    "number": 10,
+    "prompt": "Despre ce spunea Domnul că ar trebui să curgă ca o apă curgătoare? Dar ca un pârâu care nu seacă niciodată?",
+    "options": [
+      "despre dreptate; despre neprihănire",
+      "despre neprihănire; despre sfințenie",
+      "despre sfințenie; despre dreptate"
+    ],
+    "answer": "a",
+    "verseRef": "5.24",
+    "open": null
+  },
+  {
+    "id": "e16/Amos:text:11",
+    "book": "Amos",
+    "section": "text",
+    "number": 11,
+    "prompt": "În ce loc ni se spune că trăiau cei care trăiau fără grijă și de care urma să fie „vai”?",
+    "options": [
+      "în Sion",
+      "pe Muntele Samariei",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "6.1",
+    "open": null
+  },
+  {
+    "id": "e16/Amos:text:12",
+    "book": "Amos",
+    "section": "text",
+    "number": 12,
+    "prompt": "Ce a văzut Amos, când Domnul l-a întrebat ce vede, în cuvintele prorociei împotriva lui Israel?",
+    "options": [
+      "o cumpănă",
+      "un coș cu poame coapte",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "7.8,8.2",
+    "open": null
+  },
+  {
+    "id": "e16/Amos:text:13",
+    "book": "Amos",
+    "section": "text",
+    "number": 13,
+    "prompt": "Ce fel de foame și sete a spus Domnul că va trimite în țară?",
+    "options": [
+      "de pâine și apă",
+      "după auzirea cuvintelor Domnului",
+      "ambele variante de mai sus"
+    ],
+    "answer": "b",
+    "verseRef": "8.11",
+    "open": null
+  },
+  {
+    "id": "e16/Amos:text:14",
+    "book": "Amos",
+    "section": "text",
+    "number": 14,
+    "prompt": "Ce i-a spus Domnul lui Amos să lovească, atunci când prorocul L-a văzut stând pe altar?",
+    "options": [
+      "cumpăna",
+      "coșul cu poame coapte",
+      "pragul de sus al porții"
+    ],
+    "answer": "c",
+    "verseRef": "9.1",
+    "open": null
+  },
+  {
+    "id": "e16/Amos:text:15",
+    "book": "Amos",
+    "section": "text",
+    "number": 15,
+    "prompt": "Care este promisiunea cu care se încheie cartea prorocului Amos?",
+    "options": [
+      "„Îi voi sădi în țara lor și nu vor mai fi smulși din țara pe care le-am dat-o.”",
+      "„Nu voi mai lovi țara cu niciun blestem.”",
+      "„Zilele de sărbătoare nu vor înceta în țara în care toți vor asculta de Cuvântul Domnului.”"
+    ],
+    "answer": "a",
+    "verseRef": "9.15",
+    "open": null
+  },
+  {
+    "id": "e16/Zaharia:text:1",
+    "book": "Zaharia",
+    "section": "text",
+    "number": 1,
+    "prompt": "Al cui fiu era prorocul Zaharia?",
+    "options": [
+      "al lui Berechia",
+      "al lui Ido",
+      "al lui Amitai"
+    ],
+    "answer": "a",
+    "verseRef": "1.1",
+    "open": null
+  },
+  {
+    "id": "e16/Zaharia:text:2",
+    "book": "Zaharia",
+    "section": "text",
+    "number": 2,
+    "prompt": "În vremea cărui împărat a avut Zaharia prima prorocie care apare în cartea sa?",
+    "options": [
+      "a lui Nebucadnețar",
+      "a lui Cir",
+      "a lui Dariu"
+    ],
+    "answer": "c",
+    "verseRef": "1.1",
+    "open": null
+  },
+  {
+    "id": "e16/Zaharia:text:3",
+    "book": "Zaharia",
+    "section": "text",
+    "number": 3,
+    "prompt": "Ce a văzut prorocul în prima sa vedenie descrisă în carte?",
+    "options": [
+      "un om călare pe un cal roșu",
+      "niște cai roșii, murgi și albi",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "1.8",
+    "open": null
+  },
+  {
+    "id": "e16/Zaharia:text:4",
+    "book": "Zaharia",
+    "section": "text",
+    "number": 4,
+    "prompt": "Unde mergea omul care avea în mână o funie de măsurat?",
+    "options": [
+      "să măsoare Ierusalimul",
+      "să măsoare Templul",
+      "să măsoare templul ceresc"
+    ],
+    "answer": "a",
+    "verseRef": "2.1-2",
+    "open": null
+  },
+  {
+    "id": "e16/Zaharia:text:5",
+    "book": "Zaharia",
+    "section": "text",
+    "number": 5,
+    "prompt": "Pe cine i l-a arătat îngerul lui Zaharia, stând în picioare lângă Îngerul Domnului?",
+    "options": [
+      "pe Moise",
+      "pe Ilie",
+      "pe marele preot Iosua"
+    ],
+    "answer": "c",
+    "verseRef": "3.1",
+    "open": null
+  },
+  {
+    "id": "e16/Zaharia:text:6",
+    "book": "Zaharia",
+    "section": "text",
+    "number": 6,
+    "prompt": "Cine stătea la dreapta celui pe care i l-a arătat îngerul lui Zaharia?",
+    "options": [
+      "Satana",
+      "îngerii lui Satan",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "3.1",
+    "open": null
+  },
+  {
+    "id": "e16/Zaharia:text:7",
+    "book": "Zaharia",
+    "section": "text",
+    "number": 7,
+    "prompt": "Cum Îl numește Îngerul Domnului pe Domnul Isus, la care face referire vorbind cu preotul Iosua?",
+    "options": [
+      "Robul Meu",
+      "Odrasla",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "3.8",
+    "open": null
+  },
+  {
+    "id": "e16/Zaharia:text:8",
+    "book": "Zaharia",
+    "section": "text",
+    "number": 8,
+    "prompt": "Ce a văzut Zaharia atunci când îngerul l-a trezit ca din somn?",
+    "options": [
+      "un sfeșnic de aur",
+      "un vas cu untdelemn care avea pe el șapte candele",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "4.1-2",
+    "open": null
+  },
+  {
+    "id": "e16/Zaharia:text:9",
+    "book": "Zaharia",
+    "section": "text",
+    "number": 9,
+    "prompt": "Ce lucru a văzut Zaharia în vedenia lui că zbura?",
+    "options": [
+      "un sul de carte",
+      "un înger în alb",
+      "un om îmbrăcat în haine albe"
+    ],
+    "answer": "a",
+    "verseRef": "5.1",
+    "open": null
+  },
+  {
+    "id": "e16/Zaharia:text:10",
+    "book": "Zaharia",
+    "section": "text",
+    "number": 10,
+    "prompt": "Ce a văzut Zaharia într-o vedenie că ieșeau dintre doi munți de aramă?",
+    "options": [
+      "două care",
+      "patru care",
+      "patru călăreți"
+    ],
+    "answer": "b",
+    "verseRef": "6.1",
+    "open": null
+  },
+  {
+    "id": "e16/Zaharia:text:11",
+    "book": "Zaharia",
+    "section": "text",
+    "number": 11,
+    "prompt": "Cum ni se spune că și-au făcut inima cei care îi asupreau pe orfani, pe văduve și pe străini?",
+    "options": [
+      "și-au împietrit-o",
+      "îndărătnică",
+      "tare ca diamantul"
+    ],
+    "answer": "c",
+    "verseRef": "7.12",
+    "open": null
+  },
+  {
+    "id": "e16/Zaharia:text:12",
+    "book": "Zaharia",
+    "section": "text",
+    "number": 12,
+    "prompt": "Care a fost una dintre condițiile puse de Dumnezeu pentru a-i face bine Ierusalimului?",
+    "options": [
+      "fiecare să-i spună aproapelui său adevărul",
+      "să-și aducă zeciuielile la Casa Domnului",
+      "să arunce blestemata efă mică"
+    ],
+    "answer": "a",
+    "verseRef": "8.16",
+    "open": null
+  },
+  {
+    "id": "e16/Zaharia:text:13",
+    "book": "Zaharia",
+    "section": "text",
+    "number": 13,
+    "prompt": "Cui i-au fost adresate cuvintele prin care se spunea despre Domnul Isus că vine „smerit și călare pe un măgar”?",
+    "options": [
+      "fiicei Sionului",
+      "celor din Casa Domnului",
+      "copilașilor care cântau pe ulițe"
+    ],
+    "answer": "a",
+    "verseRef": "9.9",
+    "open": null
+  },
+  {
+    "id": "e16/Zaharia:text:14",
+    "book": "Zaharia",
+    "section": "text",
+    "number": 14,
+    "prompt": "Cum a numit Domnul cele două toiege pe care le-a luat pe când păștea oile de tăiat?",
+    "options": [
+      "Îndurare; Legământ",
+      "Neprihănire; Dreptate",
+      "Iachin; Boaz"
+    ],
+    "answer": "a",
+    "verseRef": "11.7",
+    "open": null
+  },
+  {
+    "id": "e16/Zaharia:text:15",
+    "book": "Zaharia",
+    "section": "text",
+    "number": 15,
+    "prompt": "Pentru cine au fost aruncați cei treizeci de arginți (prorocie împlinită pe vremea Domnului Isus)?",
+    "options": [
+      "pentru olar",
+      "pentru vânzător",
+      "pentru trădător"
+    ],
+    "answer": "a",
+    "verseRef": "11.13",
+    "open": null
+  },
+  {
+    "id": "e16/Zaharia:text:16",
+    "book": "Zaharia",
+    "section": "text",
+    "number": 16,
+    "prompt": "De ce a rupt Domnul toiagul numit „Legământ”?",
+    "options": [
+      "să rupă frăția dintre Iuda și Israel",
+      "să-Și dovedească puterea înaintea vrăjmașilor",
+      "să arate cum va fi zdrobit vrăjmașul"
+    ],
+    "answer": "a",
+    "verseRef": "11.14",
+    "open": null
+  },
+  {
+    "id": "e16/Zaharia:text:17",
+    "book": "Zaharia",
+    "section": "text",
+    "number": 17,
+    "prompt": "Unde ni se spune că Se va arăta Domnul când Se va lupta ca în ziua bătăliei?",
+    "options": [
+      "pe Muntele Hermon",
+      "pe Muntele Moria",
+      "pe Muntele Măslinilor"
+    ],
+    "answer": "c",
+    "verseRef": "14.3-4",
+    "open": null
+  },
+  {
+    "id": "e16/Zaharia:text:18",
+    "book": "Zaharia",
+    "section": "text",
+    "number": 18,
+    "prompt": "În vremea cărui împărat al lui Iuda ni se spune că a avut loc un cutremur?",
+    "options": [
+      "a lui Ioram",
+      "a lui Ozia",
+      "a lui Iosia"
+    ],
+    "answer": "b",
+    "verseRef": "14.5",
+    "open": null
+  },
+  {
+    "id": "e16/Zaharia:text:19",
+    "book": "Zaharia",
+    "section": "text",
+    "number": 19,
+    "prompt": "Unde vor fi scrise cuvintele „Sfinți Domnului”?",
+    "options": [
+      "pe coapsele luptătorilor",
+      "pe tunicile preoților",
+      "pe zurgălăii cailor"
+    ],
+    "answer": "c",
+    "verseRef": "14.20",
+    "open": null
+  },
+  {
+    "id": "e16/Zaharia:text:20",
+    "book": "Zaharia",
+    "section": "text",
+    "number": 20,
+    "prompt": "Ce nu vor mai fi în Casa Domnului în ziua când Domnul îi va pedepsi pe dușmanii poporului Său?",
+    "options": [
+      "canaaniți",
+      "iebusiți",
+      "moabiți"
+    ],
+    "answer": "a",
+    "verseRef": "14.21",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:1",
+    "book": "Matei",
+    "section": "text",
+    "number": 1,
+    "prompt": "Câte generații sunt amintite în concluzia cărții neamului lui Isus Cristos?",
+    "options": [
+      "14",
+      "42",
+      "70"
+    ],
+    "answer": "b",
+    "verseRef": "1.17",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:2",
+    "book": "Matei",
+    "section": "text",
+    "number": 2,
+    "prompt": "Cine a pus întrebarea: „Unde este Împăratul de curând născut al iudeilor?”",
+    "options": [
+      "Pilat din Pont",
+      "împăratul Irod",
+      "magii din Răsărit"
+    ],
+    "answer": "c",
+    "verseRef": "2.1-2",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:3",
+    "book": "Matei",
+    "section": "text",
+    "number": 3,
+    "prompt": "Cum este numit Betleemul, în citatul din proroci?",
+    "options": [
+      "cea mai însemnată dintre căpeteniile lui Iuda",
+      "țara lui Iuda",
+      "toiagul de cârmuire al lui Israel"
+    ],
+    "answer": "b",
+    "verseRef": "2.6",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:4",
+    "book": "Matei",
+    "section": "text",
+    "number": 4,
+    "prompt": "Unde ni se spune că au intrat magii și L-au găsit pe Pruncul Isus?",
+    "options": [
+      "în casă",
+      "în staul",
+      "în palat"
+    ],
+    "answer": "a",
+    "verseRef": "2.11",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:5",
+    "book": "Matei",
+    "section": "text",
+    "number": 5,
+    "prompt": "Care proroc este amintit în pasajul cu uciderea pruncilor, la porunca lui Irod?",
+    "options": [
+      "Isaia",
+      "Ieremia",
+      "Mica"
+    ],
+    "answer": "b",
+    "verseRef": "2.17",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:6",
+    "book": "Matei",
+    "section": "text",
+    "number": 6,
+    "prompt": "Unde s-a dus Iosif cu familia lui, pentru că s-a temut să meargă în Iudeea?",
+    "options": [
+      "în părțile Galileii",
+      "în Nazaret",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "2.23",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:7",
+    "book": "Matei",
+    "section": "text",
+    "number": 7,
+    "prompt": "Unde ni se spune că propovăduia Ioan Botezătorul, la începutul misiunii sale?",
+    "options": [
+      "în ținutul Galileii",
+      "în pustia Iudeii",
+      "nu ni se spune exact locul"
+    ],
+    "answer": "b",
+    "verseRef": "3.1",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:8",
+    "book": "Matei",
+    "section": "text",
+    "number": 8,
+    "prompt": "Din ce proroc sunt citate cuvintele despre Ioan: „Iată glasul celui ce strigă în pustie”?",
+    "options": [
+      "Isaia",
+      "Ieremia",
+      "Mica"
+    ],
+    "answer": "a",
+    "verseRef": "3.3",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:9",
+    "book": "Matei",
+    "section": "text",
+    "number": 9,
+    "prompt": "Cui li s-a adresat Ioan Botezătorul cu cuvintele grele: „Pui de năpârci”?",
+    "options": [
+      "fariseilor",
+      "saducheilor",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "3.7",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:10",
+    "book": "Matei",
+    "section": "text",
+    "number": 10,
+    "prompt": "Ce fel de roade le-a spus Ioan să facă celor pe care i-a mustrat foarte aspru?",
+    "options": [
+      "roade bune",
+      "roade vrednice de pocăința lor",
+      "roade potrivite cu slujirea lor"
+    ],
+    "answer": "b",
+    "verseRef": "3.8",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:11",
+    "book": "Matei",
+    "section": "text",
+    "number": 11,
+    "prompt": "Cum descrie Ioan botezul cu care boteza el?",
+    "options": [
+      "cu apă",
+      "spre pocăință",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "3.11",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:12",
+    "book": "Matei",
+    "section": "text",
+    "number": 12,
+    "prompt": "Ce spune glasul care s-a auzit din cer la botezul Domnului Isus?",
+    "options": [
+      "că El va mântui pe poporul Său de păcatele sale",
+      "că El este „Fiul Meu preaiubit”",
+      "ambele variante de mai sus"
+    ],
+    "answer": "b",
+    "verseRef": "3.17",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:13",
+    "book": "Matei",
+    "section": "text",
+    "number": 13,
+    "prompt": "Care este prima ispită cu care Diavolul a încercat să-L înșele pe Isus?",
+    "options": [
+      "să prefacă niște pietre în pâini",
+      "să Se arunce jos de pe streașina Templului",
+      "să i Se închine"
+    ],
+    "answer": "a",
+    "verseRef": "4.3",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:14",
+    "book": "Matei",
+    "section": "text",
+    "number": 14,
+    "prompt": "Care este ordinea corectă a porțiunilor de mai jos din replicile Domnului Isus?",
+    "options": [
+      "„numai cu pâine”, „numai Lui să-I slujești”, „să nu ispitești”",
+      "„numai cu pâine”, „să nu ispitești”, „numai Lui să-I slujești”",
+      "„să nu ispitești”, „numai cu pâine”, „numai Lui să-I slujești”"
+    ],
+    "answer": "b",
+    "verseRef": "4.4-10",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:15",
+    "book": "Matei",
+    "section": "text",
+    "number": 15,
+    "prompt": "Ce proroc este citat când se spune despre Galileea Neamurilor că a văzut o mare lumină?",
+    "options": [
+      "Isaia",
+      "Ieremia",
+      "Mica"
+    ],
+    "answer": "a",
+    "verseRef": "4.14-16",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:16",
+    "book": "Matei",
+    "section": "text",
+    "number": 16,
+    "prompt": "Unde Se afla Isus când a chemat primii ucenici?",
+    "options": [
+      "pe malul Iordanului",
+      "în Capernaum",
+      "lângă Marea Galileii"
+    ],
+    "answer": "c",
+    "verseRef": "4.18",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:17",
+    "book": "Matei",
+    "section": "text",
+    "number": 17,
+    "prompt": "Care au fost primii doi ucenici pe care i-a chemat Domnul Isus?",
+    "options": [
+      "Petru și Andrei",
+      "Petru și Ioan",
+      "Petru și Iacov"
+    ],
+    "answer": "a",
+    "verseRef": "4.18",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:18",
+    "book": "Matei",
+    "section": "text",
+    "number": 18,
+    "prompt": "Care a fost cel de-al treilea și cel de-al patrulea ucenic chemat de Domnul Isus?",
+    "options": [
+      "Iacov și Ioan",
+      "Iacov și Andrei",
+      "Andrei și Iacov"
+    ],
+    "answer": "a",
+    "verseRef": "4.21",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:19",
+    "book": "Matei",
+    "section": "text",
+    "number": 19,
+    "prompt": "Unde I s-a dus toată vestea lui Isus pentru că propovăduia Evanghelia și făcea minuni?",
+    "options": [
+      "în toată Siria",
+      "în Decapole",
+      "în toată Iudeea"
+    ],
+    "answer": "a",
+    "verseRef": "4.24",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:20",
+    "book": "Matei",
+    "section": "text",
+    "number": 20,
+    "prompt": "Care este prima dintre fericiri?",
+    "options": [
+      "ferice de cei săraci în duh",
+      "ferice de cei milostivi",
+      "ferice de cei ce plâng"
+    ],
+    "answer": "a",
+    "verseRef": "5.3",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:21",
+    "book": "Matei",
+    "section": "text",
+    "number": 21,
+    "prompt": "Care este îndemnul pe care îl dă Isus în finalul fericirilor?",
+    "options": [
+      "„Vegheați în vederea rugăciunii!”",
+      "„Nimeni să nu vă tulbure inima!”",
+      "„Bucurați-vă și veseliți-vă!”"
+    ],
+    "answer": "c",
+    "verseRef": "5.12",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:22",
+    "book": "Matei",
+    "section": "text",
+    "number": 22,
+    "prompt": "De ce a spus Domnul Isus că trebuie să lumineze lumina ucenicilor înaintea oamenilor?",
+    "options": [
+      "ca oamenii să vadă faptele lor bune",
+      "ca oamenii să-L slăvească pe Dumnezeu",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "5.16",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:23",
+    "book": "Matei",
+    "section": "text",
+    "number": 23,
+    "prompt": "Ce spune Domnul Isus că a venit să facă?",
+    "options": [
+      "să împlinească Legea sau Prorocii",
+      "să strice Legea sau Prorocii",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "5.17",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:24",
+    "book": "Matei",
+    "section": "text",
+    "number": 24,
+    "prompt": "Cum trebuie să căutăm să ne împăcăm cu pârâșul nostru, atunci când „ne ducem darul la altar”?",
+    "options": [
+      "degrabă",
+      "în dragoste",
+      "fără șovăire"
+    ],
+    "answer": "a",
+    "verseRef": "5.23-25",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:25",
+    "book": "Matei",
+    "section": "text",
+    "number": 25,
+    "prompt": "Ce spune Domnul Isus despre întărirea cuvintelor noastre prin jurământ?",
+    "options": [
+      "că nu ne este de niciun folos",
+      "că Îl supără pe Dumnezeu",
+      "că vine de la cel rău"
+    ],
+    "answer": "c",
+    "verseRef": "5.34-37",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:26",
+    "book": "Matei",
+    "section": "text",
+    "number": 26,
+    "prompt": "Care sunt lucrurile amintite de Domnul Isus în pasajul despre suferirea răului?",
+    "options": [
+      "obraz, haină, cămașă, milă",
+      "soare, ploaie",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "5.39-41",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:27",
+    "book": "Matei",
+    "section": "text",
+    "number": 27,
+    "prompt": "Despre cine se spune că îi iubesc pe cei ce îi iubesc pe ei? Dar că îi îmbrățișează cu dragoste pe frații lor?",
+    "options": [
+      "neamuri, păgâni",
+      "vameși, păgâni",
+      "vameși, neamuri"
+    ],
+    "answer": "b",
+    "verseRef": "5.46-47",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:28",
+    "book": "Matei",
+    "section": "text",
+    "number": 28,
+    "prompt": "Ce trebuie să facem fără să știe stânga ce face dreapta?",
+    "options": [
+      "rugăciunea",
+      "milostenia",
+      "ambele variante de mai sus"
+    ],
+    "answer": "b",
+    "verseRef": "6.3",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:29",
+    "book": "Matei",
+    "section": "text",
+    "number": 29,
+    "prompt": "Ce trebuie să facem în ascuns?",
+    "options": [
+      "rugăciunea",
+      "milostenia",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "6.3-6",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:30",
+    "book": "Matei",
+    "section": "text",
+    "number": 30,
+    "prompt": "Cui li se pare că dacă spun o mulțime de vorbe vor fi ascultați?",
+    "options": [
+      "vameșilor",
+      "fariseilor",
+      "păgânilor"
+    ],
+    "answer": "c",
+    "verseRef": "6.7",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:31",
+    "book": "Matei",
+    "section": "text",
+    "number": 31,
+    "prompt": "Care este prima cerere din rugăciunea „Tatăl nostru”?",
+    "options": [
+      "„Sfințească-se Numele Tău”",
+      "„Vie Împărăția Ta”",
+      "„Facă-se voia Ta”"
+    ],
+    "answer": "a",
+    "verseRef": "6.9",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:32",
+    "book": "Matei",
+    "section": "text",
+    "number": 32,
+    "prompt": "Ce este acolo unde este și comoara noastră?",
+    "options": [
+      "inima noastră",
+      "viața noastră",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "6.21",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:33",
+    "book": "Matei",
+    "section": "text",
+    "number": 33,
+    "prompt": "Despre ce vorbește Domnul Isus, spunându-le ucenicilor să nu se îngrijoreze?",
+    "options": [
+      "despre păsările cerului",
+      "despre crinii de pe câmp",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "6.26-29",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:34",
+    "book": "Matei",
+    "section": "text",
+    "number": 34,
+    "prompt": "Cum îl numește Domnul Isus pe cel care vrea să-i scoată fratelui paiul din ochi, în vreme ce el are o bârnă?",
+    "options": [
+      "fățarnic",
+      "fariseu",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "7.5",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:35",
+    "book": "Matei",
+    "section": "text",
+    "number": 35,
+    "prompt": "După ce îi putem cunoaște pe prorocii mincinoși?",
+    "options": [
+      "după faptele lor",
+      "după roadele lor",
+      "ambele variante de mai sus"
+    ],
+    "answer": "b",
+    "verseRef": "7.16",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:36",
+    "book": "Matei",
+    "section": "text",
+    "number": 36,
+    "prompt": "Pe cine îl va asemăna Domnul Isus cu un om care și-a zidit casa pe stâncă?",
+    "options": [
+      "pe oricine aude cuvintele Lui",
+      "pe oricine face ceea ce spun cuvintele Lui",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "7.24",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:37",
+    "book": "Matei",
+    "section": "text",
+    "number": 37,
+    "prompt": "Cu cine vor sta la masă cei „mulți de la răsărit” (referire la credința sutașului)?",
+    "options": [
+      "cu Moise și cu Ilie",
+      "cu Avraam",
+      "cu Avraam, cu Isaac și cu Iacov"
+    ],
+    "answer": "c",
+    "verseRef": "8.11",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:38",
+    "book": "Matei",
+    "section": "text",
+    "number": 38,
+    "prompt": "Cui i-a spus Domnul Isus „Vulpile au vizuini...”?",
+    "options": [
+      "unui cărturar",
+      "unui ucenic",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "8.19-20",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:39",
+    "book": "Matei",
+    "section": "text",
+    "number": 39,
+    "prompt": "Cine a spus: „Ce fel de om e acesta, de-L ascultă până și vânturile și marea?”",
+    "options": [
+      "ucenicii",
+      "Petru",
+      "fariseii"
+    ],
+    "answer": "a",
+    "verseRef": "8.25,27",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:40",
+    "book": "Matei",
+    "section": "text",
+    "number": 40,
+    "prompt": "Cine a zis: „Ce este mai lesne? A zice: «Iertate îți sunt păcatele»? sau a zice: «Scoală-te și umblă?»”",
+    "options": [
+      "ucenicii",
+      "cărturarii",
+      "Isus"
+    ],
+    "answer": "c",
+    "verseRef": "9.4-5",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:41",
+    "book": "Matei",
+    "section": "text",
+    "number": 41,
+    "prompt": "Cum l-a chemat pe omul pe care Domnul Isus l-a văzut la vamă și l-a chemat să-L urmeze?",
+    "options": [
+      "Matei",
+      "Zacheu",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "9.9",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:42",
+    "book": "Matei",
+    "section": "text",
+    "number": 42,
+    "prompt": "Unde Se ducea Domnul Isus când o femeie cu o scurgere de sânge s-a atins de poala hainei Lui?",
+    "options": [
+      "spre casa fruntașului sinagogii",
+      "spre casa lui Lazăr",
+      "spre casa lui Matei, vameșul"
+    ],
+    "answer": "a",
+    "verseRef": "9.18-20",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:43",
+    "book": "Matei",
+    "section": "text",
+    "number": 43,
+    "prompt": "Cu ce prilej a spus Domnul Isus: „Mare este secerișul?”",
+    "options": [
+      "când Se apropia de Ierusalim",
+      "când a văzut gloatele",
+      "când era în grădină"
+    ],
+    "answer": "b",
+    "verseRef": "9.36-37",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:44",
+    "book": "Matei",
+    "section": "text",
+    "number": 44,
+    "prompt": "La trimiterea apostolilor în lume, Domnul Isus folosește într-o singură propoziție numele a patru animale. Care sunt acestea?",
+    "options": [
+      "miei, șerpi, porumbei",
+      "lupi, miei, șerpi, porumbei",
+      "oi, lupi, șerpi, porumbei"
+    ],
+    "answer": "c",
+    "verseRef": "10.16",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:45",
+    "book": "Matei",
+    "section": "text",
+    "number": 45,
+    "prompt": "De ce nu trebuiau să se îngrijoreze ucenicii pentru ce aveau de spus când urmau să fie dați pe mâna dregătorilor și a împăraților?",
+    "options": [
+      "fiindcă ce vor avea de spus le va fi dat chiar în ceasul acela",
+      "fiindcă Duhul Tatălui va vorbi prin ei",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "10.18-20",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:46",
+    "book": "Matei",
+    "section": "text",
+    "number": 46,
+    "prompt": "De cine trebuie mai degrabă ucenicii să se teamă (și să nu se teamă de cei ce ucid trupul)?",
+    "options": [
+      "de Cel ce poate să piardă sufletul în gheenă",
+      "de Cel ce poate să piardă sufletul și trupul în gheenă",
+      "de Cel ce poate să piardă sufletul și duhul în gheenă"
+    ],
+    "answer": "b",
+    "verseRef": "10.28",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:47",
+    "book": "Matei",
+    "section": "text",
+    "number": 47,
+    "prompt": "Cine nu este vrednic să-L urmeze pe Domnul Isus?",
+    "options": [
+      "cine nu-și ia crucea lui",
+      "cine nu merge după Domnul Isus",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "10.38",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:48",
+    "book": "Matei",
+    "section": "text",
+    "number": 48,
+    "prompt": "Care sunt cetățile pe care le-a mustrat Isus, pentru necredința lor?",
+    "options": [
+      "Horazin și Betsaida",
+      "Betsaida și Capernaum",
+      "Horazin, Betsaida și Capernaum"
+    ],
+    "answer": "c",
+    "verseRef": "11.21,23",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:49",
+    "book": "Matei",
+    "section": "text",
+    "number": 49,
+    "prompt": "Pe cine cheamă Domnul Isus la El și le promite odihnă?",
+    "options": [
+      "pe cei însetați",
+      "pe cei trudiți și împovărați",
+      "ambele variante de mai sus"
+    ],
+    "answer": "b",
+    "verseRef": "11.28",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:50",
+    "book": "Matei",
+    "section": "text",
+    "number": 50,
+    "prompt": "Cum este jugul lui Cristos? Dar sarcina lui?",
+    "options": [
+      "ușor; bună",
+      "bun; ușoară",
+      "ușor; ușoară"
+    ],
+    "answer": "b",
+    "verseRef": "11.30",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:51",
+    "book": "Matei",
+    "section": "text",
+    "number": 51,
+    "prompt": "Ce personaj al Vechiului Testament este amintit de Domnul Isus când le dă răspuns fariseilor care l-au întrebat de ce mănâncă ucenicii Lui în ziua de Sabat ceva ce nu aveau voie să mănânce?",
+    "options": [
+      "Avraam",
+      "David",
+      "Ilie"
+    ],
+    "answer": "b",
+    "verseRef": "12.3",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:52",
+    "book": "Matei",
+    "section": "text",
+    "number": 52,
+    "prompt": "De ce suferea omul pe care l-a vindecat Domnul Isus, prilej cu care fariseii au spus că „Omul acesta nu scoate dracii decât cu Beelzebul, domnul dracilor!”?",
+    "options": [
+      "era îndrăcit",
+      "era orb și mut",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "12.22,24",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:53",
+    "book": "Matei",
+    "section": "text",
+    "number": 53,
+    "prompt": "Ce a spus Isus că face cel ce nu strânge cu El (când a spus și că cine nu este cu El este împotriva Lui)?",
+    "options": [
+      "risipește",
+      "își pierde viața",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "12.30",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:54",
+    "book": "Matei",
+    "section": "text",
+    "number": 54,
+    "prompt": "De ce vor da socoteală oamenii în ziua judecății?",
+    "options": [
+      "de necredința lor",
+      "de orice faptă bună pe care ar fi putut s-o facă și nu au făcut-o",
+      "de orice cuvânt nefolositor"
+    ],
+    "answer": "c",
+    "verseRef": "12.36",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:55",
+    "book": "Matei",
+    "section": "text",
+    "number": 55,
+    "prompt": "Cum îi numește Domnul Isus pe cei care au venit la El să-I ceară un semn?",
+    "options": [
+      "neam viclean",
+      "neam preacurvar",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "12.38-39",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:56",
+    "book": "Matei",
+    "section": "text",
+    "number": 56,
+    "prompt": "Ce semn le-a spus Domnul Isus fariseilor că le va da?",
+    "options": [
+      "al lui Moise",
+      "al lui Ilie",
+      "al lui Iona"
+    ],
+    "answer": "c",
+    "verseRef": "12.39",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:57",
+    "book": "Matei",
+    "section": "text",
+    "number": 57,
+    "prompt": "Cine este „mama, fratele și sora” Domnului Isus?",
+    "options": [
+      "oricine face voia Tatălui din ceruri",
+      "oricine își ia crucea și se leapădă de sine",
+      "oricine își ia crucea și Îl urmează pe Isus"
+    ],
+    "answer": "a",
+    "verseRef": "12.50",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:58",
+    "book": "Matei",
+    "section": "text",
+    "number": 58,
+    "prompt": "Despre câte feluri de sămânță vorbește Domnul Isus în Pilda semănătorului?",
+    "options": [
+      "una",
+      "trei",
+      "patru"
+    ],
+    "answer": "a",
+    "verseRef": "13.3-8",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:59",
+    "book": "Matei",
+    "section": "text",
+    "number": 59,
+    "prompt": "Despre câte feluri de locuri unde a căzut sămânța vorbește Domnul Isus în Pilda semănătorului?",
+    "options": [
+      "unu",
+      "trei",
+      "patru"
+    ],
+    "answer": "c",
+    "verseRef": "13.3-8",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:60",
+    "book": "Matei",
+    "section": "text",
+    "number": 60,
+    "prompt": "Ce face negustorul când găsește mărgăritarul de mare preț?",
+    "options": [
+      "îl ascunde",
+      "vinde tot ce are",
+      "se bucură"
+    ],
+    "answer": "b",
+    "verseRef": "13.45-46",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:61",
+    "book": "Matei",
+    "section": "text",
+    "number": 61,
+    "prompt": "Ce hrană au avut la îndemână ucenicii și câte coșuri de firimituri s-au ridicat la înmulțirea pâinilor, când erau 5.000 de bărbați, în afară de femei și copii?",
+    "options": [
+      "șapte pâinișoare și câțiva pești; douăsprezece coșuri",
+      "cinci pâini și doi pești; douăsprezece coșuri",
+      "cinci pâini și doi pești; șapte coșuri"
+    ],
+    "answer": "b",
+    "verseRef": "14.17,20-21",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:62",
+    "book": "Matei",
+    "section": "text",
+    "number": 62,
+    "prompt": "Ce a făcut Domnul Isus după înmulțirea pâinilor?",
+    "options": [
+      "i-a rugat pe ucenici să urce în corabie",
+      "i-a așteptat pe ucenici să urce în corabie",
+      "i-a silit pe ucenici să urce în corabie"
+    ],
+    "answer": "c",
+    "verseRef": "14.22",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:63",
+    "book": "Matei",
+    "section": "text",
+    "number": 63,
+    "prompt": "Când s-a temut Petru, care începuse să umble pe ape?",
+    "options": [
+      "când a văzut că valurile sunt mari",
+      "când a văzut că vântul era tare",
+      "ambele variante de mai sus"
+    ],
+    "answer": "b",
+    "verseRef": "14.30",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:64",
+    "book": "Matei",
+    "section": "text",
+    "number": 64,
+    "prompt": "Ce proroc este citat de Domnul Isus când spune: „Norodul acesta se apropie de Mine cu gura...”?",
+    "options": [
+      "Isaia",
+      "Ieremia",
+      "Ioel"
+    ],
+    "answer": "a",
+    "verseRef": "15.7-8",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:65",
+    "book": "Matei",
+    "section": "text",
+    "number": 65,
+    "prompt": "Cine I-a spus Domnului Isus: „Tu ești Cristosul, Fiul Dumnezeului celui viu!”?",
+    "options": [
+      "Simon Petru",
+      "Iuda Iscarioteanul",
+      "altfel sună această declarație"
+    ],
+    "answer": "a",
+    "verseRef": "16.16",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:66",
+    "book": "Matei",
+    "section": "text",
+    "number": 66,
+    "prompt": "Pe cine a luat Isus cu El pe muntele Schimbării la Față?",
+    "options": [
+      "pe Petru și Ioan",
+      "pe Petru, Iacov și Ioan",
+      "niciuna dintre variantele de mai sus"
+    ],
+    "answer": "b",
+    "verseRef": "17.1",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:67",
+    "book": "Matei",
+    "section": "text",
+    "number": 67,
+    "prompt": "Ce s-a întâmplat când Domnul Isus S-a schimbat la față?",
+    "options": [
+      "fața I-a strălucit ca soarele",
+      "hainele I s-au făcut albe ca lumina",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "17.2",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:68",
+    "book": "Matei",
+    "section": "text",
+    "number": 68,
+    "prompt": "Care este ordinea în care trebuie mustrat cineva care ne-a greșit?",
+    "options": [
+      "între patru ochi, înaintea bisericii",
+      "între patru ochi, cu doi sau trei martori, înaintea soborului",
+      "între patru ochi, cu doi sau trei martori, înaintea bisericii"
+    ],
+    "answer": "c",
+    "verseRef": "18.15-17",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:69",
+    "book": "Matei",
+    "section": "text",
+    "number": 69,
+    "prompt": "Ce pildă spune Domnul Isus când este întrebat de Petru de câte ori să-l ierte pe cel care i-a greșit?",
+    "options": [
+      "Pilda fiului risipitor",
+      "Pilda robului nemilostiv",
+      "Pilda ispravnicului necredincios"
+    ],
+    "answer": "b",
+    "verseRef": "18.21-35",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:70",
+    "book": "Matei",
+    "section": "text",
+    "number": 70,
+    "prompt": "Cum Îl numește Isus pe Dumnezeu, când vorbește despre faptul că Dumnezeu l-a făcut pe om parte bărbătească și parte femeiască”?",
+    "options": [
+      "Creatorul",
+      "Făcătorul",
+      "Ziditorul"
+    ],
+    "answer": "c",
+    "verseRef": "19.4",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:71",
+    "book": "Matei",
+    "section": "text",
+    "number": 71,
+    "prompt": "Care va fi răsplata celui care a lăsat, pentru Domnul Isus, case sau frați sau surori... sau holde?",
+    "options": [
+      "va primi însutit",
+      "va moșteni viața veșnică",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "19.29",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:72",
+    "book": "Matei",
+    "section": "text",
+    "number": 72,
+    "prompt": "De ce a venit Fiul omului (nu ca să I se slujească)?",
+    "options": [
+      "să slujească",
+      "să-Și dea viața ca răscumpărare pentru mulți",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "20.28",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:73",
+    "book": "Matei",
+    "section": "text",
+    "number": 73,
+    "prompt": "Unde Se afla Domnul Isus la vindecarea celor doi orbi care au zis: „Ai milă de noi, Fiul lui David!”?",
+    "options": [
+      "la ieșirea din Ierihon",
+      "în Capernaum",
+      "în Ierusalim"
+    ],
+    "answer": "a",
+    "verseRef": "20.29-30",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:74",
+    "book": "Matei",
+    "section": "text",
+    "number": 74,
+    "prompt": "Cum era scris că va veni Împăratul, pe lângă că avea să fie călare pe un măgar, pe un măgăruș, pe mânzul unei măgărițe?",
+    "options": [
+      "blând",
+      "smerit",
+      "liniștit"
+    ],
+    "answer": "a",
+    "verseRef": "21.5",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:75",
+    "book": "Matei",
+    "section": "text",
+    "number": 75,
+    "prompt": "Care este primul lucru pe care l-a făcut Isus când a intrat în Ierusalim?",
+    "options": [
+      "a intrat în Templu și i-a alungat pe cei care vindeau și cumpărau",
+      "a vindecat un om cu mâna uscată",
+      "altceva, niciunul dintre cele două lucruri de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "21.12",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:76",
+    "book": "Matei",
+    "section": "text",
+    "number": 76,
+    "prompt": "Ce întrebare i-au pus lui Isus preoții cei mai de seamă și bătrânii norodului, la care Isus le-a răspuns tot cu o întrebare?",
+    "options": [
+      "„Cu ce putere faci Tu lucrurile acestea?”",
+      "„De unde ai venit Tu?”",
+      "„Cine este Tatăl Tău?”"
+    ],
+    "answer": "a",
+    "verseRef": "21.23-24",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:77",
+    "book": "Matei",
+    "section": "text",
+    "number": 77,
+    "prompt": "De câte ori a trimis stăpânul viei robi la vieri, înainte de a-l trimite pe însuși fiul său?",
+    "options": [
+      "o dată",
+      "de două ori",
+      "de trei ori"
+    ],
+    "answer": "b",
+    "verseRef": "21.33-37",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:78",
+    "book": "Matei",
+    "section": "text",
+    "number": 78,
+    "prompt": "Unde au plecat cei invitați la nunta fiului de împărat, fără să le pese de poftirea lui?",
+    "options": [
+      "unul la holda lui, altul la negustoria lui",
+      "unul la holda lui, altul la negustoria lui, unul să se însoare",
+      "unul la holda lui, altul la negustoria lui, unul să-și îngroape morții"
+    ],
+    "answer": "a",
+    "verseRef": "22.5",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:79",
+    "book": "Matei",
+    "section": "text",
+    "number": 79,
+    "prompt": "Ce L-au acuzat fariseii pe Isus că nu plătește, prilej cu care El le-a spus să Îi aducă un ban?",
+    "options": [
+      "darea la Templu",
+      "birul Cezarului",
+      "ambele variante de mai sus"
+    ],
+    "answer": "b",
+    "verseRef": "22.16-19",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:80",
+    "book": "Matei",
+    "section": "text",
+    "number": 80,
+    "prompt": "Cine erau cei care nu credeau în înviere și au venit la Isus să-L întrebe despre femeia care a avut șapte bărbați?",
+    "options": [
+      "fariseii și cărturarii",
+      "irodienii",
+      "saducheii"
+    ],
+    "answer": "c",
+    "verseRef": "22.23",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:81",
+    "book": "Matei",
+    "section": "text",
+    "number": 81,
+    "prompt": "De ce le-a spus Isus acestor oameni că se rătăcesc?",
+    "options": [
+      "pentru că nu cunosc Scripturile",
+      "pentru că nu cunosc puterea lui Dumnezeu",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "22.29",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:82",
+    "book": "Matei",
+    "section": "text",
+    "number": 82,
+    "prompt": "Ce spune Domnul Isus despre Ierusalim, când rostește pedeapsa împotriva lui?",
+    "options": [
+      "că-i omoară pe proroci",
+      "că-i ucide cu pietre pe cei trimiși la el",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "23.37",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:83",
+    "book": "Matei",
+    "section": "text",
+    "number": 83,
+    "prompt": "Cum numește Domnul Isus următoarele evenimente: „vor veni mulți în Numele Meu”, „veți auzi de războaie și vești de războaie”, „un neam se va scula împotriva altui neam...”, „pe alocurea vor fi cutremure de pământ, foamete și ciumi”?",
+    "options": [
+      "începutul sfârșitului",
+      "începutul durerilor",
+      "începutul Necazului celui mare"
+    ],
+    "answer": "b",
+    "verseRef": "24.5-8",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:84",
+    "book": "Matei",
+    "section": "text",
+    "number": 84,
+    "prompt": "Ce se va întâmpla când Evanghelia Împărăției va fi propovăduită în toată lumea?",
+    "options": [
+      "atunci Se va arăta Fiul omului în slava Sa",
+      "atunci va veni sfârșitul",
+      "ambele variante de mai sus"
+    ],
+    "answer": "b",
+    "verseRef": "24.14",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:85",
+    "book": "Matei",
+    "section": "text",
+    "number": 85,
+    "prompt": "Cu ce vremuri compară Domnul Isus vremurile de la venirea Fiului omului?",
+    "options": [
+      "cu vremurile lui Noe",
+      "cu vremurile lui Ilie",
+      "cu vremurile lui Iona"
+    ],
+    "answer": "a",
+    "verseRef": "24.37",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:86",
+    "book": "Matei",
+    "section": "text",
+    "number": 86,
+    "prompt": "Ce va face stăpânul care-l va găsi pe robul său veghind?",
+    "options": [
+      "îl va pune peste toate averile sale",
+      "îi va spune: „Bine, rob bun și credincios”",
+      "îl va răsplăti cu cârmuirea a zece cetăți"
+    ],
+    "answer": "a",
+    "verseRef": "24.47",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:87",
+    "book": "Matei",
+    "section": "text",
+    "number": 87,
+    "prompt": "Care este varianta corectă a cuvintelor Domnului Isus referitoare la cei de la dreapta Lui?",
+    "options": [
+      "am fost flămând... Mi-a fost sete... am fost străin... am fost gol... am fost bolnav... am fost în temniță...",
+      "am fost flămând... Mi-a fost sete... am fost străin... am fost gol... am fost bolnav... am fost întristat...",
+      "am fost flămând... Mi-a fost sete... am fost străin... am fost lovit... am fost bolnav... am fost în temniță..."
+    ],
+    "answer": "a",
+    "verseRef": "25.34-36",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:88",
+    "book": "Matei",
+    "section": "text",
+    "number": 88,
+    "prompt": "Câți bani le-a cerut Iuda Iscarioteanul preoților celor mai de seamă să-L dea pe Isus în mâinile lor?",
+    "options": [
+      "treizeci de arginți",
+      "a lăsat la aprecierea lor",
+      "în Evanghelia după Matei nu se menționează nicio sumă"
+    ],
+    "answer": "b",
+    "verseRef": "26.15",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:89",
+    "book": "Matei",
+    "section": "text",
+    "number": 89,
+    "prompt": "Cum numește Domnul Isus rodul viței, atunci când le-a dat ucenicilor să bea din pahar, zicând: „Beți toți din el”?",
+    "options": [
+      "„sângele Meu”",
+      "„sângele legământului celui nou”",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "26.28",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:90",
+    "book": "Matei",
+    "section": "text",
+    "number": 90,
+    "prompt": "Cine a spus că nu se va lepăda de Domnul Isus chiar dacă ar fi să moară?",
+    "options": [
+      "Petru",
+      "Petru și Ioan",
+      "Petru și toți ucenicii"
+    ],
+    "answer": "c",
+    "verseRef": "26.35",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:91",
+    "book": "Matei",
+    "section": "text",
+    "number": 91,
+    "prompt": "Pe cine a luat Isus cu El în Grădina Ghetsimani?",
+    "options": [
+      "pe Petru și pe Ioan",
+      "pe Petru și pe Iacov",
+      "pe Petru, pe Ioan și pe Iacov"
+    ],
+    "answer": "c",
+    "verseRef": "26.36",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:92",
+    "book": "Matei",
+    "section": "text",
+    "number": 92,
+    "prompt": "Cine i-a spus lui Petru că și el era cu Isus?",
+    "options": [
+      "o slujnică",
+      "mai mulți oameni",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "26.69-73",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:93",
+    "book": "Matei",
+    "section": "text",
+    "number": 93,
+    "prompt": "Ce le-a spus Pilat preoților celor mai de seamă, după ce s-a spălat pe mâini?",
+    "options": [
+      "„Eu sunt nevinovat de sângele neprihănitului acestuia.”",
+      "„Treaba voastră!”",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "27.24",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:94",
+    "book": "Matei",
+    "section": "text",
+    "number": 94,
+    "prompt": "Ce au făcut soldații, după ce L-au răstignit pe Isus?",
+    "options": [
+      "și-au împărțit hainele lui Isus între ei, trăgând la sorți",
+      "s-au așezat jos, să-L păzească",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "27.35-36",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:95",
+    "book": "Matei",
+    "section": "text",
+    "number": 95,
+    "prompt": "Cine își bătea joc de Isus, spunând să Se mântuiască pe El singur și să Se coboare de pe cruce?",
+    "options": [
+      "trecătorii și tâlharii",
+      "preoții cei mai de seamă, împreună cu cărturarii și bătrânii",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "27.39-44",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:96",
+    "book": "Matei",
+    "section": "text",
+    "number": 96,
+    "prompt": "Care este lista corectă a lucrurilor care s-au întâmplat la moartea Domnului Isus?",
+    "options": [
+      "perdeaua dinăuntrul Templului s-a rupt; pământul s-a cutremurat; stâncile s-au despicat; mormintele s-au deschis; trupurile sfinților au înviat; cei înviați au intrat în cetate; mulți oameni au crezut în Fiul lui Dumnezeu",
+      "perdeaua dinăuntrul Templului s-a rupt; pământul s-a cutremurat; stâncile s-au despicat; mormintele s-au deschis; trupurile sfinților au înviat; cei înviați au intrat în cetate",
+      "perdeaua dinăuntrul Templului s-a rupt; pământul s-a cutremurat; stâncile s-au despicat; mormintele s-au deschis; trupurile sfinților au înviat; cei înviați I-au adus laudă lui Dumnezeu"
+    ],
+    "answer": "b",
+    "verseRef": "27.51-53",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:97",
+    "book": "Matei",
+    "section": "text",
+    "number": 97,
+    "prompt": "Cine și cui i-a cerut trupul lui Isus, după care l-a pus în mormântul lui însuși?",
+    "options": [
+      "Iosif din Arimateea lui Pilat",
+      "Iosif din Arimateea preoților celor mai de seamă",
+      "Simon din Cirene lui Irod"
+    ],
+    "answer": "a",
+    "verseRef": "27.57-58",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:98",
+    "book": "Matei",
+    "section": "text",
+    "number": 98,
+    "prompt": "Ce le-a spus femeilor îngerul care dăduse la o parte piatra de pe mormânt?",
+    "options": [
+      "„Nu vă temeți... nu este aici... veniți de vedeți locul... duceți-vă de spuneți ucenicilor...”",
+      "„Nu vă temeți... veniți de vedeți locul... iată-I hainele cu care era îmbrăcat... duceți-vă de spuneți ucenicilor...”",
+      "„Nu vă temeți... nu este aici... știați că așa are să se întâmple... duceți-vă de spuneți ucenicilor...”"
+    ],
+    "answer": "a",
+    "verseRef": "28.5-7",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:99",
+    "book": "Matei",
+    "section": "text",
+    "number": 99,
+    "prompt": "Ce zvon s-a răspândit printre iudei „până în ziua de astăzi”?",
+    "options": [
+      "că Isus a înviat",
+      "că ucenicii au venit noaptea și I-au furat trupul",
+      "că soldații au primit bani de la preoții cei mai de seamă și de la bătrâni ca să mintă cu privire la învierea lui Isus"
+    ],
+    "answer": "b",
+    "verseRef": "28.13-15",
+    "open": null
+  },
+  {
+    "id": "e16/Matei:text:100",
+    "book": "Matei",
+    "section": "text",
+    "number": 100,
+    "prompt": "Care este ordinea corectă a poruncii Domnului Isus când le dă ucenicilor Marea Trimitere?",
+    "options": [
+      "botezați-i... învățați-i... faceți ucenici",
+      "învățați-i... botezați-i... faceți ucenici",
+      "faceți ucenici... botezați-i... învățați-i"
+    ],
+    "answer": "c",
+    "verseRef": "28.19-20",
+    "open": null
+  },
+  {
+    "id": "e16/Filimon:text:1",
+    "book": "Filimon",
+    "section": "text",
+    "number": 1,
+    "prompt": "Câte epistole apar în cuprinsul Noului Testament după Epistola lui Pavel către Filimon?",
+    "options": [
+      "6",
+      "7",
+      "8"
+    ],
+    "answer": "c",
+    "verseRef": null,
+    "open": null
+  },
+  {
+    "id": "e16/Filimon:text:2",
+    "book": "Filimon",
+    "section": "text",
+    "number": 2,
+    "prompt": "Cine este autorul acestei epistole?",
+    "options": [
+      "Pavel",
+      "Timotei",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "1.1",
+    "open": null
+  },
+  {
+    "id": "e16/Filimon:text:3",
+    "book": "Filimon",
+    "section": "text",
+    "number": 3,
+    "prompt": "Cum este numit Filimon, destinatarul acestei epistole, la începutul ei?",
+    "options": [
+      "preaiubitul meu fiu",
+      "preaalesul nostru frate",
+      "tovarășul nostru de lucru"
+    ],
+    "answer": "c",
+    "verseRef": "1.1",
+    "open": null
+  },
+  {
+    "id": "e16/Filimon:text:4",
+    "book": "Filimon",
+    "section": "text",
+    "number": 4,
+    "prompt": "Cine se mai numără printre destinatarii acestei epistole, în afara lui Filimon?",
+    "options": [
+      "Apfia și Arhip",
+      "Biserica din casa lui Filimon",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "1.2",
+    "open": null
+  },
+  {
+    "id": "e16/Filimon:text:5",
+    "book": "Filimon",
+    "section": "text",
+    "number": 5,
+    "prompt": "Despre ce a auzit Pavel în legătură cu Filimon, fapt pentru care Îi mulțumea totdeauna lui Dumnezeu?",
+    "options": [
+      "despre credința pe care o avea în Domnul Isus",
+      "despre dragostea lui față de toți sfinții",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "1.4-5",
+    "open": null
+  },
+  {
+    "id": "e16/Filimon:text:6",
+    "book": "Filimon",
+    "section": "text",
+    "number": 6,
+    "prompt": "Ce spunea Pavel că avea toată slobozenia să facă, și totuși a ales să-i facă o rugăminte lui Filimon?",
+    "options": [
+      "să-i poruncească",
+      "să-i ceară socoteală",
+      "să-i pună în față o alegere"
+    ],
+    "answer": "a",
+    "verseRef": "1.8-9",
+    "open": null
+  },
+  {
+    "id": "e16/Filimon:text:7",
+    "book": "Filimon",
+    "section": "text",
+    "number": 7,
+    "prompt": "Ce fel de rugăminte a decis Pavel să-i facă lui Filimon?",
+    "options": [
+      "o rugăminte fierbinte",
+      "o rugăminte cum nu i s-a mai făcut",
+      "o rugăminte în numele dragostei"
+    ],
+    "answer": "c",
+    "verseRef": "1.9",
+    "open": null
+  },
+  {
+    "id": "e16/Filimon:text:8",
+    "book": "Filimon",
+    "section": "text",
+    "number": 8,
+    "prompt": "Cum se numește pe sine Pavel când îi spune lui Filimon că îi face o rugăminte?",
+    "options": [
+      "bătrânul Pavel",
+      "întemnițat pentru Cristos Isus",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "1.9",
+    "open": null
+  },
+  {
+    "id": "e16/Filimon:text:9",
+    "book": "Filimon",
+    "section": "text",
+    "number": 9,
+    "prompt": "Cum îl numește Pavel pe Onisim?",
+    "options": [
+      "copilul lui",
+      "tovarășul lui de luptă",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "1.10",
+    "open": null
+  },
+  {
+    "id": "e16/Filimon:text:10",
+    "book": "Filimon",
+    "section": "text",
+    "number": 10,
+    "prompt": "Ce a spus Pavel despre Onisim?",
+    "options": [
+      "că l-a născut în lanțurile lui",
+      "că l-a ales pentru o lucrare aleasă",
+      "că i-a dăruit un mare ajutor"
+    ],
+    "answer": "a",
+    "verseRef": "1.10",
+    "open": null
+  },
+  {
+    "id": "e16/Filimon:text:11",
+    "book": "Filimon",
+    "section": "text",
+    "number": 11,
+    "prompt": "Cum spunea Pavel că îi va fi Onisim lui Filimon, făcând referire la semnificația numelui lui?",
+    "options": [
+      "folositor",
+      "nefolositor",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "1.11",
+    "open": null
+  },
+  {
+    "id": "e16/Filimon:text:12",
+    "book": "Filimon",
+    "section": "text",
+    "number": 12,
+    "prompt": "Cum îl numește Pavel pe Onisim, când îi spune lui Filimon că îl trimite înapoi?",
+    "options": [
+      "inima lui",
+      "sufletul lui",
+      "copilul lui"
+    ],
+    "answer": "a",
+    "verseRef": "1.12",
+    "open": null
+  },
+  {
+    "id": "e16/Filimon:text:13",
+    "book": "Filimon",
+    "section": "text",
+    "number": 13,
+    "prompt": "Cum și-a dorit Pavel să fie făcut binele lui Filimon?",
+    "options": [
+      "nesilit",
+      "de bunăvoie",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "1.14",
+    "open": null
+  },
+  {
+    "id": "e16/Filimon:text:14",
+    "book": "Filimon",
+    "section": "text",
+    "number": 14,
+    "prompt": "Cum a dorit Pavel să fie primit Onisim înapoi de către Filimon?",
+    "options": [
+      "ca un rob",
+      "ca un frate",
+      "ambele variante de mai sus"
+    ],
+    "answer": "b",
+    "verseRef": "1.16",
+    "open": null
+  },
+  {
+    "id": "e16/Filimon:text:15",
+    "book": "Filimon",
+    "section": "text",
+    "number": 15,
+    "prompt": "Cum și-a dorit Pavel să-l socotească Filimon, ca să-l poată primi pe Onisim ca pe el însuși?",
+    "options": [
+      "ca pe un frate",
+      "ca pe un prieten",
+      "ca pe un tovarăș de luptă"
+    ],
+    "answer": "b",
+    "verseRef": "1.17",
+    "open": null
+  },
+  {
+    "id": "e16/Filimon:text:16",
+    "book": "Filimon",
+    "section": "text",
+    "number": 16,
+    "prompt": "Ce i-a spus Pavel lui Filimon să pună în seama lui?",
+    "options": [
+      "orice vătămare i-ar fi adus Onisim",
+      "orice i-ar fi datorat Onisim",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "1.18",
+    "open": null
+  },
+  {
+    "id": "e16/Filimon:text:17",
+    "book": "Filimon",
+    "section": "text",
+    "number": 17,
+    "prompt": "Care sunt cuvintele pe care Pavel le-a scris cu mâna lui?",
+    "options": [
+      "„voi plăti”",
+      "„eu însumi”",
+      "„cu adevărat”"
+    ],
+    "answer": "a",
+    "verseRef": "1.19",
+    "open": null
+  },
+  {
+    "id": "e16/Filimon:text:18",
+    "book": "Filimon",
+    "section": "text",
+    "number": 18,
+    "prompt": "Ce spunea Pavel că știe că va face Filimon?",
+    "options": [
+      "întocmai ce l-a rugat",
+      "ceea ce îl va îndemna Duhul",
+      "chiar mai mult decât i-a zis"
+    ],
+    "answer": "c",
+    "verseRef": "1.21",
+    "open": null
+  },
+  {
+    "id": "e16/Filimon:text:19",
+    "book": "Filimon",
+    "section": "text",
+    "number": 19,
+    "prompt": "Ce l-a mai rugat Pavel pe Filimon, spre finalul epistolei sale?",
+    "options": [
+      "să-i trimită câteva haine și cărți",
+      "să vorbească cu dregătorul în vederea eliberării lui",
+      "să-i pregătească un loc de găzduire"
+    ],
+    "answer": "c",
+    "verseRef": "1.22",
+    "open": null
+  },
+  {
+    "id": "e16/Filimon:text:20",
+    "book": "Filimon",
+    "section": "text",
+    "number": 20,
+    "prompt": "Din partea câtor tovarăși de lucru i-a transmis Pavel sănătate lui Filimon?",
+    "options": [
+      "3",
+      "4",
+      "5"
+    ],
+    "answer": "c",
+    "verseRef": "1.23-24",
+    "open": null
+  },
+  {
+    "id": "e16/Filimon:interp:1",
+    "book": "Filimon",
+    "section": "interp",
+    "number": 1,
+    "prompt": "Apostolul Pavel nu dă niciun fel de detaliu privitor la faptele rele pe care le-a făcut Onisim pe când era slujitor în casa lui Filimon. Sunt însă anumite scrieri din care știm cam ce a făcut acest rob. Totodată, înțelegem că Onisim și-a predat inima Domnului și viața lui s-a schimbat. Ce l-a determinat pe Pavel să mijlocească înaintea lui Filimon pentru Onisim?",
+    "options": null,
+    "answer": null,
+    "verseRef": null,
+    "open": true
+  },
+  {
+    "id": "e16/Filimon:interp:2",
+    "book": "Filimon",
+    "section": "interp",
+    "number": 2,
+    "prompt": "Pavel ne spune că ar fi dorit să-l țină pe Onisim la el, să-i slujească. Cu toate acestea, Pavel l-a trimis înapoi pe Onisim la Filimon. De ce a făcut acest lucru? Ce învățăm din decizia lui Pavel?",
+    "options": null,
+    "answer": null,
+    "verseRef": null,
+    "open": true
+  },
+  {
+    "id": "e16/Filimon:interp:3",
+    "book": "Filimon",
+    "section": "interp",
+    "number": 3,
+    "prompt": "Pavel i-a adresat lui Filimon rugămintea să nu-l reprimească pe Onisim ca pe un rob, ci mai degrabă ca pe un frate preaiubit. De ce i-a adresat Pavel această rugăminte prietenului lui?",
+    "options": null,
+    "answer": null,
+    "verseRef": null,
+    "open": true
+  },
+  {
+    "id": "e16/Filimon:interp:4",
+    "book": "Filimon",
+    "section": "interp",
+    "number": 4,
+    "prompt": "Pavel și-a asumat eventualele cheltuieli legate pe paguba pe care Onisim i-o făcuse lui Filimon. Ce învățăm din atitudinea aleasă pe care a avut-o Pavel față de prietenul lui? Este corect să le facem bine unora pe socoteala altora, fără ca pe noi să ne coste ceva?",
+    "options": null,
+    "answer": null,
+    "verseRef": null,
+    "open": true
+  },
+  {
+    "id": "e16/Filimon:interp:5",
+    "book": "Filimon",
+    "section": "interp",
+    "number": 5,
+    "prompt": "În ce fel îți este de folos istoria aceasta legată de Onisim, robul hoț și fugar, care și-a predat viața în mâna Domnului?",
+    "options": null,
+    "answer": null,
+    "verseRef": null,
+    "open": true
+  },
+  {
+    "id": "e16/1 Ioan:text:1",
+    "book": "1 Ioan",
+    "section": "text",
+    "number": 1,
+    "prompt": "Care este motivul pentru care apostolul Ioan a scris prima sa epistolă?",
+    "options": [
+      "pentru ca cititorii să ia aminte la cele scrise de apostol",
+      "pentru ca bucuria credincioșilor să fie deplină la auzirea acelor adevăruri",
+      "ambele variante de mai sus"
+    ],
+    "answer": "b",
+    "verseRef": "1.4",
+    "open": null
+  },
+  {
+    "id": "e16/1 Ioan:text:2",
+    "book": "1 Ioan",
+    "section": "text",
+    "number": 2,
+    "prompt": "Prin ce cuvinte Îl prezintă apostolul Ioan pe Dumnezeu, Cel care ne curăță de orice nelegiuire, atunci când ne mărturisim păcatele?",
+    "options": [
+      "credincios",
+      "drept",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "1.9",
+    "open": null
+  },
+  {
+    "id": "e16/1 Ioan:text:3",
+    "book": "1 Ioan",
+    "section": "text",
+    "number": 3,
+    "prompt": "Cine este Mijlocitorul despre care ne spune apostolul că Îl avem la Tatăl, pentru situația în care păcătuim?",
+    "options": [
+      "Isus Cristos",
+      "Duhul Sfânt",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "2.1",
+    "open": null
+  },
+  {
+    "id": "e16/1 Ioan:text:4",
+    "book": "1 Ioan",
+    "section": "text",
+    "number": 4,
+    "prompt": "Care sunt cele trei lucruri despre care ni se spune că nu sunt de la Tatăl, ci din lume?",
+    "options": [
+      "pofta firii pământești, pofta ochilor și lăudăroșia vieții",
+      "pofta firii pământești, dragostea de lume și pofta ochilor",
+      "pofta firii pământești, pofta ochilor și întinăciunea trupului"
+    ],
+    "answer": "a",
+    "verseRef": "2.16",
+    "open": null
+  },
+  {
+    "id": "e16/1 Ioan:text:5",
+    "book": "1 Ioan",
+    "section": "text",
+    "number": 5,
+    "prompt": "De ce a dat Dumnezeu dovadă prin faptul că ne-a dat dreptul să ne numim copii ai Lui?",
+    "options": [
+      "de credincioșie",
+      "de îndurare",
+      "de dragoste"
+    ],
+    "answer": "c",
+    "verseRef": "3.1",
+    "open": null
+  },
+  {
+    "id": "e16/1 Ioan:text:6",
+    "book": "1 Ioan",
+    "section": "text",
+    "number": 6,
+    "prompt": "Ce personaj al Vechiului Testament ne este amintit spunându-se despre el că faptele lui erau rele, în vreme ce faptele fratelui său erau neprihănite?",
+    "options": [
+      "Iacov",
+      "Iosif",
+      "Cain"
+    ],
+    "answer": "c",
+    "verseRef": "3.12",
+    "open": null
+  },
+  {
+    "id": "e16/1 Ioan:text:7",
+    "book": "1 Ioan",
+    "section": "text",
+    "number": 7,
+    "prompt": "Cum ne îndeamnă apostolul să iubim, spunându-ne să nu iubim nici cu vorba, nici cu limba?",
+    "options": [
+      "cu fapta",
+      "cu adevărul",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "3.18",
+    "open": null
+  },
+  {
+    "id": "e16/1 Ioan:text:8",
+    "book": "1 Ioan",
+    "section": "text",
+    "number": 8,
+    "prompt": "În ce situație ni se spune că avem îndrăzneală la Dumnezeu?",
+    "options": [
+      "dacă nu ne osândește inima",
+      "dacă trăim în neprihănire",
+      "dacă îl iubim pe aproapele nostru"
+    ],
+    "answer": "a",
+    "verseRef": "3.21",
+    "open": null
+  },
+  {
+    "id": "e16/1 Ioan:text:9",
+    "book": "1 Ioan",
+    "section": "text",
+    "number": 9,
+    "prompt": "Ce trebuie să facem pentru a căpăta orice vom cere de la Dumnezeu?",
+    "options": [
+      "să păzim poruncile Lui",
+      "să facem ceea ce este plăcut înaintea Lui",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "3.22",
+    "open": null
+  },
+  {
+    "id": "e16/1 Ioan:text:10",
+    "book": "1 Ioan",
+    "section": "text",
+    "number": 10,
+    "prompt": "Despre cine ni se spune că este mai mare decât cel care este în lume?",
+    "options": [
+      "despre Cel care este în noi",
+      "despre Cel neprihănit",
+      "despre Cel care ne-a iubit înainte de a-L fi cunoscut"
+    ],
+    "answer": "a",
+    "verseRef": "4.4",
+    "open": null
+  },
+  {
+    "id": "e16/1 Ioan:text:11",
+    "book": "1 Ioan",
+    "section": "text",
+    "number": 11,
+    "prompt": "Prin ce s-a arătat dragostea lui Dumnezeu față de noi?",
+    "options": [
+      "prin faptul că L-a trimis în lume pe singurul Lui Fiu",
+      "prin faptul că dragostea Lui a ajuns desăvârșită în noi",
+      "prin faptul că El Însuși este dragoste"
+    ],
+    "answer": "a",
+    "verseRef": "4.9",
+    "open": null
+  },
+  {
+    "id": "e16/1 Ioan:text:12",
+    "book": "1 Ioan",
+    "section": "text",
+    "number": 12,
+    "prompt": "Cum este numit cel care spune că Îl iubește pe Dumnezeu, dar îl urăște pe fratele său?",
+    "options": [
+      "mincinos",
+      "înșelător",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "4.20",
+    "open": null
+  },
+  {
+    "id": "e16/1 Ioan:text:13",
+    "book": "1 Ioan",
+    "section": "text",
+    "number": 13,
+    "prompt": "Despre ce ni se spune că câștigă biruința asupra lumii?",
+    "options": [
+      "despre credința noastră",
+      "despre dragostea adevărată",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "5.4",
+    "open": null
+  },
+  {
+    "id": "e16/1 Ioan:text:14",
+    "book": "1 Ioan",
+    "section": "text",
+    "number": 14,
+    "prompt": "Care este îndrăzneala pe care o avem la Dumnezeu?",
+    "options": [
+      "că dacă cerem ceva după voia Lui, ne ascultă",
+      "că avem la El un Apărător",
+      "că avem la El un Mângâietor"
+    ],
+    "answer": "a",
+    "verseRef": "5.14",
+    "open": null
+  },
+  {
+    "id": "e16/1 Ioan:text:15",
+    "book": "1 Ioan",
+    "section": "text",
+    "number": 15,
+    "prompt": "Care este ultimul îndemn pe care ni-l dă apostolul în prima sa epistolă?",
+    "options": [
+      "„Copilașilor, să vă iubiți unii pe alții, căci astfel va cunoaște lumea că sunteți din Dumnezeu!”",
+      "„Copilașilor, să nu iubiți lumea!”",
+      "„Copilașilor, păziți-vă de idoli!”"
+    ],
+    "answer": "c",
+    "verseRef": "5.21",
+    "open": null
+  },
+  {
+    "id": "e16/2 Ioan:text:1",
+    "book": "2 Ioan",
+    "section": "text",
+    "number": 1,
+    "prompt": "Cum se numește pe sine autorul celei de a doua epistole a lui Ioan?",
+    "options": [
+      "Bătrânul",
+      "Prezbiterul",
+      "Alesul"
+    ],
+    "answer": "b",
+    "verseRef": "1.1",
+    "open": null
+  },
+  {
+    "id": "e16/2 Ioan:text:2",
+    "book": "2 Ioan",
+    "section": "text",
+    "number": 2,
+    "prompt": "Care este numele pe care îl dă apostolul destinatarului epistolei sale?",
+    "options": [
+      "aleasa Doamnă",
+      "preaaleasa biserică",
+      "credincioasa biserică"
+    ],
+    "answer": "a",
+    "verseRef": "1.1",
+    "open": null
+  },
+  {
+    "id": "e16/2 Ioan:text:3",
+    "book": "2 Ioan",
+    "section": "text",
+    "number": 3,
+    "prompt": "Din ce pricină s-a bucurat apostolul foarte mult?",
+    "options": [
+      "fiindcă a aflat că unii dintre copiii bisericii umblă în adevăr",
+      "fiindcă a aflat că niciunul dintre copiii bisericii nu s-a lepădat de credință",
+      "fiindcă a aflat că încercările nu i-au biruit pe copiii bisericii"
+    ],
+    "answer": "a",
+    "verseRef": "1.4",
+    "open": null
+  },
+  {
+    "id": "e16/2 Ioan:text:4",
+    "book": "2 Ioan",
+    "section": "text",
+    "number": 4,
+    "prompt": "Care este porunca pe care o dă apostolul în această epistolă?",
+    "options": [
+      "să ne iubim unii pe alții",
+      "să umblăm în adevăr",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "1.5",
+    "open": null
+  },
+  {
+    "id": "e16/2 Ioan:text:5",
+    "book": "2 Ioan",
+    "section": "text",
+    "number": 5,
+    "prompt": "În ce ni se spune că stă dragostea?",
+    "options": [
+      "în viețuirea după poruncile lui Dumnezeu",
+      "în iubirea aproapelui",
+      "în facerea de bine, în special pentru frați"
+    ],
+    "answer": "a",
+    "verseRef": "1.6",
+    "open": null
+  },
+  {
+    "id": "e16/2 Ioan:text:6",
+    "book": "2 Ioan",
+    "section": "text",
+    "number": 6,
+    "prompt": "Ce îndemn dă apostolul, întărit de porunca „Păziți-vă bine”?",
+    "options": [
+      "să nu pierdem rodul muncii noastre",
+      "să nu ne pierdem nădejdea",
+      "să nu ne pierdem credința"
+    ],
+    "answer": "a",
+    "verseRef": "1.8",
+    "open": null
+  },
+  {
+    "id": "e16/2 Ioan:text:7",
+    "book": "2 Ioan",
+    "section": "text",
+    "number": 7,
+    "prompt": "Care era nădejdea apostolului, exprimată în ultima parte a epistolei?",
+    "options": [
+      "că va mai trăi destule zile, să poată pleca în călătorie",
+      "că îi va putea vizita pe frați",
+      "ambele variante de mai sus"
+    ],
+    "answer": "b",
+    "verseRef": "1.12",
+    "open": null
+  },
+  {
+    "id": "e16/3 Ioan:text:1",
+    "book": "3 Ioan",
+    "section": "text",
+    "number": 1,
+    "prompt": "Cum se numește pe sine autorul celei de-a treia epistole a lui Ioan?",
+    "options": [
+      "Bătrânul",
+      "Prezbiterul",
+      "Alesul"
+    ],
+    "answer": "b",
+    "verseRef": "1.1",
+    "open": null
+  },
+  {
+    "id": "e16/3 Ioan:text:2",
+    "book": "3 Ioan",
+    "section": "text",
+    "number": 2,
+    "prompt": "Cine este destinatarul celei de-a treia epistole a lui Ioan?",
+    "options": [
+      "aleasa Doamnă",
+      "preaiubitul Gaiu",
+      "preaalesul Teofil"
+    ],
+    "answer": "b",
+    "verseRef": "1.1",
+    "open": null
+  },
+  {
+    "id": "e16/3 Ioan:text:3",
+    "book": "3 Ioan",
+    "section": "text",
+    "number": 3,
+    "prompt": "Cu ce prilej a avut apostolul o mare bucurie?",
+    "options": [
+      "când a aflat că Gaiu este credincios adevărului",
+      "când a aflat că Gaiu umblă în adevăr",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "1.3",
+    "open": null
+  },
+  {
+    "id": "e16/3 Ioan:text:4",
+    "book": "3 Ioan",
+    "section": "text",
+    "number": 4,
+    "prompt": "Ce cerere i-a adresat apostolul Ioan lui Gaiu?",
+    "options": [
+      "să continue să umble în adevăr",
+      "să îi facă o vizită și să îi aducă niște cărți",
+      "să îngrijească de călătoria fraților"
+    ],
+    "answer": "c",
+    "verseRef": "1.6",
+    "open": null
+  },
+  {
+    "id": "e16/3 Ioan:text:5",
+    "book": "3 Ioan",
+    "section": "text",
+    "number": 5,
+    "prompt": "Despre cine spunea apostolul că îi place să aibă întâietate?",
+    "options": [
+      "despre Dima",
+      "despre Alexandru",
+      "despre Diotref"
+    ],
+    "answer": "c",
+    "verseRef": "1.9",
+    "open": null
+  },
+  {
+    "id": "e16/3 Ioan:text:6",
+    "book": "3 Ioan",
+    "section": "text",
+    "number": 6,
+    "prompt": "Ce îndemn i-a dat apostolul lui Gaiu?",
+    "options": [
+      "să nu urmeze răul, ci binele",
+      "să stăruiască în dragostea lui",
+      "să înainteze în credință și în fapte bune"
+    ],
+    "answer": "a",
+    "verseRef": "1.11",
+    "open": null
+  },
+  {
+    "id": "e16/3 Ioan:text:7",
+    "book": "3 Ioan",
+    "section": "text",
+    "number": 7,
+    "prompt": "Despre cine spunea apostolul că toți, chiar și Adevărul, mărturisesc de bine?",
+    "options": [
+      "despre Gaiu",
+      "despre Dimitrie",
+      "despre Aristarh"
+    ],
+    "answer": "b",
+    "verseRef": "1.12",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:1",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 1,
+    "prompt": "Cui i-a adresat apostolul Ioan cartea Apocalipsei?",
+    "options": [
+      "celor șapte biserici din Asia",
+      "celor șapte prezbiteri ai bisericilor",
+      "nu se menționează vreun destinatar anume"
+    ],
+    "answer": "a",
+    "verseRef": "1.4",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:2",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 2,
+    "prompt": "Cum Se numește Domnul Isus pe Sine la începutul cărții Apocalipsa, denumire pe care o regăsim de mai multe ori pe parcursul cărții?",
+    "options": [
+      "Alfa și Omega",
+      "Începutul și Sfârșitul",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "1.8",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:3",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 3,
+    "prompt": "Când spunea Ioan că a avut parte de prima sa vedenie?",
+    "options": [
+      "în ziua Sabatului",
+      "în ziua Domnului",
+      "în ziua Cincizecimii"
+    ],
+    "answer": "b",
+    "verseRef": "1.10",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:4",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 4,
+    "prompt": "Care sunt cele șapte biserici cărora i s-a poruncit lui Ioan să le trimită o carte?",
+    "options": [
+      "Efes, Smirna, Pergam, Tiatira, Sardes, Filadelfia și Laodicea",
+      "Efes, Smirna, Pergam, Tiatira, Sarepta, Filadelfia și Laodicea",
+      "Afec, Smirna, Pergam, Tiatira, Sardes, Filadelfia și Laodicea"
+    ],
+    "answer": "a",
+    "verseRef": "1.11",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:5",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 5,
+    "prompt": "Care era taina celor șapte stele, ce erau ele? Dar cele șapte sfeșnice de aur?",
+    "options": [
+      "cele șapte stele erau cele șapte biserici; cele șapte sfeșnice erau îngerii celor șapte biserici",
+      "cele șapte stele erau îngerii celor șapte biserici; cele șapte sfeșnice erau cele șapte biserici",
+      "cele șapte stele erau prezbiterii celor șapte biserici; cele șapte sfeșnice erau cele șapte biserici"
+    ],
+    "answer": "b",
+    "verseRef": "1.20",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:6",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 6,
+    "prompt": "Ce a avut Domnul Isus împotriva Bisericii din Efes?",
+    "options": [
+      "că și-a uitat dragostea dintâi",
+      "că și-a pierdut dragostea dintâi",
+      "că și-a părăsit dragostea dintâi"
+    ],
+    "answer": "c",
+    "verseRef": "2.1,4",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:7",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 7,
+    "prompt": "Ce a avut Domnul Isus împotriva Bisericii din Smirna?",
+    "options": [
+      "că era bogată",
+      "că zicea că este bogată, dar era săracă",
+      "nu a avut nimic împotriva acestei biserici"
+    ],
+    "answer": "c",
+    "verseRef": "2.8-10",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:8",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 8,
+    "prompt": "Ce a avut Domnul Isus împotriva Bisericii din Pergam?",
+    "options": [
+      "că avea în mijlocul ei niște oameni care țineau de învățătura lui Balaam",
+      "că avea în mijlocul ei niște oameni care țineau de învățătura nicolaiților",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "2.12,14-15",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:9",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 9,
+    "prompt": "Ce a avut Domnul Isus împotriva Bisericii din Tiatira?",
+    "options": [
+      "că lăsa ca Izabela să-I amăgească robii",
+      "că se fălea cu răutățile făcute de conducătorii ei",
+      "că era plină de batjocoritori"
+    ],
+    "answer": "a",
+    "verseRef": "2.18,20",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:10",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 10,
+    "prompt": "Ce a avut Domnul Isus împotriva Bisericii din Sardes?",
+    "options": [
+      "că îi mergea numele că trăiește, dar era moartă",
+      "că își spunea că este bogată, dar era săracă",
+      "că era nenorocită, oarbă și goală"
+    ],
+    "answer": "a",
+    "verseRef": "3.1",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:11",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 11,
+    "prompt": "Ce a avut Domnul Isus împotriva Bisericii din Filadelfia?",
+    "options": [
+      "că i-a deschis o ușă, dar ea a închis-o",
+      "că avea puțină putere",
+      "nu a avut nimic împotriva acestei biserici"
+    ],
+    "answer": "c",
+    "verseRef": "3.7-12",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:12",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 12,
+    "prompt": "Cu ce cuvinte se încheie versetul 3.20?",
+    "options": [
+      "„voi cina cu el”",
+      "„glasul Meu”",
+      "„și el cu Mine”"
+    ],
+    "answer": "c",
+    "verseRef": null,
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:13",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 13,
+    "prompt": "Cu ce cuvinte se încheie seria de cuvinte adresate celor șapte biserici, expresie folosită de alte șase ori pe parcursul capitolelor 2 și 3?",
+    "options": [
+      "„Celui ce va birui în voi da...”",
+      "„Cine are urechi să asculte ce zice bisericilor Duhul.”",
+      "„Dar iată ce am împotriva ta...”"
+    ],
+    "answer": "b",
+    "verseRef": "3.22",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:14",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 14,
+    "prompt": "Câți bătrâni stăteau pe scaunele de domnie din jurul scaunului de domnie pe care stătea Cineva?",
+    "options": [
+      "7",
+      "12",
+      "24"
+    ],
+    "answer": "c",
+    "verseRef": "4.4",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:15",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 15,
+    "prompt": "Ce ni se spune despre cartea pe care o ținea în mână Cel care ședea pe scaunul de domnie?",
+    "options": [
+      "că era scrisă pe dinăuntru și pe dinafară",
+      "că era pecetluită cu șapte peceți",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "5.1",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:16",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 16,
+    "prompt": "Ce ni se spune că a făcut Ioan din cauza faptului că nu se găsea nimeni vrednic să deschidă pecețile cărții?",
+    "options": [
+      "a plâns mult",
+      "și-a sfâșiat hainele",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "5.4",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:17",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 17,
+    "prompt": "Cum L-a numit unul dintre bătrâni pe Cel care era vrednic să deschidă cartea?",
+    "options": [
+      "Leul din seminția lui Iuda",
+      "Rădăcina lui David",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "5.5",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:18",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 18,
+    "prompt": "Ce ni se spune că era tămâia din potirele de aur ale celor douăzeci și patru de bătrâni?",
+    "options": [
+      "rugăciunile sfinților",
+      "suferințele sfinților",
+      "sângele vărsat al sfinților"
+    ],
+    "answer": "a",
+    "verseRef": "5.8",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:19",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 19,
+    "prompt": "Despre cine spuneau bătrânii că este vrednic să primească puterea, bogăția, înțelepciunea, tăria, cinstea, slava și lauda?",
+    "options": [
+      "despre Mielul care a fost înjunghiat",
+      "despre Leul din seminția lui Iuda",
+      "despre Rădăcina lui David"
+    ],
+    "answer": "a",
+    "verseRef": "5.12",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:20",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 20,
+    "prompt": "Ce cuvinte i-a adresat lui Ioan una dintre cele patru făpturi vii la ruperea peceților?",
+    "options": [
+      "„Fii cu băgare de seamă!”",
+      "„Nu te înspăimânta!”",
+      "„Vino și vezi!”"
+    ],
+    "answer": "c",
+    "verseRef": "6.1,3,5,7",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:21",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 21,
+    "prompt": "Care era numărul celor care fuseseră pecetluiți din toate semințiile lui Israel?",
+    "options": [
+      "12.000",
+      "24.000",
+      "144.000"
+    ],
+    "answer": "c",
+    "verseRef": "7.4",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:22",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 22,
+    "prompt": "De unde veneau cei care erau îmbrăcați în haine albe?",
+    "options": [
+      "de la nunta Mielului",
+      "din cele patru colțuri ale pământului",
+      "din Necazul cel mare"
+    ],
+    "answer": "c",
+    "verseRef": "7.13-14",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:23",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 23,
+    "prompt": "Ce va face Dumnezeu cu cei care erau îmbrăcați în haine albe (în vreme ce Mielul îi va duce la izvoarele apelor vieții)?",
+    "options": [
+      "va șterge orice lacrimă din ochii lor",
+      "îi va mângâia cu toiagul Său",
+      "le va lega rănile primite în Necazul cel mare"
+    ],
+    "answer": "a",
+    "verseRef": "7.17",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:24",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 24,
+    "prompt": "Cât a durat tăcerea care s-a făcut atunci când Mielul a rupt cea de-a șaptea pecete?",
+    "options": [
+      "aproape o jumătate de ceas",
+      "un ceas",
+      "douăsprezece ceasuri"
+    ],
+    "answer": "a",
+    "verseRef": "8.1",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:25",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 25,
+    "prompt": "Care dintre următoarele lucruri NU este menționat printre cele despre care ni se spune în pasajul în care îngerii au sunat din trâmbițe?",
+    "options": [
+      "steaua Pelin",
+      "Fântâna adâncului",
+      "Cheia lui David"
+    ],
+    "answer": "c",
+    "verseRef": "8.7-9.14",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:26",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 26,
+    "prompt": "Cum se numește Îngerul adâncului în evreiește? Dar în grecește?",
+    "options": [
+      "Abadon; Apolion",
+      "Amon; Abadon",
+      "Apolion; Arnon"
+    ],
+    "answer": "a",
+    "verseRef": "9.11",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:27",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 27,
+    "prompt": "Ce avea în mână îngerul care a pus un picior pe mare și unul pe pământ?",
+    "options": [
+      "un sul",
+      "o trâmbiță",
+      "o cărticică"
+    ],
+    "answer": "c",
+    "verseRef": "10.2",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:28",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 28,
+    "prompt": "Ce i-a spus lui Ioan îngerul, când acesta i-a cerut cărticica?",
+    "options": [
+      "să o mănânce",
+      "să o păstreze până se va găsi cineva vrednic să-i rupă pecețile",
+      "să o pecetluiască"
+    ],
+    "answer": "a",
+    "verseRef": "10.9-10",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:29",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 29,
+    "prompt": "Ce i-a dat lui Ioan îngerul, spunându-i să măsoare cu ea Templul?",
+    "options": [
+      "o trestie",
+      "o prăjină",
+      "o frânghie"
+    ],
+    "answer": "a",
+    "verseRef": "11.1",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:30",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 30,
+    "prompt": "Ce ni se spune despre femeia care avea pe cap o cunună cu douăsprezece stele?",
+    "options": [
+      "că era învăluită în soare",
+      "că avea luna sub picioare",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "12.1",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:31",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 31,
+    "prompt": "Ce ni se spune despre balaurul roșu, care avea șapte cununi împărătești pe capete?",
+    "options": [
+      "că avea șapte capete",
+      "că avea zece coarne",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "12.3",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:32",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 32,
+    "prompt": "Cine s-a luptat cu balaurul, în războiul care s-a făcut în cer?",
+    "options": [
+      "Mihail",
+      "îngerii lui",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "12.7",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:33",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 33,
+    "prompt": "Unde aveau să primească toți, mici și mari, semnul fiarei?",
+    "options": [
+      "pe mâna dreaptă",
+      "pe frunte",
+      "pe mâna dreaptă sau pe frunte"
+    ],
+    "answer": "c",
+    "verseRef": "13.16",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:34",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 34,
+    "prompt": "Ce nu puteau să facă cei care nu aveau semnul fiarei?",
+    "options": [
+      "să cumpere",
+      "să vândă",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "13.17",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:35",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 35,
+    "prompt": "Ce ni se spune despre numărul fiarei?",
+    "options": [
+      "că este un număr de om",
+      "că este 666",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "13.18",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:36",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 36,
+    "prompt": "Unde stătea Mielul, alături de care erau cei 144.000?",
+    "options": [
+      "pe Muntele Sionului",
+      "pe Muntele Moria",
+      "pe dealul Golgotei, unde a suferit pentru cei 144.000"
+    ],
+    "answer": "a",
+    "verseRef": "14.1",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:37",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 37,
+    "prompt": "Ce cântare cântau biruitorii fiarei, cu alăutele lui Dumnezeu?",
+    "options": [
+      "cântarea biruinței",
+      "cântarea lui Daniel",
+      "cântarea lui Moise"
+    ],
+    "answer": "c",
+    "verseRef": "15.2-3",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:38",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 38,
+    "prompt": "Despre ce ni se spune că sunt inul subțire, strălucitor și curat cu care era pregătită soția Mielului?",
+    "options": [
+      "despre jertfele sfinților lui Dumnezeu",
+      "despre rugăciunile celor neprihăniți",
+      "despre faptele neprihănite ale sfinților"
+    ],
+    "answer": "c",
+    "verseRef": "19.8",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:39",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 39,
+    "prompt": "Unde avea scris Cel al cărui Nume e „Cuvântul lui Dumnezeu”: „Împăratul împăraților și Domnul domnilor”?",
+    "options": [
+      "pe haină",
+      "pe coapsă",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "19.16",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:40",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 40,
+    "prompt": "Ce avea în mână îngerul coborât din cer care a pus mâna pe balaur?",
+    "options": [
+      "cheia Adâncului",
+      "un lanț mare",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "20.1",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:41",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 41,
+    "prompt": "Cât timp au împărățit împreună cu Cristos cei care nu primiseră semnul pe frunte și pe mână?",
+    "options": [
+      "1.000 de ani",
+      "șapte săptămâni de ani",
+      "2.360 de zile"
+    ],
+    "answer": "a",
+    "verseRef": "20.4",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:42",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 42,
+    "prompt": "Despre cine se spune că a fost aruncat în Iazul cu foc?",
+    "options": [
+      "despre oricine nu a fost găsit scris în cartea vieții",
+      "despre cei care i s-au închinat fiarei",
+      "despre cei care nu i s-au închinat fiarei"
+    ],
+    "answer": "a",
+    "verseRef": "20.15",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:43",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 43,
+    "prompt": "Ce a văzut apostolul Ioan într-o vedenie?",
+    "options": [
+      "un cer nou",
+      "un pământ nou",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "21.1",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:44",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 44,
+    "prompt": "Ce a văzut Ioan coborându-se din cer?",
+    "options": [
+      "pe Mielul lui Dumnezeu",
+      "cetatea sfântă, Noul Ierusalim",
+      "ambele variante de mai sus"
+    ],
+    "answer": "b",
+    "verseRef": "21.2",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:45",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 45,
+    "prompt": "Cu ce a măsurat îngerul cetatea, porțile și zidurile ei?",
+    "options": [
+      "cu o prăjină",
+      "cu o frânghie",
+      "cu o trestie de aur"
+    ],
+    "answer": "c",
+    "verseRef": "21.15",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:46",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 46,
+    "prompt": "Din ce erau făcute cele douăsprezece porți ale cetății?",
+    "options": [
+      "din aur curat",
+      "din mărgăritare (fiecare poartă era un singur mărgăritar)",
+      "fiecare poartă era făcută din douăsprezece pietre scumpe"
+    ],
+    "answer": "b",
+    "verseRef": "21.21",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:47",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 47,
+    "prompt": "Ce a văzut apostolul, în vedenia sa, că ieșea din scaunul de domnie al lui Dumnezeu și al Mielului?",
+    "options": [
+      "un râu cu apa vieții",
+      "pomul vieții",
+      "ambele variante de mai sus"
+    ],
+    "answer": "a",
+    "verseRef": "22.1",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:48",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 48,
+    "prompt": "Cum Se numește Domnul Isus pe Sine în ultimul capitol al cărții Apocalipsa, după ce spune că este „Alfa și Omega, Cel dintâi și Cel de pe urmă, Începutul și Sfârșitul”?",
+    "options": [
+      "Rădăcina și Sămânța lui David",
+      "Luceafărul strălucitor de dimineață",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "22.16",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:49",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 49,
+    "prompt": "Ce faptă ni se spune că va fi pedepsită cu urgii aduse celui care o face și cu scoaterea lui de la pomul vieții și din cetatea sfântă?",
+    "options": [
+      "adăugarea vreunui lucru la cuvintele cărții",
+      "scoaterea vreunui cuvânt din cuvintele acestei prorocii",
+      "ambele variante de mai sus"
+    ],
+    "answer": "c",
+    "verseRef": "22.18-19",
+    "open": null
+  },
+  {
+    "id": "e16/Apocalipsa:text:50",
+    "book": "Apocalipsa",
+    "section": "text",
+    "number": 50,
+    "prompt": "Care este ultima promisiune a Scripturii, aflată în penultimul verset al Bibliei?",
+    "options": [
+      "„Eu vin curând.”",
+      "„Ei vor fi ai Mei.”",
+      "„Cine va răbda până la sfârșit va fi răsplătit.”"
+    ],
+    "answer": "a",
+    "verseRef": "22.20",
+    "open": null
+  }
+]

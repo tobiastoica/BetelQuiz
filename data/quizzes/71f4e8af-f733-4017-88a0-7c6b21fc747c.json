@@ -1,0 +1,32 @@
+{
+  "id": "71f4e8af-f733-4017-88a0-7c6b21fc747c",
+  "title": "Verify player P1",
+  "description": "",
+  "coverImage": "",
+  "theme": "spring",
+  "createdAt": "2026-10-19T17:01:30.292Z",
+  "updatedAt": "2026-10-19T17:01:30.292Z",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "quiz",
+      "title": "Pick",
+      "timeLimit": 20,
+      "points": 1000,
+      "options": [
+        {
+          "id": "o1",
+          "text": "One",
+          "isCorrect": true
+        },
+        {
+          "id": "o2",
+          "text": "Two",
+          "isCorrect": false
+        }
+      ]
+    }
+  ],
+  "defaultTimeLimit": 20,
+  "defaultPoints": 1000
+}

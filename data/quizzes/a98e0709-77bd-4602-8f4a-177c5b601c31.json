@@ -1,0 +1,84 @@
+{
+  "id": "a98e0709-77bd-4602-8f4a-177c5b601c31",
+  "title": "Sync v2",
+  "description": "",
+  "coverImage": "",
+  "theme": "spring",
+  "createdAt": "2026-10-19T15:59:01.542Z",
+  "updatedAt": "2026-10-19T15:59:01.542Z",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "puzzle",
+      "title": "Order",
+      "timeLimit": 20,
+      "points": 1000,
+      "options": [
+        {
+          "id": "pa",
+          "text": "A",
+          "isCorrect": true,
+          "order": 0
+        },
+        {
+          "id": "pb",
+          "text": "B",
+          "isCorrect": true,
+          "order": 1
+        },
+        {
+          "id": "pc",
+          "text": "C",
+          "isCorrect": true,
+          "order": 2
+        },
+        {
+          "id": "pd",
+          "text": "D",
+          "isCorrect": true,
+          "order": 3
+        }
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "quiz",
+      "title": "Pick",
+      "timeLimit": 20,
+      "points": 1000,
+      "options": [
+        {
+          "id": "o1",
+          "text": "One",
+          "isCorrect": true
+        },
+        {
+          "id": "o2",
+          "text": "Two",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "quiz",
+      "title": "Pick again",
+      "timeLimit": 20,
+      "points": 1000,
+      "options": [
+        {
+          "id": "x1",
+          "text": "One",
+          "isCorrect": true
+        },
+        {
+          "id": "x2",
+          "text": "Two",
+          "isCorrect": false
+        }
+      ]
+    }
+  ],
+  "defaultTimeLimit": 20,
+  "defaultPoints": 1000
+}

@@ -1,0 +1,32 @@
+{
+  "id": "556a6c39-401f-4062-ba93-089e7d3f996d",
+  "title": "Verify player P4 game1",
+  "description": "",
+  "coverImage": "",
+  "theme": "spring",
+  "createdAt": "2026-10-19T17:02:00.933Z",
+  "updatedAt": "2026-10-19T17:02:00.933Z",
+  "questions": [
+    {
+      "id": "qa",
+      "type": "quiz",
+      "title": "Game one question",
+      "timeLimit": 60,
+      "points": 1000,
+      "options": [
+        {
+          "id": "a1",
+          "text": "Apple",
+          "isCorrect": true
+        },
+        {
+          "id": "a2",
+          "text": "Pear",
+          "isCorrect": false
+        }
+      ]
+    }
+  ],
+  "defaultTimeLimit": 20,
+  "defaultPoints": 1000
+}

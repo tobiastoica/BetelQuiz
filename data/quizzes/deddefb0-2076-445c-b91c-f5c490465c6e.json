@@ -1,0 +1,85 @@
+{
+  "id": "deddefb0-2076-445c-b91c-f5c490465c6e",
+  "title": "Verify server-lens",
+  "description": "",
+  "coverImage": "",
+  "theme": "spring",
+  "createdAt": "2026-10-19T17:02:55.206Z",
+  "updatedAt": "2026-10-19T17:02:55.206Z",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "quiz",
+      "title": "Pick q1",
+      "timeLimit": 12,
+      "points": 1000,
+      "options": [
+        {
+          "id": "q1a",
+          "text": "One",
+          "isCorrect": true
+        },
+        {
+          "id": "q1b",
+          "text": "Two",
+          "isCorrect": false
+        },
+        {
+          "id": "q1c",
+          "text": "Three",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "quiz",
+      "title": "Pick q2",
+      "timeLimit": 12,
+      "points": 1000,
+      "options": [
+        {
+          "id": "q2a",
+          "text": "One",
+          "isCorrect": true
+        },
+        {
+          "id": "q2b",
+          "text": "Two",
+          "isCorrect": false
+        },
+        {
+          "id": "q2c",
+          "text": "Three",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "quiz",
+      "title": "Pick q3",
+      "timeLimit": 12,
+      "points": 1000,
+      "options": [
+        {
+          "id": "q3a",
+          "text": "One",
+          "isCorrect": true
+        },
+        {
+          "id": "q3b",
+          "text": "Two",
+          "isCorrect": false
+        },
+        {
+          "id": "q3c",
+          "text": "Three",
+          "isCorrect": false
+        }
+      ]
+    }
+  ],
+  "defaultTimeLimit": 20,
+  "defaultPoints": 1000
+}

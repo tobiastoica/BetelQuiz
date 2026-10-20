@@ -1,0 +1,38 @@
+{
+  "id": "2a27e45d-811d-4701-81a9-d602e39c5598",
+  "title": "Verify player-sync quiz1",
+  "description": "",
+  "coverImage": "",
+  "theme": "spring",
+  "createdAt": "2026-10-19T16:28:55.198Z",
+  "updatedAt": "2026-10-19T16:28:55.198Z",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "quiz",
+      "title": "Pick one",
+      "timeLimit": 60,
+      "points": 1000,
+      "isMultiSelect": true,
+      "options": [
+        {
+          "id": "o1",
+          "text": "One",
+          "isCorrect": true
+        },
+        {
+          "id": "o2",
+          "text": "Two",
+          "isCorrect": false
+        },
+        {
+          "id": "o3",
+          "text": "Three",
+          "isCorrect": false
+        }
+      ]
+    }
+  ],
+  "defaultTimeLimit": 20,
+  "defaultPoints": 1000
+}

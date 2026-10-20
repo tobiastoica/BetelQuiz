@@ -1,0 +1,51 @@
+{
+  "id": "f744ff2f-89dd-49c9-bace-3e45ebda260f",
+  "title": "Verify concurrency2 two games",
+  "description": "",
+  "coverImage": "",
+  "theme": "spring",
+  "createdAt": "2026-10-19T16:50:25.302Z",
+  "updatedAt": "2026-10-19T16:50:25.302Z",
+  "questions": [
+    {
+      "id": "q0",
+      "type": "quiz",
+      "title": "Pick 0",
+      "timeLimit": 20,
+      "points": 1000,
+      "options": [
+        {
+          "id": "a0",
+          "text": "One",
+          "isCorrect": true
+        },
+        {
+          "id": "b0",
+          "text": "Two",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "id": "q1",
+      "type": "quiz",
+      "title": "Pick 1",
+      "timeLimit": 20,
+      "points": 1000,
+      "options": [
+        {
+          "id": "a1",
+          "text": "One",
+          "isCorrect": true
+        },
+        {
+          "id": "b1",
+          "text": "Two",
+          "isCorrect": false
+        }
+      ]
+    }
+  ],
+  "defaultTimeLimit": 20,
+  "defaultPoints": 1000
+}

@@ -1,0 +1,103 @@
+{
+  "id": "6a1d0e47-762b-4046-93e2-62ed9eed8970",
+  "title": "Browser Sync Test",
+  "description": "",
+  "coverImage": "",
+  "theme": "spring",
+  "createdAt": "2026-10-19T16:03:06.948Z",
+  "updatedAt": "2026-10-19T16:03:06.948Z",
+  "questions": [
+    {
+      "id": "b1",
+      "timeLimit": 30,
+      "type": "quiz",
+      "options": [
+        {
+          "isCorrect": true,
+          "id": "c1",
+          "text": "Paris"
+        },
+        {
+          "isCorrect": false,
+          "id": "c2",
+          "text": "Rome"
+        },
+        {
+          "isCorrect": false,
+          "id": "c3",
+          "text": "Oslo"
+        },
+        {
+          "isCorrect": false,
+          "id": "c4",
+          "text": "Bern"
+        }
+      ],
+      "points": 1000,
+      "title": "Capital of France?"
+    },
+    {
+      "allowMultipleAnswers": true,
+      "acceptedAnswers": [
+        "red",
+        "blue",
+        "yellow"
+      ],
+      "title": "Name a primary colour",
+      "type": "word_guess",
+      "id": "b2",
+      "options": [],
+      "points": 1000,
+      "timeLimit": 40
+    },
+    {
+      "allowMultipleAnswers": true,
+      "acceptedAnswers": [
+        "mars",
+        "venus",
+        "earth"
+      ],
+      "title": "Name a planet",
+      "type": "word_guess",
+      "id": "b3",
+      "options": [],
+      "points": 1000,
+      "timeLimit": 40
+    },
+    {
+      "id": "b4",
+      "timeLimit": 40,
+      "type": "puzzle",
+      "options": [
+        {
+          "isCorrect": true,
+          "id": "n1",
+          "text": "One",
+          "order": 0
+        },
+        {
+          "isCorrect": true,
+          "id": "n2",
+          "text": "Two",
+          "order": 1
+        },
+        {
+          "isCorrect": true,
+          "id": "n3",
+          "text": "Three",
+          "order": 2
+        },
+        {
+          "isCorrect": true,
+          "id": "n4",
+          "text": "Four",
+          "order": 3
+        }
+      ],
+      "points": 1000,
+      "title": "Order the numbers"
+    }
+  ],
+  "defaultTimeLimit": 20,
+  "defaultPoints": 1000
+}
